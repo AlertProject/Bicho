@@ -1,0 +1,746 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+
+
+	<link rel="stylesheet" type="text/css" href="mantis3_arquivos/default.css">
+	<script type="text/javascript" language="JavaScript"><!--
+		if(document.layers) {document.write("<style>td{padding:0px;}<\/style>")}
+	// --></script>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma-directive" content="no-cache">
+	<meta http-equiv="Cache-Directive" content="no-cache">
+	<meta http-equiv="Expires" content="Thu, 11 Jun 2009 20:58:44 GMT">
+<link rel="shortcut icon" href="http://www.mantisbt.org/demo/images/favicon.ico" type="image/x-icon">	<title>0006138: Page does not show up - MantisBT DEMO site</title>
+	<script type="text/javascript" language="JavaScript" src="mantis3_arquivos/common.js"></script>
+	<script type="text/JavaScript" src="mantis3_arquivos/ajax.js"></script>
+<style type="text/css" charset="utf-8">/* See license.txt for terms of usage */
+
+.firebugHighlight {
+    z-index: 2147483647;
+    position: absolute;
+    background-color: #3875d7;
+}
+
+.firebugLayoutBoxParent {
+    z-index: 2147483647;
+    position: absolute;
+    background-color: transparent;
+    border-right: 1px dashed #BBBBBB;
+    border-bottom: 1px dashed #BBBBBB;
+}
+
+.firebugRulerH {
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 14px;
+    background: url(chrome://firebug/skin/rulerH.png) repeat-x;
+    border-top: 1px solid #BBBBBB;
+    border-right: 1px dashed #BBBBBB;
+    border-bottom: 1px solid #000000;
+}
+
+.firebugRulerV {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    width: 14px;
+    height: 100%;
+    background: url(chrome://firebug/skin/rulerV.png) repeat-y;
+    border-left: 1px solid #BBBBBB;
+    border-right: 1px solid #000000;
+    border-bottom: 1px dashed #BBBBBB;
+}
+
+.overflowRulerX > .firebugRulerV {
+    left: 0;
+}
+
+.overflowRulerY > .firebugRulerH {
+    top: 0;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.firebugLayoutBoxOffset {
+    z-index: 2147483647;
+    position: absolute;
+    opacity: 0.8;
+}
+
+.firebugLayoutBoxMargin {
+    background-color: #EDFF64;
+}
+
+.firebugLayoutBoxBorder {
+    background-color: #666666;
+}
+
+.firebugLayoutBoxPadding {
+    background-color: SlateBlue;
+}
+
+.firebugLayoutBoxContent {
+    background-color: SkyBlue;
+}
+
+/*.firebugHighlightGroup .firebugLayoutBox {
+    background-color: transparent;
+}
+
+.firebugHighlightBox {
+    background-color: Blue !important;
+}*/
+
+.firebugLayoutLine {
+    z-index: 2147483647;
+    background-color: #000000;
+    opacity: 0.4;
+}
+
+.firebugLayoutLineLeft,
+.firebugLayoutLineRight {
+    position: fixed;
+    width: 1px;
+    height: 100%;
+}
+
+.firebugLayoutLineTop,
+.firebugLayoutLineBottom {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+}
+
+.firebugLayoutLineTop {
+    margin-top: -1px;
+    border-top: 1px solid #999999;
+}
+
+.firebugLayoutLineRight {
+    border-right: 1px solid #999999;
+}
+
+.firebugLayoutLineBottom {
+    border-bottom: 1px solid #999999;
+}
+
+.firebugLayoutLineLeft {
+    margin-left: -1px;
+    border-left: 1px solid #999999;
+}
+</style></head><body>
+<div class="center"><span class="pagetitle"></span></div>
+<div align="left"><a href="http://www.mantisbt.org/" title="Free Web Based Bug Tracker"><img alt="Mantis Bugtracker" src="mantis3_arquivos/mantis_logo.gif" width="242" border="0" height="102"></a></div><table class="hide"><tbody><tr><td class="login-info-left">Anonymous | <a href="http://www.mantisbt.org/demo/login_page.php?return=%2Fdemo%2Fview.php%3Fid%3D6138">Login</a> | <a href="http://www.mantisbt.org/demo/signup_page.php">Signup for a new account</a></td><td class="login-info-middle"><span class="italic">2009-06-11 16:58 EDT</span></td><td class="login-info-right"><form method="post" name="form_set_project" action="set_project.php">Project: <select name="project_id" class="small" onchange="document.forms.form_set_project.submit();"><option value="0" selected="selected">All Projects</option>
+<option value="1">Demo</option>
+</select> <input class="button-small" value="Switch" type="submit"><a href="http://www.mantisbt.org/demo/issues_rss.php?"><img src="mantis3_arquivos/rss.gif" alt="RSS" style="border-style: none; margin: 5px; vertical-align: middle;"></a></form></td></tr></tbody></table><table class="width100" cellspacing="0"><tbody><tr><td class="menu"><a href="http://www.mantisbt.org/demo/main_page.php">Main</a> | <a href="http://www.mantisbt.org/demo/my_view_page.php">My View</a> | <a href="http://www.mantisbt.org/demo/view_all_bug_page.php">View Issues</a> | <a href="http://www.mantisbt.org/demo/changelog_page.php">Change Log</a> | <a href="http://www.mantisbt.org/demo/roadmap_page.php">Roadmap</a> | <a href="http://www.mantisbt.org/demo/proj_doc_page.php">Docs</a> | <a href="http://www.mantisbt.org/demo/wiki.php?type=project&amp;id=1">Wiki</a> | <a href="http://www.mantisbt.org/demo/billing_page.php">Billing</a></td><td class="menu right nowrap"><form method="post" action="jump_to_bug.php"><input name="bug_id" size="10" class="small" value="Issue #" onfocus="if (this.value == 'Issue #') this.value = ''" onblur="if (this.value == '') this.value = 'Issue #'" type="text">&nbsp;<input class="button-small" value="Jump" type="submit">&nbsp;</form></td></tr></tbody></table>
+<br>
+<table class="width100" cellspacing="1">
+
+
+<tbody><tr>
+
+	<!-- Title -->
+	<td class="form-title" colspan="3">
+		Viewing Issue Advanced Details
+		<!-- Jump to Bugnotes -->
+		<span class="small"><span class="bracket-link">[&nbsp;<a href="#bugnotes">Jump to Notes</a>&nbsp;]</span> </span>
+
+		<!-- Send Bug Reminder -->
+			<span class="small">
+			<span class="bracket-link">[&nbsp;<a href="http://www.mantisbt.org/demo/wiki.php?id=6138">Wiki</a>&nbsp;]</span> 		</span>
+		</td>
+
+	<!-- prev/next links -->
+		<td class="center"><span class="small">
+		<span class="bracket-link">[&nbsp;<a href="http://www.mantisbt.org/demo/bug_view_advanced_page.php?bug_id=6139">&gt;&gt;</a>&nbsp;]</span> 	</span></td>
+	
+	<!-- Links -->
+	<td class="right" colspan="2">
+
+		<!-- Simple View (if enabled) -->
+	
+			<!-- History -->
+		<span class="small"><span class="bracket-link">[&nbsp;<a href="http://www.mantisbt.org/demo/bug_view_advanced_page.php?bug_id=6138&amp;history=1#history">Issue History</a>&nbsp;]</span> </span>
+	
+		<!-- Print Bug -->
+		<span class="small"><span class="bracket-link">[&nbsp;<a href="http://www.mantisbt.org/demo/print_bug_page.php?bug_id=6138">Print</a>&nbsp;]</span> </span>
+
+	</td>
+
+</tr>
+
+
+<!-- Labels -->
+<tr class="row-category">
+	<td width="15%">
+		ID	</td>
+	<td width="20%">
+		Category	</td>
+	<td width="15%">
+		Severity	</td>
+	<td width="20%">
+		Reproducibility	</td>
+	<td width="15%">
+		Date Submitted	</td>
+	<td width="15%">
+		Last Update	</td>
+</tr>
+
+
+<tr class="row-1">
+
+	<!-- Bug ID -->
+	<td>
+		0006138	</td>
+
+	<!-- Category -->
+	<td>
+		[Demo] Website	</td>
+
+	<!-- Severity -->
+	<td>
+		crash	</td>
+
+	<!-- Reproducibility -->
+	<td>
+		sometimes	</td>
+
+	<!-- Date Submitted -->
+	<td>
+		2009-06-11 14:41	</td>
+
+	<!-- Date Updated -->
+	<td>
+		2009-06-11 15:28	</td>
+
+</tr>
+
+
+<!-- spacer -->
+<tr class="spacer">
+	<td colspan="6"></td>
+</tr>
+
+
+<tr class="row-2">
+
+	<!-- Reporter -->
+	<td class="category">
+		Reporter	</td>
+	<td>
+		sewikand1	</td>
+
+	<!-- View Status -->
+	<td class="category">
+		View Status	</td>
+	<td>
+		public	</td>
+
+	<!-- spacer -->
+	<td colspan="2">&nbsp;</td>
+
+</tr>
+
+
+<!-- Handler -->
+<tr class="row-1">
+	<td class="category">
+		Assigned To	</td>
+	<td colspan="5">
+		1340	</td>
+</tr>
+
+
+<tr class="row-2">
+
+	<!-- Priority -->
+	<td class="category">
+		Priority	</td>
+	<td>
+		normal	</td>
+
+	<!-- Resolution -->
+	<td class="category">
+		Resolution	</td>
+	<td>
+		reopened	</td>
+
+	<!-- Platform -->
+	<td class="category">
+		Platform	</td>
+	<td>
+			</td>
+
+</tr>
+
+
+<tr class="row-1">
+
+	<!-- Status -->
+	<td class="category">
+		Status	</td>
+	<td bgcolor="#ff50a8">
+		feedback	</td>
+
+	<td colspan="2">&nbsp;</td>
+	<!-- Operating System -->
+	<td class="category">
+		OS	</td>
+	<td>
+			</td>
+
+</tr>
+
+
+<tr class="row-2">
+
+	<!-- Projection -->
+	<td class="category">
+		Projection	</td>
+	<td>
+		none	</td>
+
+	<!-- spacer -->
+	<td colspan="2">&nbsp;</td>
+
+	<!-- OS Version -->
+	<td class="category">
+		OS Version	</td>
+	<td>
+			</td>
+
+</tr>
+
+
+<tr class="row-1">
+
+	<!-- ETA -->
+	<td class="category">
+		ETA	</td>
+	<td>
+		none	</td>
+
+	<!-- fixed in version -->
+			<td class="category">
+		Fixed in Version	</td>
+	<td>
+			</td>
+			<!-- Product Version or Product Build, if version is suppressed -->
+			<td class="category">
+		Product Version	</td>
+	<td>
+			</td>
+		
+</tr>
+
+<tr class="row-2">
+
+	<!-- spacer -->
+	<td colspan="2">&nbsp;</td>
+
+	<!-- Target Version -->
+	<td class="category">
+		Target Version	</td>
+	<td>
+		1.5	</td>
+
+	<!-- Product Build -->
+	<td class="category">
+		Product Build	</td>
+	<td>
+			</td>
+
+</tr>
+
+<!-- spacer -->
+<tr class="spacer">
+	<td colspan="6"></td>
+</tr>
+
+
+<!-- Summary -->
+<tr class="row-1">
+	<td class="category">
+		Summary	</td>
+	<td colspan="5">
+		0006138: Page does not show up	</td>
+</tr>
+
+
+<!-- Description -->
+<tr class="row-2">
+	<td class="category">
+		Description	</td>
+	<td colspan="5">
+		'po'PSOJF'	</td>
+</tr>
+
+
+<!-- Steps to Reproduce -->
+<tr class="row-1">
+	<td class="category">
+		Steps To Reproduce	</td>
+	<td colspan="5">
+		S'OPGJJWS'GPJW	</td>
+</tr>
+
+
+<!-- Additional Information -->
+<tr class="row-2">
+	<td class="category">
+		Additional Information	</td>
+	<td colspan="5">
+		SDPIVGJGVPJ	</td>
+</tr>
+
+<!-- Tagging -->
+<tr class="row-1">
+	<td class="category">Tags</td>
+	<td colspan="5">
+<a href="http://www.mantisbt.org/demo/tag_view_page.php?tag_id=222" title="">Finance</a>	</td>
+</tr>
+
+
+
+<!-- spacer -->
+<tr class="spacer">
+	<td colspan="6"></td>
+</tr>
+
+<!-- Custom Fields -->
+
+
+
+<!-- Attachments -->
+<tr class="row-2">
+	<td class="category">
+		<a name="attachments" id="attachments">
+		Attached Files	</a></td>
+	<td colspan="5">
+			</td>
+</tr>
+
+<!-- Buttons -->
+<tr align="center">
+	<td colspan="6" align="center">
+<table><tbody><tr class="vcenter"><td class="center"></td><td class="center"></td><td class="center"></td><td class="center"></td><td class="center"></td><td class="center"></td><td class="center"></td></tr></tbody></table>	</td>
+</tr>
+</tbody></table>
+
+<br>
+
+<div style="display: none;" id="relationships_open"><table class="width100" cellspacing="1">
+<tbody><tr class="row-2" valign="top">
+	<td class="form-title" colspan="2" width="15%">
+		<a href="" onclick="ToggleDiv( 'relationships', g_div_relationships ); return false;"><img src="mantis3_arquivos/minus.png" alt="-" border="0"></a>&nbsp;Relationships	</td>
+</tr>
+<tr>
+	<td colspan="2"></td>
+</tr>
+</tbody></table>
+
+</div><div id="relationships_closed" style=""><table class="width100" cellspacing="1">
+<tbody><tr>
+	<td class="form-title">
+		<a href="" onclick="ToggleDiv( 'relationships', g_div_relationships ); return false;"><img src="mantis3_arquivos/plus.png" alt="+" border="0"></a>&nbsp;Relationships	</td>
+</tr>
+</tbody></table>
+
+</div><script type="text/javascript" language="JavaScript"><!--
+	SetDiv( "relationships", g_div_relationships );
+--></script>
+<a name="bugnotes" id="bugnotes"><br>
+
+</a><div style="" id="bugnotes_open"><table class="width100" cellspacing="1">
+<tbody><tr>
+	<td class="form-title" colspan="2">
+<a href="" onclick="ToggleDiv( 'bugnotes', g_div_bugnotes ); return false;"><img src="mantis3_arquivos/minus.png" alt="-" border="0"></a>&nbsp;		Notes	</td>
+</tr>
+<tr class="bugnote" id="c5483">
+        <td class="bugnote-public">
+		<a rel="nofollow" href="http://site.gravatar.com/"><img class="avatar" src="mantis3_arquivos/avatar.png" alt="User avatar" width="80" height="80"></a>		<span class="small">(0005483)</span><br>
+		sewikand1		<span class="small">(developer)</span>
+				<br>
+		<span class="small">2009-06-11 14:48</span><br>
+				<br><div class="small">
+				</div>
+	</td>
+	<td class="bugnote-note-public">
+		ÖOEGJ'wpgoj'RG	</td>
+</tr>
+<tr class="spacer">
+	<td colspan="2"></td>
+</tr>
+<tr class="bugnote" id="c5484">
+        <td class="bugnote-public">
+		<a rel="nofollow" href="http://site.gravatar.com/"><img class="avatar" src="mantis3_arquivos/avatar.png" alt="User avatar" width="80" height="80"></a>		<span class="small">(0005484)</span><br>
+		sewikand1		<span class="small">(developer)</span>
+				<br>
+		<span class="small">2009-06-11 15:02</span><br>
+				<br><div class="small">
+				</div>
+	</td>
+	<td class="bugnote-note-public">
+		<em>Reminder sent to: sewikand1</em><br><br>Must be fixed this week	</td>
+</tr>
+<tr class="spacer">
+	<td colspan="2"></td>
+</tr>
+<tr class="bugnote" id="c5485">
+        <td class="bugnote-public">
+		<a rel="nofollow" href="http://site.gravatar.com/"><img class="avatar" src="mantis3_arquivos/avatar.png" alt="User avatar" width="80" height="80"></a>		<span class="small">(0005485)</span><br>
+		sewikand1		<span class="small">(developer)</span>
+				<br>
+		<span class="small">2009-06-11 15:24</span><br>
+				<br><div class="small">
+				</div>
+	</td>
+	<td class="bugnote-note-public">
+		r<br>
+eråpe<br>
+hketh	</td>
+</tr>
+<tr class="spacer">
+	<td colspan="2"></td>
+</tr>
+<tr class="bugnote" id="c5486">
+        <td class="bugnote-public">
+		<a rel="nofollow" href="http://site.gravatar.com/"><img class="avatar" src="mantis3_arquivos/avatar.png" alt="User avatar" width="80" height="80"></a>		<span class="small">(0005486)</span><br>
+		sewikand1		<span class="small">(developer)</span>
+				<br>
+		<span class="small">2009-06-11 15:26</span><br>
+				<br><div class="small">
+				</div>
+	</td>
+	<td class="bugnote-note-public">
+		aedtetjmntjmn	</td>
+</tr>
+<tr class="spacer">
+	<td colspan="2"></td>
+</tr>
+<tr class="bugnote" id="c5487">
+        <td class="bugnote-public">
+		<a rel="nofollow" href="http://site.gravatar.com/"><img class="avatar" src="mantis3_arquivos/avatar.png" alt="User avatar" width="80" height="80"></a>		<span class="small">(0005487)</span><br>
+		sewikand1		<span class="small">(developer)</span>
+				<br>
+		<span class="small">2009-06-11 15:28</span><br>
+				<br><div class="small">
+				</div>
+	</td>
+	<td class="bugnote-note-public">
+		hmmzm	</td>
+</tr>
+<tr class="spacer">
+	<td colspan="2"></td>
+</tr>
+</tbody></table>
+
+</div><div id="bugnotes_closed" style="display: none;">
+<table class="width100" cellspacing="1">
+<tbody><tr>
+	<td class="form-title" colspan="2">
+		<a href="" onclick="ToggleDiv( 'bugnotes', g_div_bugnotes ); return false;"><img src="mantis3_arquivos/plus.png" alt="+" border="0"></a>&nbsp;		Notes	</td>
+</tr>
+</tbody></table>
+</div><script type="text/javascript" language="JavaScript"><!--
+	SetDiv( "bugnotes", g_div_bugnotes );
+--></script>
+
+
+<a name="history" id="history"><br>
+
+</a><div id="history_open"><table class="width100" cellspacing="0">
+<tbody><tr>
+	<td class="form-title" colspan="4">
+<a href="" onclick="ToggleDiv( 'history', g_div_history ); return false;"><img src="mantis3_arquivos/minus.png" alt="-" border="0"></a>&nbsp;Issue History	</td>
+</tr>
+<tr class="row-category-history">
+	<td class="small-caption">
+		Date Modified	</td>
+	<td class="small-caption">
+		Username	</td>
+	<td class="small-caption">
+		Field	</td>
+	<td class="small-caption">
+		Change	</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 14:41	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		New Issue	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 14:47	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Tag Attached: Finance	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 14:48	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Note Added: 0005483	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 14:52	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Status	</td>
+	<td class="small-caption">
+		new =&gt; assigned	</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 14:52	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Assigned To	</td>
+	<td class="small-caption">
+		 =&gt; 12333	</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 14:54	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Resolution	</td>
+	<td class="small-caption">
+		open =&gt; unable to reproduce	</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 15:02	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Note Added: 0005484	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 15:24	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Note Added: 0005485	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 15:24	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Status	</td>
+	<td class="small-caption">
+		assigned =&gt; closed	</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 15:26	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Note Added: 0005486	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 15:26	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Status	</td>
+	<td class="small-caption">
+		closed =&gt; resolved	</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 15:26	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Resolution	</td>
+	<td class="small-caption">
+		unable to reproduce =&gt; fixed	</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 15:28	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Assigned To	</td>
+	<td class="small-caption">
+		12333 =&gt; 1340	</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 15:28	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Note Added: 0005487	</td>
+	<td class="small-caption">
+			</td>
+</tr>
+<tr class="row-1">
+	<td class="small-caption">
+		2009-06-11 15:28	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Status	</td>
+	<td class="small-caption">
+		resolved =&gt; feedback	</td>
+</tr>
+<tr class="row-2">
+	<td class="small-caption">
+		2009-06-11 15:28	</td>
+	<td class="small-caption">
+		sewikand1	</td>
+	<td class="small-caption">
+		Resolution	</td>
+	<td class="small-caption">
+		fixed =&gt; reopened	</td>
+</tr>
+</tbody></table>
+</div>
+<div id="history_closed" style="display: none;"><table class="width100" cellspacing="0">
+<tbody><tr>
+	<td class="form-title" colspan="4">
+	<a href="" onclick="ToggleDiv( 'history', g_div_history ); return false;"><img src="mantis3_arquivos/plus.png" alt="+" border="0"></a>&nbsp;Issue History	</td>
+</tr>
+</tbody></table>
+
+</div><script type="text/javascript" language="JavaScript"><!--
+	SetDiv( "history", g_div_history );
+--></script><a name="history" id="history">	<br>
+	</a><hr size="1">
+<table width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><td>	<span class="timer"><a href="http://www.mantisbt.org/" title="Free Web Based Bug Tracker">Mantis 1.1.5</a>[<a href="http://www.mantisbt.org/" title="Free Web Based Bug Tracker" target="_blank">^</a>]</span>
+	<address>Copyright © 2000 - 2008 Mantis Group</address>
+</td><td><div align="right"><a href="http://www.mantisbt.org/" title="Free Web Based Bug Tracker"><img src="mantis3_arquivos/mantis_logo_button.gif" alt="Powered by Mantis Bugtracker" width="88" border="0" height="35"></a></div></td></tr></tbody></table></body></html>

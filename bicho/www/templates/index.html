@@ -1,0 +1,38 @@
+$def with ()
+$:render.header()
+
+  <!-- start content -->
+  <div id="content">
+
+
+    <div class="post">
+      <h1 class="title">Welcome to the bicho</h1>
+      <div class="entry">
+        <p>
+          Hello. This is bicho.
+        </p>
+
+        <p>
+           Choose a graph to the the evolution for the bug tracker.
+        </p>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- end content -->
+
+
+
+  <!-- start sidebar -->
+  <div id="sidebar">
+    <ul>
+      <li>
+        $:render.graphs()
+      </li>
+    </ul>
+  </div>
+  <!-- end sidebar -->
+
+
+$:render.footer()

@@ -1,0 +1,43 @@
+$def with (graph, year)
+$:render.header()
+
+  <!-- start content -->
+  <div id="content">
+
+
+    <div class="post">
+      <h1 class="title">Bugs status evolution for year $year</h1>
+      <div class="entry">
+        <p>
+         <img src="$graph.get_url()" />
+        </p>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- end content -->
+
+
+
+  <!-- start sidebar -->
+  <div id="sidebar">
+    <ul>
+      <li>
+        $:render.graphs()
+      </li>
+      <li>
+        <h2>Parameters</h2>
+        <ul>
+          <li><a href="?year=2005">2005</a></li>
+          <li><a href="?year=2006">2006</a></li>
+          <li><a href="?year=2007">2007</a></li>
+          <li><a href="?year=2008">2008</a></li>
+          <li><a href="?year=2009">2009</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <!-- end sidebar -->
+
+$:render.footer()

@@ -1,0 +1,4286 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- Server: sfs-web-11 -->
+<!--
+  ~ SourceForge.net: Find and Build Open Source Software
+  ~ Copyright (c) 1999-2009 SourceForge, Inc. All rights reserved.
+  -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">  
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+            <meta name="description" content="Get ADempiere ERP Business Suite at SourceForge.net. Fast, secure and free downloads from the largest Open Source applications and software directory. ADempiere Business Suite ERP/CRM/MFG/SCM/POS done the Bazaar way in an open and unabated fashion. Focus is on the Community that includes Subject Matter Specialists, Implementors and End-Users. We are a community fork of Compiere." />
+        <meta name="keywords" content="Open Source, Development, Community, Source Code, Downloads, Software, ADempiere ERP Business Suite, ERP, Accounting, Object Oriented, " />
+                <link rel="alternate" type="application/rss+xml" title="SourceForge.net Project News" href="/export/rss2_sfnews.php?group_id=1&amp;rss_fulltext=1" />
+        <link rel="alternate" type="application/rss+xml" title="SourceForge.net News" href="/export/rss2_projnews.php?group_id=141424&amp;rss_fulltext=1" />
+        <title>SourceForge.net: ADempiere ERP Business Suite: Bugs</title>
+        <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/style.php?secure=0&amp;20080417-1657" media="all" />
+            <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/header.php?secure=0&amp;20080417-1657" media="all" />
+                <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/ads.php?secure=0&amp;20080417-1657" media="all" />
+                    
+            <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/project.php?secure=0&amp;20080417-1657" media="all" />
+                            <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/table.php?secure=0&amp;20080417-1657" media="all" />
+                        <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/droppy.php?secure=0&amp;20080417-1657" media="all" />
+                                        <link rel="stylesheet" type="text/css" href="http://static.sourceforge.net/css/phoneix/print.css?secure=0&amp;20080417-1657" media="print" />
+            <!--   -->
+        <script type="text/javascript" src="http://static.sourceforge.net/include/jquery/jquery-1.2.6.min.js"></script>
+        <script type="text/javascript">
+            jQuery.noConflict();
+        </script>
+        
+        <script type="text/javascript" src="http://static.sourceforge.net/include/jquery/jquery.cookie.js"></script>
+                    <script type='text/javascript'>
+          jQuery(function() {
+            jQuery('#fad19 p, .project_summary .downloadbar, .vertical_widget, .horizontal_widget').wrap('<div class="sc"><div class="l1"><div class="l2"><div class="l3"><div class="l4"></div></div></div></div></div>');
+          });
+        </script>
+                <script type="text/javascript" src="http://static.sourceforge.net/include/jquery/jquery.droppy-1.0.js"></script>
+        <script type='text/javascript'>
+            jQuery(function(){
+                jQuery('.nav').droppy();
+            });
+        </script>
+                                            <script type="text/javascript" src="http://static.sourceforge.net/include/js/preferences.js"></script>
+            <script type="text/javascript">
+                            var sf_proj_home = 'http://sourceforge.net/projects/adempiere';
+                        var jsonly = document.createElement('link');
+            jsonly.setAttribute('rel', 'stylesheet');
+            jsonly.setAttribute('type', 'text/css');
+            jsonly.setAttribute('href', 'http://static.sourceforge.net/css/phoneix/jsonly.css?secure=0&amp;20080417-1657');
+            document.getElementsByTagName('head')[0].appendChild(jsonly);
+                    </script>
+                        <script type="text/javascript" src="http://static.sourceforge.net/include/jquery/jquery.cluetip.js"></script>
+        <script type="text/javascript" src="http://static.sourceforge.net/include/jquery/jquery.dimensions-1.2.0.js"></script>
+        <link rel="stylesheet" href="http://static.sourceforge.net/css/phoneix/jquery.cluetip.php?secure=0" media="screen"/>
+
+        <script type="text/javascript">
+        //<![CDATA[
+
+            var ie6SelectsShowing = true;
+            function toggleIE6Selects(){
+                if(jQuery.browser.msie && jQuery.browser.version == '6.0'){
+                    if(ie6SelectsShowing){
+                        jQuery('select').hide();
+                        ie6SelectsShowing = false;
+                    } else {
+                        jQuery('select').show();
+                        ie6SelectsShowing = true;
+                    }
+                }
+            }
+            jQuery(function(){
+                jQuery('.pop').cluetip({sticky: true, titleAttribute: 'title', local:true, cursor: 'pointer', dropShadow: true, activation: 'click' });
+                jQuery('.jt').cluetip({cluetipClass: 'jtip', positionBy: false, arrows: false, dropShadow: true, local:true, mouseOutClose: true});
+                jQuery('.jt_sticky').cluetip({cluetipClass: 'jtip', positionBy: false, arrows: false, dropShadow: true, local:true, closePosition: 'title', sticky:true});
+                jQuery('.ph_sticky').click(toggleIE6Selects).cluetip({cluetipClass: 'default', arrows: false, cursor: 'pointer', dropShadow: true, local:true, closePosition: 'title', sticky:true, activation: 'click', onShow: function(){jQuery('#cluetip-close a').click(toggleIE6Selects);}});
+                jQuery('.ajax_sticky').cluetip({cluetipClass: 'default', width: '400', cursor: 'pointer', positionBy: 'mouse', arrows: false, dropShadow: true, closePosition: 'title', sticky:true, ajaxSettings: {success: function(msg){alert( "Data Saved: " + msg );}}});
+            });
+        //]]>
+        </script>
+                    <script type="text/javascript" src="http://static.sourceforge.net/include/jquery/jquery.columnmanager.pack.js"></script>
+                    <!-- BEGIN: AdSolution-Tag 4.2: Global-Code [PLACE IN HTML-HEAD-AREA!] -->
+            <!-- DoubleClick Random Number -->
+<script language="JavaScript" type="text/javascript">
+   var dfp_ord=Math.random()*10000000000000000;
+   var dfp_tile = 1;
+   var dfp_ptile = 1;
+</script>
+<!-- End DoubleClick Random Number -->
+                    <script type="text/javascript">
+            //<![CDATA[
+
+                var google_page_url = 'http://sourceforge.net/projects/adempiere/';
+                var sourceforge_project_name = 'adempiere';
+                var sourceforge_project_description = 'ADempiere Business Suite ERP/CRM/MFG/SCM/POS done the Bazaar way in an open and unabated fashion. Focus is on the Community that includes Subject Matter Specialists, Implementors and End-Users. We are a community fork of Compiere.';
+            //]]>    
+            </script>
+                <!-- END: AdSolution-Tag 4.2: Global-Code -->
+    <!-- End OSDN NavBar gid: 176962 keywords: adempiere,erp,enterprise,swdev_oo,by_industrysector,mswin_server2003,mswin_all32bit,os_groups,modern_oses,informationtechnology,other,sun,bsd,posix,java,office,accounting,financial,development:softdev -->
+    <script type="text/javascript">
+        var immersion_adcode = "";
+        var adid = "";
+        var sponsored = "";
+    </script>
+        <!-- after META tags -->
+        <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        pageTracker = _gat._getTracker("UA-32013-6");
+        pageTracker._initData();
+    </script>
+    <!--[if IE]>
+        <link rel="stylesheet" type="text/css" media="screen" href="http://static.sourceforge.net/css/phoneix/iestyles.php?secure=0&amp;20080417-1657"  />
+    <![endif]-->
+    <!--[if lte IE 6]>
+        <link rel="stylesheet" type="text/css" media="screen" href="http://static.sourceforge.net/css/phoneix/ie6styles.php?secure=0&amp;20080417-1657"  />
+    <![endif]-->
+                                
+            <script type="text/javascript" src="http://static.sourceforge.net/sfx.js"></script>
+            <script type="text/javascript" src="http://static.sourceforge.net/include/coremetrics/v40/eluminate.js"></script>    
+        <script type="text/javascript" src="http://static.sourceforge.net/include/coremetrics/cmdatatagutils.js"></script>
+        
+    </head>
+
+    <body>
+        
+        <div id="doc3" class="yui-t6 browse_artifacts">
+                    <div id="hd">
+                <div id="logo_container">
+                    <h1>
+                        <a href="/" title="">SourceForge.net</a>
+                    </h1>
+                    <ul class="jump">
+                        <li><a href="#content">Jump to main content</a></li>
+                                            <li><a href="#projectnav">Jump to project navigation</a></li>
+                        <li><a href="/project/showfiles.php?group_id=176962#downloads">Jump to downloads for ADempiere ERP Business Suite</a></li>
+                                        </ul>
+                </div>
+                <div id="top_bar">
+                    <div id="login_container"><ul><li><a href="https://sourceforge.net/account/login.php" title="Log in">Log&nbsp;in</a></li><li><a href="/account/registration/" title="Get a SourceForge.net account">Create&nbsp;account</a></li><li><a href="/community/">Community</a></li><li><a href="http://p.sf.net/sourceforge/about">About</a></li><li><a href="http://p.sf.net/sourceforge/getsupport" title="Get help and support on SourceForge.net">Help</a></li></ul></div>
+                    <div id="search_container">
+                        <form action="/search/" method="get" name="searchform" id="searchform">
+                            <input type="hidden" name="type_of_search" value="soft" />
+                            <span class="left"></span>
+                            <input type="text" class="text" name="words" tabindex="1" />
+                            <span class="right"><button type="submit" tabindex="0" value="Search"></button></span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                    <div id="bd">
+                <!-- begin content -->
+                                    <a name="projectnav"></a>
+                <div id="project_nav_container">
+                    <h1>
+                        <a href="/projects/adempiere/">ADempiere ERP Business Suite</a>
+                                            </h1>
+                                    <ul class="nav">
+                        <li id="menu_project"><a href="/projects/adempiere/" >Summary</a><ul>
+<li id="menu_project_website"><a href="http://adempiere.sourceforge.net/">Web Site</a></li>
+<li id="menu_project_screenshots"><a href="/project/screenshots.php?group_id=176962">Screenshots</a></li>
+<li id="menu_project_news"><a href="/news/?group_id=176962">News</a></li>
+<li id="menu_stats"><a href="/project/stats/?group_id=176962&amp;ugn=adempiere">Statistics</a></li>
+</ul>
+</li>
+<li id="menu_hostedapps"><a href="/hostedapp/?group_id=176962" >Hosted&nbsp;Apps</a><ul>
+<li id="menu_hostedapp_aguestbook"><a href="http://apps.sourceforge.net/aguestbook/adempiere/">AN Guestbook</a></li>
+<li id="menu_hostedapp_codestriker"><a href="http://apps.sourceforge.net/codestriker/adempiere/">CodeStriker</a></li>
+<li id="menu_hostedapp_limesurvey"><a href="http://apps.sourceforge.net/limesurvey/adempiere/">LimeSurvey</a></li>
+<li id="menu_hostedapp_phpbb"><a href="http://apps.sourceforge.net/phpbb/adempiere/">phpBB</a></li>
+<li id="menu_hostedapp_piwik"><a href="http://apps.sourceforge.net/piwik/adempiere/">Piwik</a></li>
+<li id="menu_hostedapp_sfurl"><a href="https://apps.sourceforge.net/sfurl/adempiere/list.php">URL Shortening</a></li>
+</ul>
+</li>
+<li id="menu_tracker" class="selected"><a href="/tracker/?group_id=176962" >Tracker</a><ul>
+<li id="menu_tracker_1082580"><a href="/tracker/?group_id=176962&amp;atid=1082580">ADempiere Libero GWT</a></li>
+<li id="menu_tracker_879332"><a href="/tracker/?group_id=176962&amp;atid=879332">Bugs</a></li>
+<li id="menu_tracker_883808"><a href="/tracker/?group_id=176962&amp;atid=883808">Contributions</a></li>
+<li id="menu_tracker_883807"><a href="/tracker/?group_id=176962&amp;atid=883807">Documentation</a></li>
+<li id="menu_tracker_879335"><a href="/tracker/?group_id=176962&amp;atid=879335">Feature Requests</a></li>
+<li id="menu_tracker_934929"><a href="/tracker/?group_id=176962&amp;atid=934929">Libero</a></li>
+<li id="menu_tracker_879334"><a href="/tracker/?group_id=176962&amp;atid=879334">Patches</a></li>
+<li id="menu_tracker_928568"><a href="/tracker/?group_id=176962&amp;atid=928568">Posterita</a></li>
+<li id="menu_tracker_1126591"><a href="/tracker/?group_id=176962&amp;atid=1126591">Reports</a></li>
+<li id="menu_tracker_879333"><a href="/tracker/?group_id=176962&amp;atid=879333">Support Requests</a></li>
+<li id="menu_tracker_955896"><a href="/tracker/?group_id=176962&amp;atid=955896">ZK Web Client</a></li>
+<li id="menu_tracker_stats" class="tools"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=tracker">Statistics</a></li>
+<li id="menu_tracker_reports" class="disabled" style="display: none;"><a href="/tracker/reporting/?group_id=176962">Reporting</a></li>
+<li id="menu_tracker_search"><a href="/search/?group_id=176962&amp;type_of_search=artifact">Search</a></li>
+</ul>
+</li>
+<li id="menu_mail"><a href="/mail/?group_id=176962" >Mailing&nbsp;Lists</a><ul>
+<li id="menu_mlist_adempiere-cvslog"><a href="/mailarchive/forum.php?forum_name=adempiere-cvslog">adempiere-cvslog</a></li>
+<li id="menu_mlist_adempiere-posterita"><a href="/mailarchive/forum.php?forum_name=adempiere-posterita">adempiere-posterita</a></li>
+<li id="menu_mlist_adempiere-trackers"><a href="/mailarchive/forum.php?forum_name=adempiere-trackers">adempiere-trackers</a></li>
+<li id="menu_mlist_adempiere-tang"><a href="/mailarchive/forum.php?forum_name=adempiere-tang">adempiere-tang</a></li>
+<li id="menu_mlist_adempiere-site-status"><a href="/mailarchive/forum.php?forum_name=adempiere-site-status">adempiere-site-status</a></li>
+<li id="menu_mail_search" class="tools"><a href="/search/?group_id=176962&amp;type_of_search=mlists">Search</a></li>
+</ul>
+</li>
+<li id="menu_forums"><a href="/forum/?group_id=176962" >Forums</a><ul>
+<li id="menu_forum_610546"><a href="/forum/forum.php?forum_id=610546">Bazaar Open Discussion</a></li>
+<li id="menu_forum_611158"><a href="/forum/forum.php?forum_id=611158">Bazaar Projects</a></li>
+<li id="menu_forum_611282"><a href="/forum/forum.php?forum_id=611282">Business &amp;amp; Marketing</a></li>
+<li id="menu_forum_611167"><a href="/forum/forum.php?forum_id=611167">Community Process</a></li>
+<li id="menu_forum_611169"><a href="/forum/forum.php?forum_id=611169">Content &amp;amp; Documentation</a></li>
+<li id="menu_forum_610548"><a href="/forum/forum.php?forum_id=610548">Developers</a></li>
+<li id="menu_forum_611163"><a href="/forum/forum.php?forum_id=611163">Functional-ERP</a></li>
+<li id="menu_forum_611161"><a href="/forum/forum.php?forum_id=611161">Functional-Financials</a></li>
+<li id="menu_forum_639404"><a href="/forum/forum.php?forum_id=639404">Functional-Human Resource</a></li>
+<li id="menu_forum_639403"><a href="/forum/forum.php?forum_id=639403">Functional-Manufacturing</a></li>
+<li id="menu_forum_672060"><a href="/forum/forum.php?forum_id=672060">Functional-Posterita</a></li>
+<li id="menu_forum_611162"><a href="/forum/forum.php?forum_id=611162">Functional-Web-based Modules</a></li>
+<li id="menu_forum_610547"><a href="/forum/forum.php?forum_id=610547">Help</a></li>
+<li id="menu_forum_638953"><a href="/forum/forum.php?forum_id=638953">Language-Arabic</a></li>
+<li id="menu_forum_672226"><a href="/forum/forum.php?forum_id=672226">Language-Bosanski</a></li>
+<li id="menu_forum_636070"><a href="/forum/forum.php?forum_id=636070">Language-Bulgarian</a></li>
+<li id="menu_forum_629818"><a href="/forum/forum.php?forum_id=629818">Language-Chinese</a></li>
+<li id="menu_forum_639400"><a href="/forum/forum.php?forum_id=639400">Language-Farsi</a></li>
+<li id="menu_forum_756955"><a href="/forum/forum.php?forum_id=756955">Language-Filipino</a></li>
+<li id="menu_forum_637849"><a href="/forum/forum.php?forum_id=637849">Language-Finnish</a></li>
+<li id="menu_forum_623067"><a href="/forum/forum.php?forum_id=623067">Language-French</a></li>
+<li id="menu_forum_623064"><a href="/forum/forum.php?forum_id=623064">Language-German</a></li>
+<li id="menu_forum_639402"><a href="/forum/forum.php?forum_id=639402">Language-Greek</a></li>
+<li id="menu_forum_639401"><a href="/forum/forum.php?forum_id=639401">Language-Hebrew</a></li>
+<li id="menu_forum_681639"><a href="/forum/forum.php?forum_id=681639">Language-Hungarian</a></li>
+<li id="menu_forum_929579"><a href="/forum/forum.php?forum_id=929579">Language-India</a></li>
+<li id="menu_forum_623956"><a href="/forum/forum.php?forum_id=623956">Language-Italian</a></li>
+<li id="menu_forum_638952"><a href="/forum/forum.php?forum_id=638952">Language-Japanese</a></li>
+<li id="menu_forum_623066"><a href="/forum/forum.php?forum_id=623066">Language-Nusantara</a></li>
+<li id="menu_forum_634705"><a href="/forum/forum.php?forum_id=634705">Language-Portuguese</a></li>
+<li id="menu_forum_691040"><a href="/forum/forum.php?forum_id=691040">Language-Romanian</a></li>
+<li id="menu_forum_623065"><a href="/forum/forum.php?forum_id=623065">Language-Russian</a></li>
+<li id="menu_forum_914548"><a href="/forum/forum.php?forum_id=914548">Language-Serbian</a></li>
+<li id="menu_forum_623063"><a href="/forum/forum.php?forum_id=623063">Language-Spanish</a></li>
+<li id="menu_forum_639399"><a href="/forum/forum.php?forum_id=639399">Language-Thai-Siamese</a></li>
+<li id="menu_forum_691001"><a href="/forum/forum.php?forum_id=691001">Language-Turkish</a></li>
+<li id="menu_forum_611168"><a href="/forum/forum.php?forum_id=611168">Specifications Requests</a></li>
+<li id="menu_forums_stats" class="tools"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=forum">Statistics</a></li>
+<li id="menu_forums_search"><a href="/search/?group_id=176962&amp;type_of_search=forums">Search</a></li>
+</ul>
+</li>
+<li id="menu_code"><a href="#" >Code</a><ul>
+<li id="menu_git_about"><a href="/scm/?type=git&group_id=176962">Git</a></li>
+<li id="menu_git_browse"><a href="http://adempiere.git.sourceforge.net/">Git Browse</a></li>
+<li id="menu_git_stats"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=git">Git Statistics</a></li>
+<li id="menu_hg_about" class="disabled" style="display: none;"><a href="/scm/?type=hg&group_id=176962">Mercurial</a></li>
+<li id="menu_hg_browse" class="disabled" style="display: none;"><a href="http://adempiere.hg.sourceforge.net/hgweb/adempiere/">Mercurial Browse</a></li>
+<li id="menu_hg_stats" class="disabled" style="display: none;"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=hg">Mercurial Statistics</a></li>
+<li id="menu_bzr_about" class="disabled" style="display: none;"><a href="/scm/?type=bzr&group_id=176962">Bazaar</a></li>
+<li id="menu_bzr_browse" class="disabled" style="display: none;"><a href="http://adempiere.bzr.sourceforge.net/bzr/adempiere/">Bazaar Browse</a></li>
+<li id="menu_bzr_stats" class="disabled" style="display: none;"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=bzr">Bazaar Statistics</a></li>
+<li id="menu_cvs_about" class="disabled" style="display: none;"><a href="/scm/?type=cvs&group_id=176962">CVS</a></li>
+<li id="menu_cvs_browse" class="disabled" style="display: none;"><a href="http://adempiere.cvs.sourceforge.net/adempiere/">CVS Browse</a></li>
+<li id="menu_cvs_stats" class="disabled" style="display: none;"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=cvs">CVS Statistics</a></li>
+<li id="menu_svn_about"><a href="/scm/?type=svn&group_id=176962">SVN</a></li>
+<li id="menu_svn_browse"><a href="http://adempiere.svn.sourceforge.net/viewvc/adempiere/">SVN Browse</a></li>
+<li id="menu_svn_stats"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=svn">SVN Statistics</a></li>
+</ul>
+</li>
+<li id="menu_project_services"><a href="/services/project_services.php?project_id=176962" >Services</a><ul>
+<li id="menu_project_services_get"><a href="/services/project_services.php?project_id=176962">Get Services</a></li>
+</ul>
+</li>
+<li id="menu_files"><a href="/project/platformdownload.php?group_id=176962" >Download</a><ul>
+<li id="menu_files_1"><a href="/project/platformdownload.php?group_id=176962&amp;sel_platform=8717">Default</a></li>
+<li id="menu_files_files"><a href="/project/showfiles.php?group_id=176962">Browse All Packages</a></li>
+<li id="menu_download_stats" class="tools"><a href="/project/stats/detail.php?group_id=176962&amp;ugn=adempiere&amp;type=prdownload">Statistics</a></li>
+<li id="menu_download_search"><a href="/search/?group_id=176962&amp;type_of_search=files">Search</a></li>
+</ul>
+</li>
+<li id="menu_docman"><a href="/docman/?group_id=176962" >Documentation</a><ul>
+<li id="menu_docman_browse"><a href="/docman/?group_id=176962">Browse</a></li>
+<li id="menu_docman_submit"><a href="/docman/new.php?group_id=176962">Submit</a></li>
+<li id="menu_docman_search" class="tools"><a href="/search/?group_id=176962&amp;type_of_search=docs">Search</a></li>
+</ul>
+</li>
+<li id="menu_tasks"><a href="/pm/?group_id=176962" >Tasks</a><ul>
+<li id="menu_tasks_group_53255"><a href="/pm/task.php?group_project_id=53255&amp;group_id=176962&amp;func=browse">2Pack</a></li>
+<li id="menu_tasks_group_49235"><a href="/pm/task.php?group_project_id=49235&amp;group_id=176962&amp;func=browse">Adempiere 3.1.0</a></li>
+<li id="menu_tasks_group_49722"><a href="/pm/task.php?group_project_id=49722&amp;group_id=176962&amp;func=browse">Adempiere 3.1.1</a></li>
+<li id="menu_tasks_group_50326"><a href="/pm/task.php?group_project_id=50326&amp;group_id=176962&amp;func=browse">Adempiere 3.1.2</a></li>
+<li id="menu_tasks_group_49725"><a href="/pm/task.php?group_project_id=49725&amp;group_id=176962&amp;func=browse">Adempiere 3.2.0</a></li>
+<li id="menu_tasks_group_49724"><a href="/pm/task.php?group_project_id=49724&amp;group_id=176962&amp;func=browse">Adempiere 330 series</a></li>
+<li id="menu_tasks_group_52931"><a href="/pm/task.php?group_project_id=52931&amp;group_id=176962&amp;func=browse">Contributions</a></li>
+<li id="menu_tasks_group_50126"><a href="/pm/task.php?group_project_id=50126&amp;group_id=176962&amp;func=browse">Integrate Kompiere Libero</a></li>
+<li id="menu_tasks_group_52968"><a href="/pm/task.php?group_project_id=52968&amp;group_id=176962&amp;func=browse">Localization</a></li>
+<li id="menu_tasks_group_49135"><a href="/pm/task.php?group_project_id=49135&amp;group_id=176962&amp;func=browse">Organisation</a></li>
+<li id="menu_tasks_group_51209"><a href="/pm/task.php?group_project_id=51209&amp;group_id=176962&amp;func=browse">Posterita</a></li>
+<li id="menu_tasks_group_49723"><a href="/pm/task.php?group_project_id=49723&amp;group_id=176962&amp;func=browse">Web Site  and Wiki</a></li>
+<li id="menu_pm_reporting" class="tools disabled" style="display: none;"><a href="/pm/reporting/?group_id=176962">Reporting</a></li>
+</ul>
+</li>
+<li id="menu_wiki"><a href="http://adempiere.wiki.sourceforge.net/" >Wiki</a><ul>
+<li id="menu_wiki_home"><a href="http://adempiere.wiki.sourceforge.net/">Wiki Home</a></li>
+<li id="menu_wiki_create_page"><a href="http://adempiere.wiki.sourceforge.net/space/page">Create Page</a></li>
+<li id="menu_wiki_list_pages"><a href="http://adempiere.wiki.sourceforge.net/space/pagelist">List Pages</a></li>
+<li id="menu_wiki_recent_changes"><a href="http://adempiere.wiki.sourceforge.net/space/changes">Recent Changes</a></li>
+<li id="menu_wiki_files"><a href="http://adempiere.wiki.sourceforge.net/space/filelist">List and Upload Files</a></li>
+<li id="menu_wiki_templates"><a href="http://adempiere.wiki.sourceforge.net/space/createtemplate">Manage Templates</a></li>
+<li id="menu_wiki_stats" class="tools"><a href="http://adempiere.wiki.sourceforge.net/space/stats">Statistics</a></li>
+</ul>
+</li>
+<li id="menu_newadmin" class="admin disabled" style="display: none;"><a href="/project/admin/?group_id=176962" >Project&nbsp;Admin</a><ul>
+<li id="menu_userperms" class="disabled" style="display: none;"><a href="/project/admin/project_membership.php?group_id=176962">Membership</a></li>
+<li id="menu_features" class="disabled" style="display: none;"><a href="/project/admin/features.php?group_id=176962">Feature Settings</a></li>
+<li id="menu_editgroupinfo" class="disabled" style="display: none;"><a href="/project/admin/public_info.php?group_id=176962">Project Settings</a></li>
+<li id="menu_frs" class="disabled" style="display: none;"><a href="/project/admin/editpackages.php?group_id=176962">Downloads</a></li>
+<li id="menu_stats" class="disabled" style="display: none;"><a href="/project/admin/stats.php?group_id=176962">Analytics</a></li>
+</ul>
+</li>
+
+                    </ul>
+                                </div>
+                <br />
+                                <div class="subset">
+                    <ul>
+                                                                <li id="menu_add" class="begin"><a href="/tracker/?func=add&amp;group_id=176962&amp;atid=879332" >Add&nbsp;new</a></li>
+<li id="menu_browse" class="selected"><a href="/tracker/?func=browse&amp;group_id=176962&amp;atid=879332" >Browse</a></li>
+<li id="menu_reporting" class="disabled" style="display: none;"><a href="/tracker/reporting/?group_id=176962&amp;atid=879332" >Reporting</a></li>
+<li id="menu_admin" class="disabled" style="display: none;"><a href="/tracker/admin/?group_id=176962" >Admin</a></li>
+
+                                        </ul>
+                    &nbsp;
+                </div>
+                                <div style="clear: both;"></div>
+                            
+            <a name="content"></a>
+                
+
+<h2 style="margin-top:1em">Tracker: Bugs</h2>
+
+<br>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+        jQuery('.tracker').columnManager({listTargetID:'cluetip', onClass: 'accept', offClass: 'blank', hideInList: [1,2], saveState: true}); 
+        jQuery('#cluetip ul').css('background','#fff').css('margin','0').css('padding','0 2em 2em').css('z-index','100');
+        jQuery('#cluetip-inner').css('border','none');
+        jQuery('#cluetip li').css('list-style','none').css('position','relative');
+});
+
+function change_limit(limit_selector) {
+    jQuery('#limit').val(limit_selector.options[limit_selector.selectedIndex].value);
+    jQuery('#filter_submit').click();
+}
+</script>
+
+<div class="yui-g" style="margin-bottom: 1em;">
+    <div class="yui-u first">
+    <form action="/search/" method="get">
+        <input type="hidden" name="group_artifact_id" value="879332"/>        <input type="hidden" name="type_of_search" value="artifact"/>
+        <input type="hidden" name="group_id" value="176962"/>
+        <label>Search: </label><input type="text" class="searchword passive" id="projectsearchbox" name="words" tabindex="4"/>
+        <input type="submit" value="Search" class="submit" tabindex="5"/>
+        <a href="/search/?group_id=176962&amp;type_of_search='artifact'&amp;group_artifact_id=879332">Advanced</a>
+    </form>    
+    </div>
+    <div class="yui-u" style="text-align: right;">
+        <a href="#options" class="ph_sticky options" rel="#options" title="Show/Hide Columns">Options</a> &nbsp; 
+        <div id="options"></div>
+        <a class="rss" href="http://sourceforge.net/tracker/?func=rssfeed&amp;group_id=176962&amp;atid=879332">RSS</a>
+    </div>
+</div>
+<form id="stresults" name="stresults" method="get" action="">
+<input type="hidden" id="limit" name="limit" value="100">
+<input type="hidden" id="func" name="func">
+<input type="hidden" name="group_id" value="176962" />
+<input type="hidden" name="atid" value="879332" />
+<input type="hidden" name="assignee" value="" />
+<input type="hidden" name="status" value="" />
+<input type="hidden" name="category" value="" />
+<input type="hidden" name="artgroup" value="" />
+<input type="hidden" name="keyword" value="" />
+<input type="hidden" name="submitter" value="" />
+<input type="hidden" name="artifact_id" value="" />
+
+<div class="yui-g">
+	<div class="yui-u first results">
+		Page: <strong>1</strong> <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=100&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">2</a> <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=200&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">3</a>  ... <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=2000&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">21</a> <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=100&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">Next &raquo;</a> 
+	</div>
+	<div class="yui-u page">
+		1&nbsp;-&nbsp;100&nbsp;of&nbsp;2006&nbsp;Results&nbsp;-&nbsp;Display&nbsp;
+		<select class="limitselect" onchange="change_limit(this);">
+		<option value="10">10</option>
+		<option value="15">15</option>
+		<option value="20">20</option>
+		<option value="25">25</option>
+		<option value="30">30</option>
+		<option value="35">35</option>
+		<option value="50">50</option>
+		<option value="75">75</option>
+		<option selected="selected" value="100">100</option>
+		</select>
+
+	</div>
+</div>
+<table id="tracker_879332" summary="Search Results for tracker_browse" border="0" cellspacing="0" cellpadding="0" class="tracker">
+	<caption>Search Results</caption>
+
+<thead>
+	<tr style="display: none;">
+						<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=artifact_id&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>ID</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=summary&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Summary</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=status&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Status</a>
+</th>								<th class=" select">
+	<a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=asc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	 
+		    		class="sortd"
+			>Opened</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=assigned_to&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Assignee</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=submitted_by&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Submitter</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=resolution&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Resolution</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=priority&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Priority</a>
+</th>				</tr>
+	<tr>
+						<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=artifact_id&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>ID</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=summary&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Summary</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=status&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Status</a>
+</th>								<th class=" select">
+	<a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=asc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	 
+		    		class="sortd"
+			>Opened</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=assigned_to&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Assignee</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=submitted_by&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Submitter</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=resolution&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Resolution</a>
+</th>								<th>
+	<a href="/tracker/?words=tracker_browse&amp;sort=priority&amp;sortdir=desc&amp;offset=0&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id="
+	    	class="sort"
+	>Priority</a>
+</th>				</tr>
+	<tr class="filter">
+		<th colspan="8">
+			Assignee:
+			<select name="assignee">
+				<option value="">Any</option>
+									<option value="100" >Nobody</option>
+									<option value="948611" >afalcone</option>
+									<option value="1170503" >agenda_gm</option>
+									<option value="1651880" >arboleda</option>
+									<option value="1179440" >armenrz</option>
+									<option value="2013394" >banym</option>
+									<option value="2216812" >bayucahya</option>
+									<option value="1418900" >bmovaqar</option>
+									<option value="1733258" >bojana</option>
+									<option value="1238223" >croo</option>
+									<option value="983486" >deathmeat</option>
+									<option value="1989539" >der_ali</option>
+									<option value="2147312" >d_ruiz</option>
+									<option value="1065483" >faaguila</option>
+									<option value="993007" >fer_luck</option>
+									<option value="1139836" >fredtsang</option>
+									<option value="1405608" >genied</option>
+									<option value="1845280" >girisho</option>
+									<option value="1180760" >globalqss</option>
+									<option value="1599854" >hengsin</option>
+									<option value="612038" >hongnk</option>
+									<option value="1892600" >j2garcia</option>
+									<option value="1595654" >jssolutions</option>
+									<option value="333978" >kontro</option>
+									<option value="1319537" >kthiemann</option>
+									<option value="1945074" >kzmp</option>
+									<option value="1551394" >laydasalasc</option>
+									<option value="2312068" >ljreyesd</option>
+									<option value="1683511" >mar_cal_westf</option>
+									<option value="1592784" >mark_o</option>
+									<option value="1954655" >mcweber</option>
+									<option value="550819" >mjudd</option>
+									<option value="1642842" >nwessel</option>
+									<option value="1347770" >phib</option>
+									<option value="1847214" >priya_subbu</option>
+									<option value="867558" >red1</option>
+									<option value="1187006" >rob_k</option>
+									<option value="1737269" >sendy_yagambrum</option>
+									<option value="1693333" >shameem_z</option>
+									<option value="233420" >srikanthm</option>
+									<option value="1816294" >stefan_kuthan</option>
+									<option value="1311402" >teo_sarca</option>
+									<option value="1544115" >tobi42</option>
+									<option value="195397" >trifonnt</option>
+									<option value="1769708" >tspc</option>
+									<option value="881778" >usrdno</option>
+									<option value="332830" >vpj-cd</option>
+									<option value="2200960" >wcaicedo</option>
+									<option value="49201" >wght</option>
+							</select>
+
+			Status:
+			<select name="status">
+				<option value="">Any</option>
+									<option value="1" >Open</option>
+									<option value="2" >Closed</option>
+									<option value="3" >Deleted</option>
+									<option value="4" >Pending</option>
+							</select>
+
+			Category:
+			<select name="category">
+				<option value="">Any</option>
+									<option value="100" >No Category</option>
+									<option value="938090" >2Pack</option>
+									<option value="897013" >Accounting</option>
+									<option value="897015" >Account Schema</option>
+									<option value="897075" >Activity Control</option>
+									<option value="897016" >Alerts</option>
+									<option value="897017" >Allocation Payment</option>
+									<option value="897018" >Application Dictionary</option>
+									<option value="897020" >Archive PDF</option>
+									<option value="897019" >Assets</option>
+									<option value="1087489" >Attachments</option>
+									<option value="919030" >AVA (vmware images)</option>
+									<option value="897021" >Bank Statement</option>
+									<option value="897069" >BOM & Formula</option>
+									<option value="1167334" >Budgeting</option>
+									<option value="897022" >Business Partner</option>
+									<option value="897023" >Calendar</option>
+									<option value="897024" >Campaign</option>
+									<option value="897025" >Cash</option>
+									<option value="1058279" >Commission</option>
+									<option value="897014" >Costing</option>
+									<option value="897074" >CRP</option>
+									<option value="897043" >Database</option>
+									<option value="1129720" >DRP</option>
+									<option value="897027" >Dunning</option>
+									<option value="897026" >Entity (Client)</option>
+									<option value="897028" >Expense Report</option>
+									<option value="1127833" >Fixed Assets</option>
+									<option value="897029" >GL Journal</option>
+									<option value="1088354" >Global Tax Management</option>
+									<option value="1087495" >HR & Payroll</option>
+									<option value="897030" >Import</option>
+									<option value="897031" >Installation</option>
+									<option value="897032" >Inventory Move</option>
+									<option value="897033" >Inventory (Physical)</option>
+									<option value="897034" >Invoice</option>
+									<option value="897062" >Language</option>
+									<option value="897072" >Manufacturing Order</option>
+									<option value="897071" >Manufacturing Resources</option>
+									<option value="897070" >Manufacturing WF</option>
+									<option value="897035" >Matching (PO/Inv/Receipt)</option>
+									<option value="897036" >Migration</option>
+									<option value="897073" >MRP</option>
+									<option value="897038" >Order (PO)</option>
+									<option value="897037" >Order (SO)</option>
+									<option value="897039" >Organization</option>
+									<option value="897040" >Other Functionality</option>
+									<option value="897041" >Payment</option>
+									<option value="897042" >Performance</option>
+									<option value="897044" >Persistence</option>
+									<option value="892023" >Plugins API</option>
+									<option value="945359" >POSterita</option>
+									<option value="904985" >PostgreSQL port</option>
+									<option value="897045" >Posting</option>
+									<option value="897046" >Price List</option>
+									<option value="954131" >Print Format</option>
+									<option value="897048" >Product</option>
+									<option value="897047" >Product Attribute</option>
+									<option value="897049" >Project</option>
+									<option value="897058" >Receipt</option>
+									<option value="1075575" >Replication</option>
+									<option value="897050" >Report Engine</option>
+									<option value="897051" >Requisition</option>
+									<option value="897052" >Resource</option>
+									<option value="897053" >Revenue Recognition</option>
+									<option value="1087493" >Scheduler</option>
+									<option value="897054" >Security</option>
+									<option value="897055" >Selfservice (web)</option>
+									<option value="897056" >Server Management</option>
+									<option value="897057" >Shipment</option>
+									<option value="897059" >SLA</option>
+									<option value="897060" >Taxes</option>
+									<option value="1047678" >Technical</option>
+									<option value="897061" >Translation</option>
+									<option value="897063" >Trees</option>
+									<option value="897066" >UI AJAX</option>
+									<option value="897064" >UI HTML</option>
+									<option value="897065" >UI Swing</option>
+									<option value="897067" >UOM</option>
+									<option value="963631" >Web Store</option>
+									<option value="897068" >Workflow Engine</option>
+							</select>
+
+			Group:
+			<select name="artgroup">
+				<option value="">Any</option>
+									<option value="100" >No Group</option>
+									<option value="705907" >Beta</option>
+									<option value="705908" >Core</option>
+									<option value="705910" >Module Specific</option>
+									<option value="705909" >Report</option>
+									<option value="643412" >v3.1.0</option>
+									<option value="666364" >v3.1.1</option>
+									<option value="672522" > v3.1.2</option>
+									<option value="679148" >v3.1.3</option>
+									<option value="690769" >v3.1.4</option>
+									<option value="696497" >v3.1.5</option>
+									<option value="705912" >v3.1.6</option>
+									<option value="643413" >v3.2.0</option>
+									<option value="643414" >v3.3.0</option>
+									<option value="638735" >v3.4.0</option>
+									<option value="898871" >v3.4.2</option>
+									<option value="795815" >v3.5.0</option>
+									<option value="846254" >v3.5.1</option>
+									<option value="866265" >v3.5.2a</option>
+									<option value="897636" >v3.5.3a</option>
+									<option value="643415" >v4.1.0</option>
+							</select>
+
+			Submitter:
+			<input name="submitter" value="" size="10">
+
+			Keyword:
+			<input name="keyword" value="" size="10">
+
+			Artifact ID:
+			<input name="artifact_id" value="" size="10">
+
+			<input type="submit" id="filter_submit" name="submit" value="Filter">
+			<input type="submit" name="reset" value="Reset">
+			
+			<span><a style="display: inline;" href="/tracker/?func=browse&group_id=176962&atid=879332">Permalink</a></span>
+		</th>
+	</tr>
+</thead><tfoot>
+</tfoot><tbody>
+			<tr>
+			 
+							<td class="p5">
+						 
+				2804888						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2804888&group_id=176962&atid=879332">Incorrect reservation of products with attributes</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-11
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p1">
+						 
+				2804602						</td>
+					 
+							<td class="p1">
+						 
+				<a href="/tracker/?func=detail&aid=2804602&group_id=176962&atid=879332">Doc_Order optimization if there are no requisitions</a>						</td>
+					 
+							<td class="p1">
+										Pending
+						</td>
+					 
+							<td class="p1">
+										2009-06-11
+						</td>
+					 
+							<td class="p1">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p1">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p1">
+										Fixed
+						</td>
+					 
+							<td class="p1">
+										1
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p3">
+						 
+				2804321						</td>
+					 
+							<td class="p3">
+						 
+				<a href="/tracker/?func=detail&aid=2804321&group_id=176962&atid=879332">Invoice Open function doesn&#039;t respect currency precision</a>						</td>
+					 
+							<td class="p3">
+										Pending
+						</td>
+					 
+							<td class="p3">
+										2009-06-10
+						</td>
+					 
+							<td class="p3">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p3">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p3">
+										Fixed
+						</td>
+					 
+							<td class="p3">
+										3
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2804190						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2804190&group_id=176962&atid=879332">System allows to generate shipments on incomplete orders</a>						</td>
+					 
+							<td class="p9">
+										Pending
+						</td>
+					 
+							<td class="p9">
+										2009-06-10
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										Fixed
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2804142						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2804142&group_id=176962&atid=879332">MInvoice.setRMALine should work only for CreditMemo invoices</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-10
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p7">
+						 
+				2804135						</td>
+					 
+							<td class="p7">
+						 
+				<a href="/tracker/?func=detail&aid=2804135&group_id=176962&atid=879332">Global FactsValidator are not invoked</a>						</td>
+					 
+							<td class="p7">
+										Pending
+						</td>
+					 
+							<td class="p7">
+										2009-06-10
+						</td>
+					 
+							<td class="p7">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p7">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p7">
+										Fixed
+						</td>
+					 
+							<td class="p7">
+										7
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2804061						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2804061&group_id=176962&atid=879332">Replication of table C_AllocationLine fails</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-06-10
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2803559						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2803559&group_id=176962&atid=879332">Add missing credit card types</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-06-09
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2802229						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2802229&group_id=176962&atid=879332">Non-conformant web.xml in adempiereApps.war</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-06-06
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2801525						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2801525&group_id=176962&atid=879332">ProcessModalDialog incorrectly overrides isValid()</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-05
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2801372						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2801372&group_id=176962&atid=879332">Seed database: NO Data found for C_BPartner_ID=50006</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-04
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/tspc/">tspc</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2800967						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2800967&group_id=176962&atid=879332">initial cost from m_product_po is wrong if uom is different</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-04
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2800934						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2800934&group_id=176962&atid=879332">Error at Ship/Receipt Confirm complete</a>						</td>
+					 
+							<td class="p5">
+										Deleted
+						</td>
+					 
+							<td class="p5">
+										2009-06-04
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/ancabradau/">ancabradau</a>
+						</td>
+					 
+							<td class="p5">
+										Invalid
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2800924						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2800924&group_id=176962&atid=879332">Nulljava.lang.ClassNotFoundException</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-06-04
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/vosscom/">vosscom</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2800460						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2800460&group_id=176962&atid=879332">System generate Material Receipt with no lines.</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-06-03
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/cristi_p/">cristi_p</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2800319						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2800319&group_id=176962&atid=879332">Payment completion doesn&#039;t set BP open balance.</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-06-03
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p1">
+						 
+				2799822						</td>
+					 
+							<td class="p1">
+						 
+				<a href="/tracker/?func=detail&aid=2799822&group_id=176962&atid=879332">Title bar text is not visible properly</a>						</td>
+					 
+							<td class="p1">
+										Open
+						</td>
+					 
+							<td class="p1">
+										2009-06-02
+						</td>
+					 
+							<td class="p1">
+									    			    nobody
+						</td>
+					 
+							<td class="p1">
+									    			    <a href="/users/vosscom/">vosscom</a>
+						</td>
+					 
+							<td class="p1">
+										Fixed
+						</td>
+					 
+							<td class="p1">
+										1
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2799816						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2799816&group_id=176962&atid=879332">Process error message not obvious to user</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-06-02
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Duplicate
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2799797						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2799797&group_id=176962&atid=879332">Process error message not obvious to user</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-02
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2799362						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2799362&group_id=176962&atid=879332">You can press New button a lot of times</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-06-01
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2799353						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2799353&group_id=176962&atid=879332">Posted button hidden for matching document</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-06-01
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2799313						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2799313&group_id=176962&atid=879332">Import Invoice C_Location_ID is mandatory.</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-06-01
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/armenrz/">armenrz</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/armenrz/">armenrz</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2797938						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2797938&group_id=176962&atid=879332">Receipt should not allow lines with Qty=0</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-28
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/cristi_p/">cristi_p</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2797787						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2797787&group_id=176962&atid=879332">Cannot delete line on PO generated from SO</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-05-28
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2797257						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2797257&group_id=176962&atid=879332">Landed Cost Detail is not using allocation qty</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-27
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/armenrz/">armenrz</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/armenrz/">armenrz</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p3">
+						 
+				2797147						</td>
+					 
+							<td class="p3">
+						 
+				<a href="/tracker/?func=detail&aid=2797147&group_id=176962&atid=879332">llegalArgumentException: M_InOutLine_ID is mandatory</a>						</td>
+					 
+							<td class="p3">
+										Open
+						</td>
+					 
+							<td class="p3">
+										2009-05-27
+						</td>
+					 
+							<td class="p3">
+									    			    nobody
+						</td>
+					 
+							<td class="p3">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p3">
+										None
+						</td>
+					 
+							<td class="p3">
+										3
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2796775						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2796775&group_id=176962&atid=879332">Duplicate Allocations</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-26
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/ynaidoo/">ynaidoo</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2795550						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2795550&group_id=176962&atid=879332">Difference in oracle and postgres data</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-05-22
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2795492						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2795492&group_id=176962&atid=879332">Tables without primary key</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-05-22
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2795491						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2795491&group_id=176962&atid=879332">Difference in oracle and postgres schemas</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-05-22
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2795251						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2795251&group_id=176962&atid=879332">QtyInvoiced field updatable in Invoice (Customer)</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-22
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2795236						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2795236&group_id=176962&atid=879332">Not Post if Clearing Equal does not delete acc facts</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-22
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/bayucahya/">bayucahya</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794975						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794975&group_id=176962&atid=879332">Generate Invoice Manual with product Service error</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-21
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/vpj-cd/">vpj-cd</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=vpj-cd&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/moyses/">moyses</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794932						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794932&group_id=176962&atid=879332">Invoice transactions Doc Report not working</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-21
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/moyses/">moyses</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794929						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794929&group_id=176962&atid=879332">Unable to use Generate Shipments and Invoices Manual</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-21
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/vpj-cd/">vpj-cd</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=vpj-cd&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/moyses/">moyses</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794925						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794925&group_id=176962&atid=879332">Invoice transactions Doc Report not working</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-21
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/moyses/">moyses</a>
+						</td>
+					 
+							<td class="p5">
+										Duplicate
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2794909						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2794909&group_id=176962&atid=879332">Can&#039;t create shipments with product type service</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-05-21
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/moyses/">moyses</a>
+						</td>
+					 
+							<td class="p9">
+										Fixed
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p7">
+						 
+				2794820						</td>
+					 
+							<td class="p7">
+						 
+				<a href="/tracker/?func=detail&aid=2794820&group_id=176962&atid=879332">AP Credit Memo from order gets wrong sign</a>						</td>
+					 
+							<td class="p7">
+										Open
+						</td>
+					 
+							<td class="p7">
+										2009-05-21
+						</td>
+					 
+							<td class="p7">
+									    			    nobody
+						</td>
+					 
+							<td class="p7">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p7">
+										None
+						</td>
+					 
+							<td class="p7">
+										7
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794268						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794268&group_id=176962&atid=879332">Duplicate order lines</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794220						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794220&group_id=176962&atid=879332">MSequence.getDocumentNo shouldn&#039;t hide exception</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794217						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794217&group_id=176962&atid=879332">MSequence.getNextId should use queryTimeOut</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794215						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794215&group_id=176962&atid=879332">MSequence - don&#039;t use for update when using procedure</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794204						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794204&group_id=176962&atid=879332">add QueryTimeOut to DB.executeUpdate</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794202						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794202&group_id=176962&atid=879332">Online payment fails to complete prepay order</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794201						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794201&group_id=176962&atid=879332">Synchronize in MSequence cause severe performance problem</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2794198						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2794198&group_id=176962&atid=879332">VPayment requires credit card account name</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-20
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2794181						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2794181&group_id=176962&atid=879332">GL Distribution is not distributing product quantities</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-05-20
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										Fixed
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2793893						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2793893&group_id=176962&atid=879332">MTransactionTo - Organization issue</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-19
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/ancabradau/">ancabradau</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2793701						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2793701&group_id=176962&atid=879332">Average invoice Costing becomes -ve </a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-19
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/eagleexpress/">eagleexpress</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p1">
+						 
+				2793656						</td>
+					 
+							<td class="p1">
+						 
+				<a href="/tracker/?func=detail&aid=2793656&group_id=176962&atid=879332">Deletion of c_bpartner_location</a>						</td>
+					 
+							<td class="p1">
+										Closed
+						</td>
+					 
+							<td class="p1">
+										2009-05-19
+						</td>
+					 
+							<td class="p1">
+									    			    <a href="/users/mark_o/">mark_o</a>
+						</td>
+					 
+							<td class="p1">
+									    			    <a href="/users/mark_o/">mark_o</a>
+						</td>
+					 
+							<td class="p1">
+										None
+						</td>
+					 
+							<td class="p1">
+										1
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2793403						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2793403&group_id=176962&atid=879332">Fix AD_Scheduler_Para.ParameterDefault length</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-18
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2793048						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2793048&group_id=176962&atid=879332">trunc function different on db/ddlutils and seed</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-05-17
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2792529						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2792529&group_id=176962&atid=879332">lockTrx when you try created a Payment Allocation</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-05-16
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/vpj-cd/">vpj-cd</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=vpj-cd&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/vpj-cd/">vpj-cd</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=vpj-cd&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										Fixed
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2791705						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2791705&group_id=176962&atid=879332">ADempiere Login console random horizontal stretches</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-14
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/ivanceras/">ivanceras</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2791095						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2791095&group_id=176962&atid=879332">EmailUserPW too short for encrypted passwords</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-05-13
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2790959						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2790959&group_id=176962&atid=879332">Document Date not updating Period as it did in Compiere</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-13
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/marcriella/">marcriella</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2790605						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2790605&group_id=176962&atid=879332">Typo in TaxDeclarationCreate</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-12
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2789949						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2789949&group_id=176962&atid=879332">Multicurrency in matching posting</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-11
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/armenrz/">armenrz</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/armenrz/">armenrz</a>
+						</td>
+					 
+							<td class="p5">
+										Remind
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2789688						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2789688&group_id=176962&atid=879332">When reversed Product Cost  becomes -ve</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-10
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/eagleexpress/">eagleexpress</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2789319						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2789319&group_id=176962&atid=879332">No check of Actual, Budget, Statistical attribute</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-09
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/bayucahya/">bayucahya</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p2">
+						 
+				2789298						</td>
+					 
+							<td class="p2">
+						 
+				<a href="/tracker/?func=detail&aid=2789298&group_id=176962&atid=879332">Usability Issue</a>						</td>
+					 
+							<td class="p2">
+										Open
+						</td>
+					 
+							<td class="p2">
+										2009-05-09
+						</td>
+					 
+							<td class="p2">
+									    			    nobody
+						</td>
+					 
+							<td class="p2">
+									    			    <a href="/users/muhammadnasir/">muhammadnasir</a>
+						</td>
+					 
+							<td class="p2">
+										None
+						</td>
+					 
+							<td class="p2">
+										2
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2788928						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2788928&group_id=176962&atid=879332">FromDate does not work in MeasureCalc</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-08
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2788903						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2788903&group_id=176962&atid=879332">No Identifier records found: M_AttributeSetInstance_ID</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-08
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/cristi_p/">cristi_p</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2788772						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2788772&group_id=176962&atid=879332">Can&#039;t use &#039;@&#039; literally in default values</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-08
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2788727						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2788727&group_id=176962&atid=879332">RMA &quot;Create Order&quot; creates wrong doc type</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-08
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2788726						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2788726&group_id=176962&atid=879332">Reordering acct schema elements fails to update accounts</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-08
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2787321						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2787321&group_id=176962&atid=879332">Inactive Export Processor still active</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-05-05
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/trifonnt/">trifonnt</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=trifonnt&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2787097						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2787097&group_id=176962&atid=879332">Missing translation</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-05
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/bogdan_i/">bogdan_i</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2787006						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2787006&group_id=176962&atid=879332">Repeated redirect for invalid url</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-05-05
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/hengsin/">hengsin</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=hengsin&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2785792						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2785792&group_id=176962&atid=879332">Concurrency problem generated by cache</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-05-02
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p3">
+						 
+				2785633						</td>
+					 
+							<td class="p3">
+						 
+				<a href="/tracker/?func=detail&aid=2785633&group_id=176962&atid=879332">Adding a Notice in Alert Processor </a>						</td>
+					 
+							<td class="p3">
+										Closed
+						</td>
+					 
+							<td class="p3">
+										2009-05-02
+						</td>
+					 
+							<td class="p3">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p3">
+									    			    <a href="/users/kubotti/">kubotti</a>
+						</td>
+					 
+							<td class="p3">
+										Accepted
+						</td>
+					 
+							<td class="p3">
+										3
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2785621						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2785621&group_id=176962&atid=879332">NOTIFICATIONTYPE_EMailPlusNotice is not considered</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-05-02
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/kubotti/">kubotti</a>
+						</td>
+					 
+							<td class="p9">
+										Accepted
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2784194						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332">Check Warehouse-Locator conflict</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-30
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2783366						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2783366&group_id=176962&atid=879332">Report Unallocated Invoices broken</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-04-29
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2782611						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2782611&group_id=176962&atid=879332">Migration scripts are not UTF8</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-28
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2782240						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2782240&group_id=176962&atid=879332">Duplicate On Order Quantity</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-04-27
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/bogdan_i/">bogdan_i</a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2782095						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2782095&group_id=176962&atid=879332">Do not log *Access records</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-27
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2781955						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2781955&group_id=176962&atid=879332">Loop may cause client to hang in CConnectionEditor</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-27
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2781661						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2781661&group_id=176962&atid=879332">Doc Engine for Charge in Cash Journal</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-04-26
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/vietsourcing/">vietsourcing</a>
+						</td>
+					 
+							<td class="p9">
+										Accepted
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2781098						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2781098&group_id=176962&atid=879332">Change AddressLookupInterface.getAddressData() signature</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-04-25
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2781094						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2781094&group_id=176962&atid=879332">Implement AddressLookupInterface.lookupAddress</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-04-25
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2780861						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2780861&group_id=176962&atid=879332">MQuery Error when cancelling MMovement</a>						</td>
+					 
+							<td class="p9">
+										Open
+						</td>
+					 
+							<td class="p9">
+										2009-04-24
+						</td>
+					 
+							<td class="p9">
+									    			    nobody
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/scalderon/">scalderon</a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2780468						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2780468&group_id=176962&atid=879332">ModelClassGenerator: not generating methods for Created*</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-24
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2780464						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2780464&group_id=176962&atid=879332">AvoidDecimalLiteralsInBigDecimalConstructor</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-04-24
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p1">
+						 
+				2779465						</td>
+					 
+							<td class="p1">
+						 
+				<a href="/tracker/?func=detail&aid=2779465&group_id=176962&atid=879332">14288 &quot;already added, skipping&quot; messages in RUN_build</a>						</td>
+					 
+							<td class="p1">
+										Open
+						</td>
+					 
+							<td class="p1">
+										2009-04-23
+						</td>
+					 
+							<td class="p1">
+									    			    nobody
+						</td>
+					 
+							<td class="p1">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p1">
+										None
+						</td>
+					 
+							<td class="p1">
+										1
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2779181						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2779181&group_id=176962&atid=879332">PackIn fails on strings with single quotes</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-04-23
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/wght/">wght</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2778472						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2778472&group_id=176962&atid=879332">Subreport bug</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-22
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/redchris/">redchris</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2777230						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2777230&group_id=176962&atid=879332">MEXPFormat class not found</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-04-21
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/trifonnt/">trifonnt</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=trifonnt&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/usrdno/">usrdno</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2777077						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2777077&group_id=176962&atid=879332">Copy Role doesn&#039;t copy document action access</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-21
+						</td>
+					 
+							<td class="p5">
+									    			    nobody
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2775767						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2775767&group_id=176962&atid=879332">CoGS not calculated with existing landed costs</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-04-20
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/bayucahya/">bayucahya</a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/bayucahya/">bayucahya</a>
+						</td>
+					 
+							<td class="p9">
+										None
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p9">
+						 
+				2771296						</td>
+					 
+							<td class="p9">
+						 
+				<a href="/tracker/?func=detail&aid=2771296&group_id=176962&atid=879332">error when try get ID from AD Central Center</a>						</td>
+					 
+							<td class="p9">
+										Closed
+						</td>
+					 
+							<td class="p9">
+										2009-04-17
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/globalqss/">globalqss</a><a href="/help/icon_legend.php?context=user_subscriber&amp;uname=globalqss&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/sf_s.png" alt="SourceForge.net Subscriber" width="16" height="16" /></a><a href="/help/icon_legend.php?context=group_admin&amp;uname=globalqss&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+									    			    <a href="/users/vpj-cd/">vpj-cd</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=vpj-cd&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p9">
+										Fixed
+						</td>
+					 
+							<td class="p9">
+										9
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2769181						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2769181&group_id=176962&atid=879332">GregorianCalendar out of bounds</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p7">
+						 
+				2768731						</td>
+					 
+							<td class="p7">
+						 
+				<a href="/tracker/?func=detail&aid=2768731&group_id=176962&atid=879332">Cannot add new node from Workflow window</a>						</td>
+					 
+							<td class="p7">
+										Closed
+						</td>
+					 
+							<td class="p7">
+										2009-04-16
+						</td>
+					 
+							<td class="p7">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p7">
+									    			    <a href="/users/teo_sarca/">teo_sarca</a><a href="/help/icon_legend.php?context=group_admin&amp;uname=teo_sarca&amp;this_group=176962&amp;return_to=%2F"><img src="http://c.fsdn.com/sf/images/images/icons/prj_adm.png" alt="Project Admin" width="16" height="16" /></a>
+						</td>
+					 
+							<td class="p7">
+										Fixed
+						</td>
+					 
+							<td class="p7">
+										7
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2768366						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2768366&group_id=176962&atid=879332">WMatch comparison of different classes with equals</a>						</td>
+					 
+							<td class="p5">
+										Open
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2768070						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2768070&group_id=176962&atid=879332">Recursive calls to loadImage in CompiereUtils</a>						</td>
+					 
+							<td class="p5">
+										Pending
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2767913						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2767913&group_id=176962&atid=879332">PosReportManager: incorrect use of s_date1/s_date2</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2767895						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2767895&group_id=176962&atid=879332">Invoice Write Off returning incorrect number of write-offs</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2767850						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2767850&group_id=176962&atid=879332">InOutGenerate Fifo Ignored</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2767537						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2767537&group_id=176962&atid=879332">High volume query test on window load ignores variables</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-16
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/phib/">phib</a>
+						</td>
+					 
+							<td class="p5">
+										None
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+												<tr>
+			 
+							<td class="p5">
+						 
+				2761186						</td>
+					 
+							<td class="p5">
+						 
+				<a href="/tracker/?func=detail&aid=2761186&group_id=176962&atid=879332">CompiereColor not throwing exception</a>						</td>
+					 
+							<td class="p5">
+										Closed
+						</td>
+					 
+							<td class="p5">
+										2009-04-14
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+									    			    <a href="/users/mjudd/">mjudd</a>
+						</td>
+					 
+							<td class="p5">
+										Fixed
+						</td>
+					 
+							<td class="p5">
+										5
+						</td>
+			</tr>
+
+									</tbody></table>
+
+
+<div class="yui-g">
+	<div class="yui-u first results">
+		Page: <strong>1</strong> <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=100&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">2</a> <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=200&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">3</a>  ... <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=2000&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">21</a> <a href="/tracker/?words=tracker_browse&amp;sort=open_date&amp;sortdir=desc&amp;offset=100&amp;group_id=176962&amp;atid=879332&amp;assignee=&amp;status=&amp;category=&amp;artgroup=&amp;keyword=&amp;submitter=&amp;artifact_id=">Next &raquo;</a> 
+	</div>
+	<div class="yui-u page">
+		1&nbsp;-&nbsp;100&nbsp;of&nbsp;2006&nbsp;Results&nbsp;-&nbsp;Display&nbsp;
+		<select class="limitselect" onchange="change_limit(this);">
+		<option value="10">10</option>
+		<option value="15">15</option>
+		<option value="20">20</option>
+		<option value="25">25</option>
+		<option value="30">30</option>
+		<option value="35">35</option>
+		<option value="50">50</option>
+		<option value="75">75</option>
+		<option selected="selected" value="100">100</option>
+		</select>
+
+	</div>
+</div>
+</form>
+
+            </div>
+
+        
+    
+    
+            <div id="breadcrumb">
+            <ul>
+                            <li class="begin"><a href="/">SF.net</a></li>
+<li><a href="/softwaremap/">Projects</a></li>
+<li><a href="/projects/adempiere/">ADempiere ERP Business Suite</a></li>
+<li><a href="/tracker/?group_id=176962">Tracker</a></li>
+<li><a href="/tracker/?group_id=176962&amp;atid=879332">Bugs</a></li>
+<li class="selected"><a href="/tracker/?limit=1000&amp;&amp;group_id=176962&amp;atid=879332&amp;submit=Filter">Browse Tracker Items</a></li>
+                        </ul>
+                            <span class="report_link"><a href="/project/report_inappropriate.php?group_id=176962">Report inappropriate content</a></span>
+                    </div>
+            <div id="ft">
+            <div class="yui-g">
+                <div class="yui-u first">
+                    Copyright &copy; 1999-2009 <a href="http://sourceforge.com" title="Network which provides and promotes Open Source software downloads, development, discussion and news.">SourceForge, Inc.</a> All rights reserved.
+                    <br />
+                    <span id="icons">
+                        <span>follow us on</span><a class="twitter" href="http://twitter.com/sourceforge">Twitter</a>
+                        <a class="feed" href="/export/rss2_projnews.php?group_id=141424&amp;rss_fulltext=1">RSS</a>
+                        <a class="linkedin" href="http://www.linkedin.com/companies/sourceforge-inc.">LinkedIn</a>
+                    </span>
+                </div>
+                            <div class="yui-u">
+                                <div class="yui-gb">
+                        <div class="yui-u first" style="width: 23%;">
+                            <a href="/sitestatus">Site&nbsp;Status</a><br />
+                            <a href="/support/getsupport.php">Support</a><br />
+                            <a href="http://p.sf.net/sourceforge/terms">Legal</a><br />
+                        </div>
+                        <div class="yui-u" style="width: 38%;">
+                            <a href="http://p.sf.net/sourceforge/rssfeeds">Syndication&nbsp;Feeds&nbsp;/&nbsp;RSS</a><br />
+                            <a href="/community/">Community</a><br />
+                            <a href="/services/buy/index.php">Marketplace</a><br />
+                        </div>
+                        <div class="yui-u" style="width: 33%;">
+                            <a href="http://p.sf.net/sourceforge/about">About&nbsp;SourceForge.net</a><br />
+                            <a href="http://sourceforge.com">About&nbsp;SourceForge,&nbsp;Inc.</a><br />
+                            <a href="http://web.sourceforge.com/media_kit.php">Advertising</a><br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad calls and positioning -->
+    <div id="adbatch" class="browse_artifacts pville">
+            </div>
+
+
+    <script type="text/javascript">
+        pageTracker._trackPageview();
+    </script>
+
+    <!-- Quantcast -->
+    <script type="text/javascript">
+        _qoptions={
+            qacct:"p-93nPV3-Eb4x22"
+        };
+    </script>
+    <script type="text/javascript" src="//secure.quantserve.com/quant.js"></script>
+    <noscript><img src="//secure.quantserve.com/pixel/p-93nPV3-Eb4x22.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/></noscript>
+    <!-- End Quantcast tag -->
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/adempiere/" : "http://apps.sourceforge.net/piwik/adempiere/");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        piwik_action_name = '';
+        piwik_idsite = 1;
+        piwik_url = pkBaseURL + "piwik.php";
+        piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript><p><img src="http://apps.sourceforge.net/piwik/adempiere/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+    <!-- End Piwik Tag -->
+
+    <script type="text/javascript">if(jQuery.browser.msie && jQuery.browser.version=='6.0'){jQuery(document).ready(function(){jQuery("body").append("<div class=\"killie6\"><p>Your browser isn't supported, so some things might not work as expected.  Please upgrade to a newer version of IE, or to Firefox.</p><span><a>x</a></span></div>");jQuery("head").append('<style type="text/css">div.killie6{display:none;z-index:100;background:#ffffe1;height:21px;padding:0pt;margin:0pt;position:absolute;top:0pt;left:0pt;width:100%;border-bottom:1px solid #716f64;border-top:1px solid #e0dfd0;}div.killie6 p{padding:0pt;margin:0pt;height:21px;border-bottom:1px solid #aca899;border-top:1px solid #cdcabb;background:url\("/images/sflogofavicon.gif"\) no-repeat 3px center;text-indent:22px;font-family:Arial,sans-serif !important;font-size:11px !important;font-weight:lighter;line-height:21px;overflow:hidden;text-align:left !important;}div.killie6 p,div.killie6 p a{color:#000;}div.killie6 span a{background:url\("/images/phoneix/x.gif"\) no-repeat top left;text-indent:-9999px;display:block;position:absolute;right:5px;top:5px;width:8px;height:8px;padding:0pt .1em;margin:0pt;}</style>');function showKillie6(){jQuery("div.killie6").show("fast");scrollTo(0,0);}jQuery("div.killie6 span a").mousedown(function(){jQuery("div.killie6").slideUp("fast");jQuery.cookie('ie6_warning_shown',1,{path:'/',expires:14});});if(!jQuery.cookie('ie6_warning_shown')){setTimeout(showKillie6,1000);}});}</script>
+    
+    <script type="text/javascript">
+        //<![CDATA[
+        cmSetProduction();cmCreatePageviewTag("project_browse_artifacts", null, null, null, "adempiere");
+        //]]>
+    </script>        
+    
+    </body>
+</html>
+
+ 	  	 

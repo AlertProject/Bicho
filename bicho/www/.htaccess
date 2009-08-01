@@ -1,0 +1,8 @@
+#<Files test.py>
+#  SetHandler fastcgi-script
+#</Files>
+
+
+Options +ExecCGI
+AddHandler cgi-script .py
+

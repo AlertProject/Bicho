@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://www.mantisbt.org/demo/css/default.css" />
+	<script type="text/javascript" language="JavaScript"><!--
+		if(document.layers) {document.write("<style>td{padding:0px;}<\/style>")}
+	// --></script>
+	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Pragma-directive" content="no-cache" />
+	<meta http-equiv="Cache-Directive" content="no-cache" />
+	<meta http-equiv="Expires" content="Thu, 11 Jun 2009 19:14:27 GMT" />
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />	<title>View Issues - MantisBT DEMO site</title>
+	<script type="text/javascript" language="JavaScript" src="javascript/common.js"></script>
+	<script type="text/JavaScript" src="javascript/ajax.js"></script>
+	<meta http-equiv="Refresh" content="1800;URL=view_all_bug_page.php?page_number=1" />
+</head>
+<body>
+<div class="center"><span class="pagetitle"></span></div>
+<div align="left"><a href="http://www.mantisbt.org" title="Free Web Based Bug Tracker"><img border="0" width="242" height="102" alt="Mantis Bugtracker" src="images/mantis_logo.gif" /></a></div><table class="hide"><tr><td class="login-info-left">Anonymous | <a href="login_page.php?return=%2Fdemo%2Fview_all_bug_page.php%3F">Login</a> | <a href="signup_page.php">Signup for a new account</a></td><td class="login-info-middle"><span class="italic">2009-06-11 15:14 EDT</span></td><td class="login-info-right"><form method="post" name="form_set_project" action="set_project.php">Project: <select name="project_id" class="small" onchange="document.forms.form_set_project.submit();"><option value="0" selected="selected" >All Projects</option>
+<option value="1">Demo</option>
+</select> <input type="submit" class="button-small" value="Switch" /><a href="http://www.mantisbt.org/demo/issues_rss.php?project_id=0"><img src="images/rss.gif" alt="RSS" style="border-style: none; margin: 5px; vertical-align: middle;" /></a></form></td></tr></table><table class="width100" cellspacing="0"><tr><td class="menu"><a href="main_page.php">Main</a> | <a href="my_view_page.php">My View</a> | <a href="view_all_bug_page.php">View Issues</a> | <a href="changelog_page.php">Change Log</a> | <a href="roadmap_page.php">Roadmap</a> | <a href="proj_doc_page.php">Docs</a> | <a href="wiki.php?type=project&amp;id=0">Wiki</a> | <a href="billing_page.php">Billing</a></td><td class="menu right nowrap"><form method="post" action="jump_to_bug.php"><input type="text" name="bug_id" size="10" class="small" value="Issue #" onfocus="if (this.value == 'Issue #') this.value = ''" onblur="if (this.value == '') this.value = 'Issue #'" />&nbsp;<input type="submit" class="button-small" value="Jump" />&nbsp;</form></td></tr></table><div id="filter_open">
+		<br />
+		<form method="post" name="filters_open" id="filters_form_open" action="view_all_set.php?f=3">
+		<input type="hidden" name="type" value="1" />
+				<input type="hidden" name="page_number" value="1" />
+		<input type="hidden" name="view_type" value="advanced" />
+		<table class="width100" cellspacing="1">
+
+		
+		<tr class="row-category2">
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=reporter_id[]" id="reporter_id_filter">Reporter:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=user_monitor[]" id="user_monitor_filter">Monitored By:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=handler_id[]" id="handler_id_filter">Assigned To:</a>
+			</td>
+			<td colspan="2" class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_category[]" id="show_category_filter">Category:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_severity[]" id="show_severity_filter">Severity:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_resolution[]" id="show_resolution_filter">Resolution:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_profile[]" id="show_profile_filter">Profile:</a>
+			</td>
+					</tr>
+
+		<tr class="row-1">
+			<td class="small-caption" valign="top" id="reporter_id_filter_target">
+																	<input type="hidden" name="reporter_id[]" value="0" />
+										any			</td>
+			<td class="small-caption" valign="top" id="user_monitor_filter_target">
+																	<input type="hidden" name="user_monitor[]" value="0" />
+										any			</td>
+			<td class="small-caption" valign="top" id="handler_id_filter_target">
+																	<input type="hidden" name="handler_id[]" value="0" />
+										any			</td>
+			<td colspan="2" class="small-caption" valign="top" id="show_category_filter_target">
+																	<input type="hidden" name="show_category[]" value="0" />
+										any			</td>
+			<td class="small-caption" valign="top" id="show_severity_filter_target">
+																	<input type="hidden" name="show_severity[]" value="0" />
+										any			</td>
+			<td class="small-caption" valign="top" id="show_resolution_filter_target">
+																	<input type="hidden" name="show_resolution[]" value="0" />
+										any			</td>
+			<td class="small-caption" valign="top" id="show_profile_filter_target">
+																	<input type="hidden" name="show_profile[]" value="0" />
+										any			</td>
+						</tr>
+
+		<tr class="row-category2">
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_status[]" id="show_status_filter">Status:</a>
+			</td>
+			<td class="small-caption" valign="top">
+							</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_build[]" id="show_build_filter">Product Build:</a>
+			</td>
+						<td colspan="2" class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_version[]" id="show_version_filter">Product Version:</a>
+			</td>
+			<td colspan="1" class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=fixed_in_version[]" id="show_fixed_in_version_filter">Fixed in Version:</a>
+			</td>
+						<td colspan="1" class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_priority[]" id="show_priority_filter">Priority:</a>
+			</td>
+			<td colspan="1" class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=target_version[]" id="show_target_version_filter">Target Version:</a>
+			</td>
+					</tr>
+
+		<tr class="row-1">
+			<td class="small-caption" valign="top" id="show_status_filter_target">
+																	<input type="hidden" name="show_status[]" value="0" />
+										any			</td>
+			<td class="small-caption" valign="top" id="hide_status_filter_target">
+										</td>
+			<td class="small-caption" valign="top" id="show_build_filter_target">
+																	<input type="hidden" name="show_build[]" value="0" />
+										any			</td>
+						<td colspan="2" class="small-caption" valign="top" id="show_version_filter_target">
+																	<input type="hidden" name="show_version[]" value="0" />
+										any			</td>
+			<td colspan="1" class="small-caption" valign="top" id="show_fixed_in_version_filter_target">
+																	<input type="hidden" name="fixed_in_version[]" value="0" />
+										any			</td>
+						<td colspan="1" class="small-caption" valign="top" id="show_priority_filter_target">
+              										<input type="hidden" name="show_priority[]" value="0" />
+										any	    	</td>
+			<td colspan="1" class="small-caption" valign="top" id="show_target_version_filter_target">
+																	<input type="hidden" name="target_version[]" value="0" />
+										any			</td>
+			
+		</tr>
+
+		<tr class="row-category2">
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=per_page" id="per_page_filter">Show:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=view_state" id="view_state_filter">View Status:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=sticky_issues" id="sticky_issues_filter">Show Sticky Issues:</a>
+			</td>
+			<td class="small-caption" valign="top" colspan="2">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=highlight_changed" id="highlight_changed_filter">Changed(hrs):</a>
+			</td>
+			<td class="small-caption" valign="top" >
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=do_filter_by_date" id="do_filter_by_date_filter">Use Date Filters:</a>
+			</td>
+			<td class="small-caption" valign="top" colspan="2">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=relationship_type" id="relationship_type_filter">Relationships:</a>
+			</td>
+					</tr>
+		<tr class="row-1">
+			<td class="small-caption" valign="top" id="per_page_filter_target">
+				50				<input type="hidden" name="per_page" value="50" />
+			</td>
+			<td class="small-caption" valign="top" id="view_state_filter_target">
+				any				<input type="hidden" name="view_state" value="0" />
+			</td>
+			<td class="small-caption" valign="top" id="sticky_issues_filter_target">
+				No				<input type="hidden" name="sticky_issues" value="off" />
+			</td>
+			<td class="small-caption" valign="top" colspan="2" id="highlight_changed_filter_target">
+				6				<input type="hidden" name="highlight_changed" value="6" />
+			</td>
+			<td class="small-caption" valign="top"  id="do_filter_by_date_filter_target">
+									<script type="text/javascript" language="JavaScript">
+		<!--
+			function SwitchDateFields() {
+		    	// All fields need to be enabled to go back to the script
+				document.filters_open.start_month.disabled = ! document.filters_open.do_filter_by_date.checked;
+				document.filters_open.start_day.disabled = ! document.filters_open.do_filter_by_date.checked;
+				document.filters_open.start_year.disabled = ! document.filters_open.do_filter_by_date.checked;
+				document.filters_open.end_month.disabled = ! document.filters_open.do_filter_by_date.checked;
+				document.filters_open.end_day.disabled = ! document.filters_open.do_filter_by_date.checked;
+				document.filters_open.end_year.disabled = ! document.filters_open.do_filter_by_date.checked;
+
+		   		return true;
+			}
+		// -->
+		</script>
+							No			</td>
+
+			<td class="small-caption" valign="top" colspan="2" id="relationship_type_filter_target">
+							<input type="hidden" name="relationship_type" value="-1" />
+							<input type="hidden" name="relationship_bug" value="0" />
+							any			</td>
+					</tr>
+		<tr class="row-category2">
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=platform" id="platform_filter">Platform:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=os" id="os_filter">OS:</a>
+			</td>
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=os_build" id="os_build_filter">OS Version:</a>
+			</td>
+			<td class="small-caption" valign="top" colspan="5">
+								<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=tag_string" id="tag_string_filter">Tags:</a>
+							</td>
+					</tr>
+		<tr class="row-1">
+			<td class="small-caption" valign="top" id="platform_filter_target">
+								<input type="hidden" name="platform[]" value="0" />
+				any			</td>
+			<td class="small-caption" valign="top" id="os_filter_target">
+								<input type="hidden" name="os[]" value="0" />
+				any			</td>
+			<td class="small-caption" valign="top" id="os_build_filter_target">
+								<input type="hidden" name="os_build[]" value="0" />
+				any			</td>
+			<td class="small-caption" valign="top" id="tag_string_filter_target" colspan="5">
+								<input type="hidden" name="tag_string" value=""/>
+			</td>
+		</tr>
+				<tr class="row-1">
+			<td class="small-caption" valign="top">
+				<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=show_sort" id="show_sort_filter">Sort by:</a>
+			</td>
+			<td class="small-caption" valign="top" colspan="2" id="show_sort_filter_target">
+				Last Update Descending<input type="hidden" name="sort_0" value="last_updated" /><input type="hidden" name="dir_0" value="DESC" />			</td>
+								<td class="small-caption" valign="top" colspan="2">
+						<a href="view_filters_page.php?for_screen=1&amp;view_type=advanced&amp;target_field=project_id" id="project_id_filter">Project:</a>
+					</td>
+					<td class="small-caption" valign="top"  id="project_id_filter_target">
+															<input type="hidden" name="project_id[]" value="0" />
+									All Projects					</td>
+					<td class="small-caption" valign="top" colspan="3">&nbsp;</td>		</tr>
+				<tr>
+			<td colspan="2">
+				<a href="" onclick="ToggleDiv( 'filter', g_div_filter ); return false;"
+			><img border="0" src="images/minus.png" alt="-" /></a>&nbsp;Search:
+				<input type="text" size="16" name="search" value="" />
+
+				<input type="submit" name="filter" class="button-small" value="Apply Filter" />
+			</td>
+			</form>
+			<td class="center" colspan="2"> <!-- use this label for padding -->
+				<span class="bracket-link">[&nbsp;<a href="view_all_set.php?type=6&amp;view_type=simple">Simple Filters</a>&nbsp;]</span> <span class="bracket-link">[&nbsp;<a href="permalink_page.php?url=http%3A%2F%2Fwww.mantisbt.org%2Fdemo%2Fsearch.php%3Fsortby%3Dlast_updated%26amp%3Bdir%3DDESC%26amp%3Bhide_status_id%3D-2" target="_blank">Create Permalink</a>&nbsp;]</span> 			</td>
+			<td class="right" colspan="4">
+								<form method="get" name="list_queries_open" action="view_all_set.php">
+					<input type="hidden" name="type" value="3" />
+					<select name="source_query_id" onchange="document.forms.list_queries_open.submit();">					<option value="-1">[Reset Filter]</option>
+					<option value="-1"></option>
+					<option value="2">WAP My Open Issues</option><option value="4">WAP My Urgent Issues</option>					</select>
+					<input type="submit" name="switch_to_query_button" class="button-small" value="Use Filter" />
+					</form>
+					<form method="post" name="open_queries" action="query_view_page.php">
+					<input type="submit" name="switch_to_query_button" class="button-small" value="Manage Filters" />
+					</form>
+										</td>
+		</tr>
+		</table>
+</div><div id="filter_closed" style="display: none;">
+		<br />
+		<form method="post" name="filters_closed" id="filters_form_closed" action="view_all_set.php?f=3">
+		<input type="hidden" name="type" value="1" />
+				<input type="hidden" name="page_number" value="1" />
+		<input type="hidden" name="view_type" value="advanced" />
+		<table class="width100" cellspacing="1">
+
+				<tr>
+			<td colspan="2">
+				<a href="" onclick="ToggleDiv( 'filter', g_div_filter ); return false;"
+			><img border="0" src="images/plus.png" alt="+" /></a>&nbsp;Search:
+				<input type="text" size="16" name="search" value="" />
+
+				<input type="submit" name="filter" class="button-small" value="Apply Filter" />
+			</td>
+			</form>
+			<td class="center" colspan="2"> <!-- use this label for padding -->
+				<span class="bracket-link">[&nbsp;<a href="view_all_set.php?type=6&amp;view_type=simple">Simple Filters</a>&nbsp;]</span> <span class="bracket-link">[&nbsp;<a href="permalink_page.php?url=http%3A%2F%2Fwww.mantisbt.org%2Fdemo%2Fsearch.php%3Fsortby%3Dlast_updated%26amp%3Bdir%3DDESC%26amp%3Bhide_status_id%3D-2" target="_blank">Create Permalink</a>&nbsp;]</span> 			</td>
+			<td class="right" colspan="4">
+								<form method="get" name="list_queries_closed" action="view_all_set.php">
+					<input type="hidden" name="type" value="3" />
+					<select name="source_query_id" onchange="document.forms.list_queries_closed.submit();">					<option value="-1">[Reset Filter]</option>
+					<option value="-1"></option>
+					<option value="2">WAP My Open Issues</option><option value="4">WAP My Urgent Issues</option>					</select>
+					<input type="submit" name="switch_to_query_button" class="button-small" value="Use Filter" />
+					</form>
+					<form method="post" name="open_queries" action="query_view_page.php">
+					<input type="submit" name="switch_to_query_button" class="button-small" value="Manage Filters" />
+					</form>
+										</td>
+		</tr>
+		</table>
+</div><script type="text/javascript" language="JavaScript"><!--
+	SetDiv( "filter", g_div_filter );
+--></script>		<script type="text/javascript" language="JavaScript">
+		<!--
+			var string_loading = 'Loading...';
+		// -->
+		</script>
+		<script type="text/javascript" language="JavaScript" src="javascript/xmlhttprequest.js"></script>
+		<script type="text/javascript" language="JavaScript" src="javascript/addLoadEvent.js"></script>
+		<script type="text/javascript" language="JavaScript" src="javascript/dynamic_filters.js"></script>
+		<br />
+<form name="bug_action" method="get" action="bug_actiongroup_page.php">
+<table id="buglist" class="width100" cellspacing="1">
+<tr>
+	<td class="form-title" colspan="10">
+		Viewing Issues (1 - 50 / 2818)
+		<span class="small"> <span class="bracket-link">[&nbsp;<a href="print_all_bug_page.php">Print Reports</a>&nbsp;]</span> &nbsp;<span class="bracket-link">[&nbsp;<a href="csv_export.php">CSV Export</a>&nbsp;]</span>  </span>
+	</td>
+
+	<td class="right" colspan="2">
+		<span class="small"> [  First  Prev 1&nbsp;<a href="view_all_bug_page.php?page_number=2">2</a>&nbsp;<a href="view_all_bug_page.php?page_number=3">3</a>&nbsp;<a href="view_all_bug_page.php?page_number=4">4</a>&nbsp;<a href="view_all_bug_page.php?page_number=5">5</a>&nbsp;<a href="view_all_bug_page.php?page_number=6">6</a>&nbsp;<a href="view_all_bug_page.php?page_number=7">7</a>&nbsp;<a href="view_all_bug_page.php?page_number=8">8</a>&nbsp;<a href="view_all_bug_page.php?page_number=9">9</a>&nbsp;<a href="view_all_bug_page.php?page_number=10">10</a>&nbsp;<a href="view_all_bug_page.php?page_number=11">11</a> ...  <a href="view_all_bug_page.php?page_number=2">Next</a>  <a href="view_all_bug_page.php?page_number=57">Last</a>  ] </span>
+	</td>
+</tr>
+<tr class="row-category">
+<td> &nbsp; </td><td> &nbsp; </td><td><a href="view_all_set.php?sort=priority&amp;dir=DESC&amp;type=2">P</a></td><td><a href="view_all_set.php?sort=id&amp;dir=DESC&amp;type=2">ID</a></td>	<td><a href="view_all_set.php?sort=sponsorship_total&amp;dir=DESC&amp;type=2">US$</a></td>
+<td> # </td>	<td><img src="http://www.mantisbt.org/demo/images/attachment.png" alt="" /></td>
+<td><a href="view_all_set.php?sort=category&amp;dir=DESC&amp;type=2">Category</a></td><td><a href="view_all_set.php?sort=severity&amp;dir=DESC&amp;type=2">Severity</a></td><td><a href="view_all_set.php?sort=status&amp;dir=DESC&amp;type=2">Status</a></td><td><a href="view_all_set.php?sort=last_updated&amp;dir=ASC&amp;type=2">Updated</a><img src="http://www.mantisbt.org/demo/images/down.gif" alt="" /></td><td><a href="view_all_set.php?sort=summary&amp;dir=DESC&amp;type=2">Summary</a></td></tr>
+
+<tr class="spacer">
+	<td colspan="12"></td>
+</tr>
+<tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6138">0006138</a></td>	<td class="right"></td>
+<td class="center"><span class="bold"><a href="view.php?id=6138&amp;nbn=2#bugnotes">2</a></span></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center"><span class="bold">crash</span></td><td class="center"><span class="issue-status" title="unable to reproduce">assigned</span> (12333)</td><td class="center"><span class="bold">2009-06-11</span></td><td class="left">Page does not show up</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6139">0006139</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (1234567876543)</td><td class="center"><span class="bold">2009-06-11</span></td><td class="left">323</td></tr><tr bgcolor="#ffd850" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6136">0006136</a></td>	<td class="right"></td>
+<td class="center"><span class="bold"><a href="view.php?id=6136&amp;nbn=3#bugnotes">3</a></span></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">feature</td><td class="center"><span class="issue-status" title="open">acknowledged</span> (pugre)</td><td class="center"><span class="bold">2009-06-11</span></td><td class="left">Schnittstelle Kaffeemaschine &lt;-&gt; SoftM entwickeln</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_low_1.gif" alt="" title="low" /></td><td><a href="view.php?id=6117">0006117</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6117&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">trivial</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-11</td><td class="left">test sum</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_2.gif" alt="" title="urgent" /></td><td><a href="view.php?id=6135">0006135</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6135&amp;nbn=5#bugnotes">5</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">feature</td><td class="center"><span class="issue-status" title="fixed">closed</span> (pugre)</td><td class="center">2009-06-11</td><td class="left">5 Kaffeemaschinen mit USB-Anschluss bestellen</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_3.gif" alt="" title="immediate" /></td><td><a href="view.php?id=6134">0006134</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6134&amp;nbn=4#bugnotes">4</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">feature</td><td class="center"><span class="issue-status" title="open">assigned</span> (pugre)</td><td class="center">2009-06-11</td><td class="left">Automatische Kaffeenachbestellung</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6103">0006103</a></td>	<td class="right"><span class="nowrap">US$ 5</span></td>
+<td class="center"><a href="view.php?id=6103&amp;nbn=2#bugnotes">2</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">feature</td><td class="center"><span class="issue-status" title="open">assigned</span> (pugre)</td><td class="center">2009-06-11</td><td class="left">Aufgabenbeschreibung 1</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_2.gif" alt="" title="urgent" /></td><td><a href="view.php?id=6132">0006132</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center"><span class="bold">crash</span></td><td class="center"><span class="issue-status" title="open">assigned</span> (abababa)</td><td class="center">2009-06-11</td><td class="left">test test</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6133">0006133</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (andrag)</td><td class="center">2009-06-10</td><td class="left">Bugg that appears randomly in GUI</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_3.gif" alt="" title="immediate" /></td><td><a href="view.php?id=6131">0006131</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (1001)</td><td class="center">2009-06-09</td><td class="left">adsa</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_low_1.gif" alt="" title="low" /></td><td><a href="view.php?id=6130">0006130</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">trivial</td><td class="center"><span class="issue-status" title="open">assigned</span> (000haramparam)</td><td class="center">2009-06-09</td><td class="left">test</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6129">0006129</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-09</td><td class="left">trest</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6128">0006128</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6128&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">closed</span> (gkinnear)</td><td class="center">2009-06-09</td><td class="left">HR Relocation Employees tracking</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_2.gif" alt="" title="urgent" /></td><td><a href="view.php?id=6127">0006127</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center"><span class="bold">crash</span></td><td class="center"><span class="issue-status" title="open">assigned</span> (AA)</td><td class="center">2009-06-09</td><td class="left">göht gar nix mehr, wenn ich oben links klick</td></tr><tr bgcolor="#cceedd" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6126">0006126</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6126&amp;nbn=2#bugnotes">2</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">resolved</span> (cbfb)</td><td class="center">2009-06-09</td><td class="left">This is to test invoicing</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6125">0006125</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6125&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">closed</span> (cbfb)</td><td class="center">2009-06-08</td><td class="left">This is to test the billing functionality</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6124">0006124</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6124&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-08</td><td class="left">Peta</td></tr><tr bgcolor="#ff50a8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6123">0006123</a></td>	<td class="right"><span class="nowrap">US$ 5</span></td>
+<td class="center"><a href="view.php?id=6123&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">feedback</span> (000msix)</td><td class="center">2009-06-08</td><td class="left">blah...</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6122">0006122</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-08</td><td class="left">PDWdemo1 issue001</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6121">0006121</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-08</td><td class="left">PDWdemo1 issue001</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6119">0006119</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (someone)</td><td class="center">2009-06-08</td><td class="left">test</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_low_1.gif" alt="" title="low" /></td><td><a href="view.php?id=6118">0006118</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">trivial</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-07</td><td class="left">test sum</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_low_1.gif" alt="" title="low" /></td><td><a href="view.php?id=6116">0006116</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">trivial</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-07</td><td class="left">test sum</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_3.gif" alt="" title="immediate" /></td><td><a href="view.php?id=6115">0006115</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center"><span class="bold">major</span></td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-06</td><td class="left">Prueba</td></tr><tr bgcolor="#cceedd" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_3.gif" alt="" title="immediate" /></td><td><a href="view.php?id=6085">0006085</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6085&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center"><span class="bold">major</span></td><td class="center"><span class="issue-status" title="fixed">resolved</span> (unreal)</td><td class="center">2009-06-05</td><td class="left">???-?? ?????????? ??????????</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6113">0006113</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">closed</span></td><td class="center">2009-06-05</td><td class="left">Child issue</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6112">0006112</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">closed</span></td><td class="center">2009-06-05</td><td class="left">Parent issue</td></tr><tr bgcolor="#cceedd" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6114">0006114</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">resolved</span> (test)</td><td class="center">2009-06-05</td><td class="left">Duplacate issue</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6111">0006111</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">tweak</td><td class="center"><span class="issue-status" title="open">assigned</span> (kingface)</td><td class="center">2009-06-05</td><td class="left">What</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_1.gif" alt="" title="high" /></td><td><a href="view.php?id=6110">0006110</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center"><span class="bold">crash</span></td><td class="center"><span class="issue-status" title="open">assigned</span> (jpn)</td><td class="center">2009-06-05</td><td class="left">Impossibility to log in</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6109">0006109</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">tweak</td><td class="center"><span class="issue-status" title="open">assigned</span> (kingface)</td><td class="center">2009-06-05</td><td class="left">What</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6107">0006107</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6107&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">feature</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-05</td><td class="left">Alles doof</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_low_1.gif" alt="" title="low" /></td><td><a href="view.php?id=6105">0006105</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6105&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-05</td><td class="left">log in</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6106">0006106</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (reibi)</td><td class="center">2009-06-05</td><td class="left">nice bug 0815</td></tr><tr bgcolor="#cceedd" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6104">0006104</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6104&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">resolved</span> (someonenew)</td><td class="center">2009-06-04</td><td class="left">Helpdesk Index page appears in properly</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6049">0006049</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6049&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center"><span class="bold">crash</span></td><td class="center"><span class="issue-status" title="open">assigned</span> (MarcoE)</td><td class="center">2009-06-04</td><td class="left">Kamera geht nicht an</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6097">0006097</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">text</td><td class="center"><span class="issue-status" title="fixed">assigned</span> (1340)</td><td class="center">2009-06-04</td><td class="left">Summary</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6102">0006102</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-04</td><td class="left">test1</td></tr><tr bgcolor="#ffffb0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_1.gif" alt="" title="high" /></td><td><a href="view.php?id=6101">0006101</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6101&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">feature</td><td class="center"><span class="issue-status" title="open">confirmed</span> (pugre)</td><td class="center">2009-06-04</td><td class="left">Projekt 1</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6098">0006098</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center">text</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-04</td><td class="left">Summary</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6046">0006046</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6046&amp;nbn=2#bugnotes">2</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">major</td><td class="center"><span class="issue-status" title="open">closed</span></td><td class="center">2009-06-04</td><td class="left">problème</td></tr><tr bgcolor="#e8e8e8" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6095">0006095</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="fixed">closed</span> (123kid)</td><td class="center">2009-06-04</td><td class="left">nothing works</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6094">0006094</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (richi)</td><td class="center">2009-06-04</td><td class="left">crash while exporting data</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6093">0006093</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Website</td><td class="center"><span class="bold">major</span></td><td class="center"><span class="issue-status" title="open">assigned</span> (ialvarez)</td><td class="center">2009-06-03</td><td class="left">Error al dar de alta</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6092">0006092</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-03</td><td class="left">Resumen</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6090">0006090</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-03</td><td class="left">Resumen</td></tr><tr bgcolor="#ffd850" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6077">0006077</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6077&amp;nbn=1#bugnotes">1</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />Other</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">acknowledged</span> (000haramparam)</td><td class="center">2009-06-03</td><td class="left">Test Again</td></tr><tr bgcolor="#ffd850" border="1"><td>&nbsp;</td><td>&nbsp;</td><td><img src="http://www.mantisbt.org/demo/images/priority_3.gif" alt="" title="immediate" /></td><td><a href="view.php?id=6086">0006086</a></td>	<td class="right"></td>
+<td class="center"><a href="view.php?id=6086&amp;nbn=2#bugnotes">2</a></td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center"><span class="bold">major</span></td><td class="center"><span class="issue-status" title="open">acknowledged</span> (foolme)</td><td class="center">2009-06-03</td><td class="left">Upload new content to lancs</td></tr><tr bgcolor="#ffa0a0" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6088">0006088</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">new</span></td><td class="center">2009-06-03</td><td class="left">err: form</td></tr><tr bgcolor="#c8c8ff" border="1"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><a href="view.php?id=6087">0006087</a></td>	<td class="right"></td>
+<td class="center">&nbsp;</td>	<td> &nbsp; </td>
+<td class="center"><small>[<a href="view_all_set.php?sort=project_id&amp;dir=DESC&amp;type=2">Demo</a>]</small><br />GUI</td><td class="center">minor</td><td class="center"><span class="issue-status" title="open">assigned</span> (HeyHey)</td><td class="center">2009-06-03</td><td class="left">Cannot send email alert</td></tr>	<tr>
+		<td class="left" colspan="10">
+&nbsp;		</td>
+				<td class="right" colspan="2">
+			<span class="small">
+				[  First  Prev 1&nbsp;<a href="view_all_bug_page.php?page_number=2">2</a>&nbsp;<a href="view_all_bug_page.php?page_number=3">3</a>&nbsp;<a href="view_all_bug_page.php?page_number=4">4</a>&nbsp;<a href="view_all_bug_page.php?page_number=5">5</a>&nbsp;<a href="view_all_bug_page.php?page_number=6">6</a>&nbsp;<a href="view_all_bug_page.php?page_number=7">7</a>&nbsp;<a href="view_all_bug_page.php?page_number=8">8</a>&nbsp;<a href="view_all_bug_page.php?page_number=9">9</a>&nbsp;<a href="view_all_bug_page.php?page_number=10">10</a>&nbsp;<a href="view_all_bug_page.php?page_number=11">11</a> ...  <a href="view_all_bug_page.php?page_number=2">Next</a>  <a href="view_all_bug_page.php?page_number=57">Last</a>  ]			</span>
+		</td>
+	</tr>
+</table>
+</form>
+
+<br /><table class="width100" cellspacing="1"><tr><td class="small-caption" width="14%" bgcolor="#ffa0a0">new</td><td class="small-caption" width="14%" bgcolor="#ff50a8">feedback</td><td class="small-caption" width="14%" bgcolor="#ffd850">acknowledged</td><td class="small-caption" width="14%" bgcolor="#ffffb0">confirmed</td><td class="small-caption" width="14%" bgcolor="#c8c8ff">assigned</td><td class="small-caption" width="14%" bgcolor="#cceedd">resolved</td><td class="small-caption" width="14%" bgcolor="#e8e8e8">closed</td></tr></table>	<br />
+	<hr size="1" />
+<table border="0" width="100%" cellspacing="0" cellpadding="0"><tr valign="top"><td>	<span class="timer"><a href="http://www.mantisbt.org/" title="Free Web Based Bug Tracker">Mantis 1.1.5</a>[<a href="http://www.mantisbt.org/"  title="Free Web Based Bug Tracker" target="_blank">^</a>]</span>
+	<address>Copyright &copy; 2000 - 2008 Mantis Group</address>
+</td><td><div align="right"><a href="http://www.mantisbt.org" title="Free Web Based Bug Tracker"><img src="images/mantis_logo_button.gif" width="88" height="35" alt="Powered by Mantis Bugtracker" border="0" /></a></div></td></tr></table></body>
+</html>

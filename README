@@ -1,20 +1,21 @@
 Dependencies
 ------------
 
- * Python >= 2.4
- * Python Storm (optional, required only for database output)
+ * python >= 2.4
+ * python-storm (0.14)
+ * python-beautifulsoup (3.1)
+ * python-progressbar (2.2) (optional)
+ * python-webpy (0.310) (for website)
 
 
 Database Output Results
 ----------------------
 
-Database output device uses storm, which is an object-relational mapper (ORM) for Python, 
-so it has to be installed in order to be able to use it. Depending on the 
-database driver to be used, the following specific libraries will be needed too:
+Database output device uses storm, which is an object-relational mapper
+(ORM) for Python, so it has to be installed in order to be able to use it.
 
- * MySQL support depends on the MySQLdb module for Python
- * PostgreSQL support depends on the psycopg2 module for Python
- * SQLite support depends on the pysqlite2 module for Python
+Support for MySQL and PostgreSQL have been droped until we have a propper
+database schema defined. Currently, only SQLite is supported.
 
 
 Contact
@@ -29,35 +30,136 @@ Contact
    http://lists.morfeo-project.org/pipermail/libresoft-tools-devel/
 
 
-Examples
---------
+Example Configuration
+---------------------
 
-Getting information from FreeMind project hosted in SourceForge
+Bicho has one mandatory configuration section, called "General", that should
+specify the frontend and backend to be used in the execution.
 
-1- Configure bicho.conf:
+This frontend and backend should be configured in another section with the
+same name. An example follows:
 
 [General]
-type=sf
-url=http://sourceforge.net/tracker/index.php?func=browse&group_id=138511&atid=740882&set=any
+frontend=stoq
+backend=stoq_dwh
 
-[DatabaseIn]
-db_driver_in=NotNeeded
-db_user_in=NotNeeded
-db_password_in=NotNeeded
-db_database_in=NotNeeded
-db_hostname_in=NotNeeded
-db_port_in=NotNeeded
+[stoq]
+type=bugzilla
+project=stoq
+fast=1
+url=http://bugs.async.com.br/buglist.cgi?bug_id=3906,3068,3884,3891,3171
 
-[DatabaseOut]
-db_driver_out=mysql
-db_user_out=password
-db_password_out=password
-db_database_out=Bicho_FreeMind
-db_hostname_out=localhost
-db_port_out=3306
+[adenpiere]
+project=adenpiere
+type=sourceforge
+fast=1
+group_id=176962
+atid = 879332
+
+[swallow]
+project=Foo
+type=sourceforge
+group_id = 138511
+atid = 740882
+
+[stoq_dwh]
+type=dwh
+db_driver=sqlite
+db_database=bicho_dwh_stoq
+
+[sf_dwh]
+type=dwh
+db_driver=sqlite
+db_database=bicho_dwh_sf
+
+The configuration parameters depend on the type of the frontend/backend. For
+instance, a SourceForge project requires the group_id and atid parameters
+found on the url for the project, while a Buzilla project requires a url for
+a bug search. For more information about the required parameters, see the
+source code for each one.
+
+# TODO: Add a way to show this information using bicho command line.
 
 
-2- Command line options
+Executing Bicho
+---------------
 
-bicho -t sf --db-driver_out mysql --db-user_out password --db-password_out password --db-database_out Bicho_FreeMind --db-hostname_out localhost --db-port_out 3306 "http://sourceforge.net/tracker/index.php?func=browse&group_id=138511&atid=740882&set=any"
+To execute bicho uninstalled, you need to do the following:
+
+1 - Make sure the current directory is under your python loading path. A
+simple way to do this is:
+
+export PYTHONPATH=./:$PYTHONPATH
+
+And run bicho from the project root directory.
+
+2 - Run bicho:
+
+./bin/bicho
+
+# TODO: Create a distutils setup script and a debian package.
+
+
+
+Directory Organization
+----------------------
+
+This project has the following contents:
+
+- README: This file
+- bicho.ini: Configuration file for bicho, as described above
+- bicho.log: After bicho runs, this file will have more information about
+             that execution.
++ bin: Executable files.
++ doc: More information about the project.
++ samples: Sample html pages from different bug trackers.
++ bicho: Python Modules
+    - domain.py: Objects from bicho domain (bugs, comments, etc...)
+    - interfaces.py: Base classes for the frontends and backends.
+    - main.py: Contains the main bicho class and start function.
+    - progress.py: Pretty progress bar.
+    - utils.py: Option parsing and debuging functions.
+    + backends: The backends
+        - dwh.py: Stores on a data warehouse
+        - sqlbug.py: Stores on a schema similar to the BTs
+        - stdout.py: Prints on the screen.
+    + frontends:
+        - baseparser.py: A Base parser for all frontends.
+        - bugzilla.py:
+        - sourceforge.py:
+        - mantis.py:
+        - utils.py:
+    + www: A sample web server.
+
+
+Under the hood
+--------------
+
+In a nutshell, when running bicho, the following happen:
+
+1) an instance of the corresponding classes for the frontend and backend is
+created, acording to the configuration.
+
+2) an instance of Bicho is created, with the frontend and backend as it
+argument.
+
+3) the frontend's method 'prepare' is called. This method should load a list
+of bugs accoding to the configuration.
+
+4) the frontend's method 'run' is called, with the backend as it argument.
+
+    For each bug in the buglist loaded, the run method will do:
+
+    4.1) "Ask" the backend if it wants the bug
+    4.2) Analize the bug (load from the original BT)
+    4.3) Send the bug to the backend
+
+5) When the process finishes, the backend's method 'done' is called, so that
+it can commit the changes.
+
+
+More Information
+----------------
+
+For more information see files under doc/
 

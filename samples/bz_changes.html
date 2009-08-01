@@ -1,0 +1,510 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  
+    <title>Changes made to bug 387705</title>
+
+
+<link rel="Top" href="https://bugzilla.mozilla.org/">
+
+  
+
+  
+
+
+  
+    <link rel="Show" title="Dependency Tree" href="https://bugzilla.mozilla.org/showdependencytree.cgi?id=387705&amp;hide_resolved=1">
+      <link rel="Show" title="Dependency Graph" href="https://bugzilla.mozilla.org/showdependencygraph.cgi?id=387705">
+
+      <link rel="Show" title="Votes (0)" href="https://bugzilla.mozilla.org/votes.cgi?action=show_bug&amp;bug_id=387705">
+
+      <link rel="Show" title="Bug Activity" href="https://bugzilla.mozilla.org/show_activity.cgi?id=387705">
+      <link rel="Show" title="Printer-Friendly Version" href="https://bugzilla.mozilla.org/show_bug.cgi?format=multiple&amp;id=387705">
+
+
+  
+    <link rel="Saved&nbsp;Searches" title="My Bugs" href="https://bugzilla.mozilla.org/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;emailassigned_to1=1&amp;emailreporter1=1&amp;emailtype1=exact&amp;email1=romaia%40async.com.br&amp;field0-0-0=bug_status&amp;type0-0-0=notequals&amp;value0-0-0=UNCONFIRMED&amp;field0-0-1=reporter&amp;type0-0-1=equals&amp;value0-0-1=romaia%40async.com.br">
+
+    <link rel="Saved&nbsp;Searches" title="All My Bugs" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=All%20My%20Bugs">
+    <link rel="Saved&nbsp;Searches" title="Bugzilla 3.2" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=Bugzilla%203.2">
+    <link rel="Saved&nbsp;Searches" title="custom fields" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=custom%20fields">
+    <link rel="Saved&nbsp;Searches" title="Regressions" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=Regressions">
+    <link rel="Saved&nbsp;Searches" title="remember" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=remember">
+
+    <link rel="Saved&nbsp;Search" title="Bugs Filed Today (reed@mozilla.com)" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=Bugs%20Filed%20Today&amp;sharer_id=159758">
+    <link rel="Saved&nbsp;Search" title="tb3-blocking-plus-and-question (dmose@mozilla.org)" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=tb3-blocking-plus-and-question&amp;sharer_id=1537">
+    <link rel="Saved&nbsp;Search" title="tb3needs (dmose@mozilla.org)" href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=tb3needs&amp;sharer_id=1537">
+
+
+    
+
+    
+      <link href="bz_changes_arquivos/global_003.css" rel="stylesheet" type="text/css">
+    <!--[if IE]>
+      
+      <link href="skins/standard/IE-fixes.css"
+            rel="stylesheet"
+            type="text/css">
+    <![endif]-->
+
+    
+        <link href="bz_changes_arquivos/global_003.css" rel="stylesheet" title="Classic" type="text/css">
+      <!--[if IE]>
+        
+        <link href="skins/standard/IE-fixes.css"
+              rel="stylesheet"
+              title="Classic"
+              type="text/css">
+      <![endif]-->
+
+    
+        
+            <link href="bz_changes_arquivos/global.css" rel="alternate stylesheet" title="Dusk" type="text/css">
+        <!--[if IE]>
+          
+          <link href="skins/contrib/Dusk/IE-fixes.css"
+                rel="alternate stylesheet"
+                title="Dusk"
+                type="text/css">
+        <![endif]-->
+
+    
+
+    
+        <link href="bz_changes_arquivos/global_002.css" rel="stylesheet" type="text/css">
+    <!--[if IE]>
+      
+      <link href="skins/custom/IE-fixes.css"
+            rel="stylesheet"
+            type="text/css">
+    <![endif]-->
+
+
+
+
+    
+
+
+    
+    <link rel="search" type="application/opensearchdescription+xml" title="Bugzilla@Mozilla" href="https://bugzilla.mozilla.org/search_plugin.cgi">
+    <link rel="shortcut icon" href="https://bugzilla.mozilla.org/skins/custom/images/bugzilla.png">
+  </head><body onload="" class="bugzilla-mozilla-org">
+
+  <div id="mozilla-org"><a href="http://www.mozilla.org/" title="Visit mozilla.org">Visit mozilla.org</a></div>
+
+
+
+
+<div id="header">
+<div id="banner">
+  </div>
+
+<table id="titles" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+    <td id="title">
+      <p>Bugzilla@Mozilla – Activity log for bug 387705: Single dependency loop detect not working.</p>
+    </td>
+
+    <td id="subtitle">
+      <p class="subheader">Bug <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=387705">387705</a></p>
+    </td>
+
+</tr>
+</tbody></table>
+<ul class="links">
+  <li><a href="https://bugzilla.mozilla.org/">Home</a></li>
+  <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get" onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" id="quicksearch_top" name="quicksearch" type="text">
+    <input class="btn" value="Find" id="find_top" type="submit"></form></li>
+
+  <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/report.cgi">Reports</a></li>
+
+  <li>
+      <span class="separator">| </span>
+        <a href="https://bugzilla.mozilla.org/request.cgi?requester=romaia%40async.com.br&amp;requestee=romaia%40async.com.br&amp;do_union=1&amp;group=type&amp;action=queue">My Requests</a></li>
+
+    <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/votes.cgi?action=show_user">My&nbsp;Votes</a></li>
+
+    <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/userprefs.cgi">Preferences</a></li>
+
+
+    <li>
+      <span class="separator">| </span>
+        <a href="https://bugzilla.mozilla.org/relogin.cgi">Log&nbsp;out</a>
+        romaia@async.com.br</li>
+</ul>
+
+</div>
+
+<div id="bugzilla-body">
+<!-- <div style="border: 2px dotted red; -moz-radius: 10px">
+<p style="padding: 5px; margin: 0px; color: red; text-align: center;">We will be <a href="show_bug.cgi?id=476549">upgrading our Bugzilla instance</a> today (Monday, February 2) at 5:00pm PST (1:00am Tue UTC) to pick up upstream fixes.  No downtime is expected, but if there is any it will be brief.</p>
+</div>
+<br> -->
+
+<table border="1" cellpadding="4">
+    <tbody><tr>
+        <th>Who</th>
+      <th>When</th>
+      <th>What</th>
+      <th>Removed</th>
+      <th>Added</th>
+    </tr>
+
+      <tr>
+          <td rowspan="2" valign="top">romaia@async.com.br
+          </td>
+
+        <td rowspan="2" valign="top">2007-07-11 12:06:23 PDT
+        </td>
+            <td>
+              CC
+            </td>
+            <td>
+            </td>
+            <td>mkanat@bugzilla.org, LpSolit@gmail.com
+            </td></tr><tr>
+            <td>
+              Depends on
+            </td>
+            <td>
+            </td>
+            <td><span class="bz_closed"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=385379" title="RESOLVED FIXED - Move dependency DB updating from process_bug into Bugzilla::Bug">385379</a></span>
+            </td>
+      </tr>
+      <tr>
+          <td rowspan="8" valign="top">LpSolit@gmail.com
+          </td>
+
+        <td rowspan="8" valign="top">2007-07-11 12:09:24 PDT
+        </td>
+            <td>
+              Severity
+            </td>
+            <td>normal
+            </td>
+            <td>critical
+            </td></tr><tr>
+            <td>
+              Status
+            </td>
+            <td>UNCONFIRMED
+            </td>
+            <td>NEW
+            </td></tr><tr>
+            <td>
+              Ever Confirmed
+            </td>
+            <td>0
+            </td>
+            <td>1
+            </td></tr><tr>
+            <td>
+              OS/Version
+            </td>
+            <td>Linux
+            </td>
+            <td>All
+            </td></tr><tr>
+            <td>
+              Platform
+            </td>
+            <td>PC
+            </td>
+            <td>All
+            </td></tr><tr>
+            <td>
+              Target Milestone
+            </td>
+            <td>---
+            </td>
+            <td>Bugzilla 3.2
+            </td></tr><tr>
+            <td>
+              Version
+            </td>
+            <td>unspecified
+            </td>
+            <td>3.1
+            </td></tr><tr>
+            <td>
+              Flag
+            </td>
+            <td>
+            </td>
+            <td>blocking3.1.1+
+            </td>
+      </tr>
+      <tr>
+          <td rowspan="1" valign="top">romaia@async.com.br
+          </td>
+
+        <td rowspan="1" valign="top">2007-07-11 12:30:14 PDT
+        </td>
+            <td>
+                <a href="https://bugzilla.mozilla.org/attachment.cgi?id=271879">
+                Attachment #271879</a>
+              Flag
+            </td>
+            <td>
+            </td>
+            <td>review?(LpSolit@gmail.com)
+            </td>
+      </tr>
+      <tr>
+          <td rowspan="3" valign="top">romaia@async.com.br
+          </td>
+
+        <td rowspan="3" valign="top">2007-07-11 12:34:19 PDT
+        </td>
+            <td>
+                <a href="https://bugzilla.mozilla.org/attachment.cgi?id=271879">
+                Attachment #271879</a>
+              Flag
+            </td>
+            <td>review?(LpSolit@gmail.com)
+            </td>
+            <td>
+            </td></tr><tr>
+            <td>
+                <a href="https://bugzilla.mozilla.org/attachment.cgi?id=271879">
+                Attachment #271879</a>
+              is obsolete
+            </td>
+            <td>0
+            </td>
+            <td>1
+            </td></tr><tr>
+            <td>
+                <a href="https://bugzilla.mozilla.org/attachment.cgi?id=271882">
+                Attachment #271882</a>
+              Flag
+            </td>
+            <td>
+            </td>
+            <td>review?(LpSolit@gmail.com)
+            </td>
+      </tr>
+      <tr>
+          <td rowspan="1" valign="top">LpSolit@gmail.com
+          </td>
+
+        <td rowspan="1" valign="top">2007-07-11 12:36:18 PDT
+        </td>
+            <td>
+                <a href="https://bugzilla.mozilla.org/attachment.cgi?id=271882">
+                Attachment #271882</a>
+              Flag
+            </td>
+            <td>review?(LpSolit@gmail.com)
+            </td>
+            <td>review+
+            </td>
+      </tr>
+      <tr>
+          <td rowspan="2" valign="top">LpSolit@gmail.com
+          </td>
+
+        <td rowspan="2" valign="top">2007-07-11 12:36:46 PDT
+        </td>
+            <td>
+              AssignedTo
+            </td>
+            <td>create-and-change@bugzilla.bugs
+            </td>
+            <td>romaia@async.com.br
+            </td></tr><tr>
+            <td>
+              Flag
+            </td>
+            <td>
+            </td>
+            <td>approval+
+            </td>
+      </tr>
+      <tr>
+          <td rowspan="3" valign="top">LpSolit@gmail.com
+          </td>
+
+        <td rowspan="3" valign="top">2007-07-11 12:40:45 PDT
+        </td>
+            <td>
+              Status
+            </td>
+            <td>NEW
+            </td>
+            <td>RESOLVED
+            </td></tr><tr>
+            <td>
+              Keywords
+            </td>
+            <td>
+            </td>
+            <td>regression
+            </td></tr><tr>
+            <td>
+              Resolution
+            </td>
+            <td>
+            </td>
+            <td>FIXED
+            </td>
+      </tr>
+
+  </tbody></table>
+
+  <p><span class="bz_closed"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=387705" title="RESOLVED FIXED - Single dependency loop detect not working.">Back to bug 387705</a></span>
+  </p>
+</div>
+
+
+
+<div id="footer">
+  <div class="intro"></div>
+
+
+
+
+<ul id="useful-links">
+  <li id="links-actions">
+    <div class="label">Actions: </div><ul class="links">
+  <li><a href="https://bugzilla.mozilla.org/">Home</a></li>
+  <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/enter_bug.cgi">New</a></li>
+  <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/query.cgi">Search</a></li>
+
+  <li class="form">
+    <span class="separator">| </span>
+    <form action="buglist.cgi" method="get" onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+    <input class="txt" id="quicksearch_bottom" name="quicksearch" type="text">
+    <input class="btn" value="Find" id="find_bottom" type="submit"></form></li>
+
+  <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/report.cgi">Reports</a></li>
+
+  <li>
+      <span class="separator">| </span>
+        <a href="https://bugzilla.mozilla.org/request.cgi?requester=romaia%40async.com.br&amp;requestee=romaia%40async.com.br&amp;do_union=1&amp;group=type&amp;action=queue">My Requests</a></li>
+
+    <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/votes.cgi?action=show_user">My&nbsp;Votes</a></li>
+
+    <li><span class="separator">| </span><a href="https://bugzilla.mozilla.org/userprefs.cgi">Preferences</a></li>
+
+
+    <li>
+      <span class="separator">| </span>
+        <a href="https://bugzilla.mozilla.org/relogin.cgi">Log&nbsp;out</a>
+        romaia@async.com.br</li>
+</ul>
+  </li>
+
+  
+    
+    <li id="links-saved">
+      <div class="label">
+        Saved Searches:
+      </div>
+      <ul class="links">
+          <li><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;emailassigned_to1=1&amp;emailreporter1=1&amp;emailtype1=exact&amp;email1=romaia%40async.com.br&amp;field0-0-0=bug_status&amp;type0-0-0=notequals&amp;value0-0-0=UNCONFIRMED&amp;field0-0-1=reporter&amp;type0-0-1=equals&amp;value0-0-1=romaia%40async.com.br">My Bugs</a></li>
+
+            <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=All%20My%20Bugs">All My Bugs</a></li>
+            <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=Bugzilla%203.2">Bugzilla 3.2</a></li>
+            <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=custom%20fields">custom fields</a></li>
+            <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=Regressions">Regressions</a></li>
+            <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=runnamed&amp;namedcmd=remember">remember</a></li>
+            <br>
+          <li>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=Bugs%20Filed%20Today&amp;sharer_id=159758" class="shared" title="Shared by Reed Loden [:reed] &lt;reed@mozilla.com&gt;">Bugs&nbsp;Filed&nbsp;Today</a></li>
+          <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=tb3-blocking-plus-and-question&amp;sharer_id=1537" class="shared" title="Shared by Dan Mosedale (:dmose) &lt;dmose@mozilla.org&gt;">tb3‑blocking‑plus‑and‑question</a></li>
+          <li><span class="separator">| </span>
+            <a href="https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=tb3needs&amp;sharer_id=1537" class="shared" title="Shared by Dan Mosedale (:dmose) &lt;dmose@mozilla.org&gt;">tb3needs</a></li>
+      </ul>
+    </li>
+
+  
+<li id="links-special">
+    <script type="text/javascript">
+      <!--
+      function update_text() {
+        // 'lob' means list_of_bugs.
+        var lob_action = document.getElementById('lob_action');
+        var action = lob_action.options[lob_action.selectedIndex].value;
+        var text = document.getElementById('lob_direction');
+        var new_query_text = document.getElementById('lob_new_query_text');
+
+        if (action == "add") {
+          text.innerHTML = "to";
+          new_query_text.style.display = 'inline';
+        }
+        else {
+          text.innerHTML = "from";
+          new_query_text.style.display = 'none';
+        }
+      }
+
+      function manage_old_lists() {
+        var old_lists = document.getElementById('lob_oldqueryname');
+        // If there is no saved searches available, returns.
+        if (!old_lists) return;
+
+        var new_query = document.getElementById('lob_newqueryname').value;
+
+        if (new_query != "") {
+          old_lists.disabled = true;
+        }
+        else {
+          old_lists.disabled = false;
+        }
+      }
+      //-->
+    </script>
+
+    
+    <div class="label"></div>
+    <ul class="links"><li class="form">
+      <form id="list_of_bugs" action="buglist.cgi" method="get">
+        <input name="cmdtype" value="doit" type="hidden">
+        <input name="remtype" value="asnamed" type="hidden">
+        <input name="list_of_bugs" value="1" type="hidden">
+        <select id="lob_action" name="action" onchange="update_text();">
+          <option value="add">Add</option>
+            <option value="remove">Remove</option>
+        </select>
+
+          <a href="http://www.bugzilla.org/docs/tip/html/query.html#individual-buglists">the named tag</a>
+
+          <select id="lob_oldqueryname" name="oldqueryname">
+              <option value="remember">remember</option>
+          </select>
+        <span id="lob_new_query_text"> or create and add the tag
+          <input class="txt" id="lob_newqueryname" size="20" maxlength="64" name="newqueryname" onkeyup="manage_old_lists();" type="text">
+        </span>
+        <span id="lob_direction">to</span>
+        bugs
+        <input name="bug_ids" size="12" maxlength="80" type="text">
+        <input value="Commit" id="commit_list_of_bugs" type="submit">
+      </form>
+    </li></ul>
+  </li>
+
+  
+</ul>
+
+  <div class="outro"></div>
+</div>
+
+</body></html>
