@@ -26,12 +26,26 @@ from bicho.progress import progress
 
 
 USAGE = """
-Usage: bicho [options] [URL]
+Usage: %(program_name)s [options] [URL]
 
 It extracts data from bug tracking systems from a project given
 
-FIXME
+Available frontend types:
+    %(frontends)s
+
+Available backend types:
+    %(backends)s
 """
+
+def print_usage():
+    frontends = 'FIXME'
+    backends = 'FIXME'
+
+    print USAGE % dict(program_name = 'bicho',
+                       frontends = frontends,
+                       backends = backends,
+                    )
+
 
 
 class Bicho(object):
@@ -61,7 +75,7 @@ def main(params):
     options = OptionsStore(params)
 
     if options.help:
-        print USAGE
+        print_usage()
         return 0
 
     error = False

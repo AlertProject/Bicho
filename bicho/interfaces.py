@@ -19,6 +19,8 @@ import random
 import time
 import urllib
 
+from storm.locals import create_database, Store
+
 from bicho.utils import debug
 from bicho.progress import progress
 
@@ -47,6 +49,31 @@ class Backend(Interface):
 
     def want_bug(self, bug_id):
         pass
+
+class DBBackend(Backend):
+    setup_commands = None
+
+    def done(self):
+        self.store.commit()
+
+    def check_configuration(self):
+        valid = all([self.options.has_key(key) for key in
+                        self.required_fields])
+        if not valid:
+            return False
+
+        self.database = create_database(self.options['db_uri'])
+        self.store = Store(self.database)
+
+        # TODO: Add propper setup detection, and do not run this every time
+        self.setup()
+
+        return True
+
+    def setup(self):
+        driver = self.database.__class__.__name__
+        commands = self.setup_commands[driver]
+        [self.store.execute(c) for c in commands]
 
 
 class Frontend(Interface):
