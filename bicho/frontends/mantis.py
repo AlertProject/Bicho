@@ -42,14 +42,14 @@ class MantisParser(BaseParser):
     )
 
     field_map = {
-        'Status': 'status',
-        'Resolution': 'resolution',
-        'Assigned To': 'assignee',
+        'Status': u'status',
+        'Resolution': u'resolution',
+        'Assigned To': u'assignee',
     }
 
     status_map = {
-        'new': 'NEW',
-        'assigned': 'ASSIGNED',
+        'new': u'NEW',
+        'assigned': u'ASSIGNED',
     }
 
     resolution_map = {

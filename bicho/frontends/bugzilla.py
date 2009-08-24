@@ -41,6 +41,7 @@ class BugzillaParser(BaseParser):
         summary     = '/bugzilla/bug/short_desc',
         reporter    = '/bugzilla/bug/reporter',
         priority    = '/bugzilla/bug/priority',
+        severity    = '/bugzilla/bug/bug_severity',
         status      = '/bugzilla/bug/bug_status',
         resolution  = '/bugzilla/bug/resolution',
         open_date   = '/bugzilla/bug/creation_ts',
@@ -51,13 +52,14 @@ class BugzillaParser(BaseParser):
     )
 
     converter = dict(
+        bug_id=int,
         open_date = date_from_bz,
         last_changed = date_from_bz,
     )
 
     field_map = {
-        'Status': 'status',
-        'Resolution': 'resolution',
+        'Status': u'status',
+        'Resolution': u'resolution',
     }
 
 
@@ -67,9 +69,9 @@ class BugzillaParser(BaseParser):
         cmts = soup.findAll('long_desc')
         comments = []
         for c in cmts[1:]:
-            person = self.xpath('/who', c).contents[0]
+            person = self.xpath('/who', c).contents[0].strip()
             date = date_from_bz(self.xpath('/bug_when', c).contents[0])
-            text = self.xpath('/thetext', c).contents[0]
+            text = self.xpath('/thetext', c).contents[0].strip()
             comments.append(Comment(person=person,
                                     date=date, comment=text))
         return comments
@@ -97,9 +99,13 @@ class BugzillaParser(BaseParser):
 
         tables = soup.findAll('table')
         # We need the first table with 5 cols in the first line
+        table = None
         for table in tables:
             if len(table.tr.findAll('th')) == 5:
                 break
+
+        if table is None:
+            return changes
 
         rows = list(table.findAll('tr'))
         for row in rows[1:]:

@@ -46,24 +46,24 @@ class SourceForgeParser(BaseParser):
     )
 
     field_map = {
-        'status_id': 'status',
-        'resolution_id': 'resolution',
-        'assigned_to': 'assignee',
+        'status_id': u'status',
+        'resolution_id': u'resolution',
+        'assigned_to': u'assignee',
     }
 
     # FIXME: We should have a way to detecte reponened bugs
     status_map = {
-        'Open': 'OPEN',
-        'Pending': 'RESOLVED', #XXX
-        'Closed': 'RESOLVED',
-        'Deleted': 'RESOLVED',
+        'Open': u'OPEN',
+        'Pending': u'RESOLVED', #XXX
+        'Closed': u'RESOLVED',
+        'Deleted': u'RESOLVED',
     }
 
     resolution_map = {
-        'Fixed': 'FIXED',
-        'Invalid': 'INVALID',
-        'Duplicate': 'DUPLICATE',
-        "Works For Me": 'INVALID'
+        'Fixed': u'FIXED',
+        'Invalid': u'INVALID',
+        'Duplicate': u'DUPLICATE',
+        "Works For Me": u'INVALID'
         # Remind, Accepted
     }
 
