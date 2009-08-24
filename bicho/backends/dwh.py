@@ -18,116 +18,83 @@
 #
 
 import datetime
-from storm.locals import Store, create_database
 from storm.locals import DateTime, Unicode, Int, Date
 
 #from storm import database
 #database.DEBUG = True
-from bicho.interfaces import Backend, register_interface
+from bicho.interfaces import DBBackend, register_interface
 
-'''
-class SQLite(object):
+SETUP_COMMANDS = {
+    "SQLite": ("""
+            CREATE TABLE IF NOT EXISTS bugs (
+                id                  INTEGER PRIMARY KEY,
+                bug_id              INTEGER,
+                open_date           DATETIME,
+                closed_date         DATETIME,
+                status              VARCHAR,
+                resolution          VARCHAR,
+                total_comments      INTEGER,
+                total_changes       INTEGER,
+                total_attachments   INTEGER,
+                last_changed        DATETIME,
+                last_visited        DATETIME
+            )""",
+            """CREATE TABLE IF NOT EXISTS user_facts (
+                user            VARCHAR,
+                timestamp       DATE,
+                open_bugs       INTEGER,
+                fixed_bugs      INTEGER,
+                dup_bugs        INTEGER,
+                invalid_bugs    INTEGER,
+                reopenen_bugs   INTEGER,
+                comments        INTEGER,
+                attachments     INTEGER,
+                PRIMARY KEY (user, timestamp)
+            )""",
+            """CREATE TABLE IF NOT EXISTS bug_facts (
+                bug_id      INTEGER,
+                user        VARCHAR,
+                timestamp   DATE,
+                comments    INTEGER,
+                attachments INTEGER,
+                PRIMARY KEY (bug_id, user, timestamp)
+            )"""),
 
-    def __init__(self, opts):
-        self.options = opts
-
-        db_name = "%s:%s.db" % (opts['db_driver'],
-                                opts['db_database'])
-        self.database = create_database(db_name)
-        self.store = Store(self.database)
-
-        self.store.execute("""CREATE TABLE IF NOT EXISTS bugs (
-                            id                  INTEGER PRIMARY KEY,
-                            bug_id              INTEGER,
-                            open_date           DATETIME,
-                            closed_date         DATETIME,
-                            status              VARCHAR,
-                            resolution          VARCHAR,
-                            total_comments      INTEGER,
-                            total_changes       INTEGER,
-                            total_attachments   INTEGER,
-                            last_changed        DATETIME,
-                            last_visited        DATETIME
-                           )""")
-
-        self.store.execute("""CREATE TABLE IF NOT EXISTS user_facts (
-                            user            VARCHAR,
-                            timestamp       DATE,
-                            open_bugs       INTEGER,
-                            fixed_bugs      INTEGER,
-                            dup_bugs        INTEGER,
-                            invalid_bugs    INTEGER,
-                            reopenen_bugs   INTEGER,
-                            comments        INTEGER,
-                            attachments     INTEGER,
-                            PRIMARY KEY (user, timestamp)
-                           )""")
-
-        self.store.execute("""CREATE TABLE IF NOT EXISTS bug_facts (
-                            bug_id      INTEGER,
-                            user        VARCHAR,
-                            timestamp   DATE,
-                            comments    INTEGER,
-                            attachments INTEGER,
-                            PRIMARY KEY (bug_id, user, timestamp)
-                           )""")
-
-'''
-class DBMySQL(object):
-
-    def __init__(self, opts):
-        self.options = opts
-
-        try:
-          print opts['db_driver']
-          self.database = create_database(opts['db_driver'] +"://"+ 
-                      opts['db_user'] +":"+ opts['db_password']
-                      +"@"+ opts['db_hostname'] +":"+
-                      opts['db_port']+"/"+ opts['db_database'])
-        except DatabaseModuleError, e:
-          raise DBDatabaseDriverNotAvailable(str (e))
-        except ImportError:
-          raise DBDatabaseDriverNotSupported
-        except: 
-          raise
-
-        self.store = Store(self.database)
-
-        self.store.execute("CREATE TABLE  IF NOT EXISTS bugs (" + 
-                           "id int auto_increment primary key," +
-                           "idBug integer," +
-                           "open_date datetime," +
-                           "closed_date datetime," +
-                           "status varchar(128)," +
-                           "resolution varchar(128)," +
-                           "total_comments integer," +
-                           "total_changes integer," +
-                           "total_attachments integer," +
-                           "last_changed datetime," +
-                           "last_visited datetime) DEFAULT CHARSET=utf8"
-                           )
-
-        self.store.execute("CREATE TABLE IF NOT EXISTS user_facts (" +
-                           "user varchar(128)," +
-                           "timestamp datetime," +
-                           "open_bugs integer," +
-                           "fixed_bugs integer," +
-                           "dup_bugs integer," +
-                           "invalid_bugs integer," +
-                           "reopenen_bugs integer," +
-                           "comments integer," +
-                           "attachments integer, " +
-                           "primary key (user, timestamp)) DEFAULT CHARSET=utf8"
-                           )
-
-        self.store.execute("CREATE TABLE IF NOT EXISTS bug_facts (" +
-                           "idBug int primary key," +
-                           "user varchar(128)," +
-                           "timestamp datetime," +
-                           "comments integer," + 
-                           "attachments integer, " +
-                           "primary key (idBug, user, timestamp)) DEFAULT CHARSET=utf8"
-                           ) 
+    "MySQL": ("""
+            CREATE TABLE IF NOT EXISTS bugs (
+                id                  INTEGER AUTO_INCREMENT PRIMARY KEY,
+                bug_id              INTEGER,
+                open_date           DATETIME,
+                closed_date         DATETIME,
+                status              VARCHAR(128),
+                resolution          VARCHAR(128),
+                total_comments      INTEGER,
+                total_changes       INTEGER,
+                total_attachments   INTEGER,
+                last_changed        DATETIME,
+                last_visited        DATETIME
+            )""",
+            """CREATE TABLE IF NOT EXISTS user_facts (
+                user            VARCHAR(128),
+                timestamp       DATE,
+                open_bugs       INTEGER,
+                fixed_bugs      INTEGER,
+                dup_bugs        INTEGER,
+                invalid_bugs    INTEGER,
+                reopenen_bugs   INTEGER,
+                comments        INTEGER,
+                attachments     INTEGER,
+                PRIMARY KEY (user, timestamp)
+            )""",
+            """CREATE TABLE IF NOT EXISTS bug_facts (
+                bug_id      INTEGER,
+                user        VARCHAR(128),
+                timestamp   DATE,
+                comments    INTEGER,
+                attachments INTEGER,
+                PRIMARY KEY (bug_id, user, timestamp)
+            )"""),
+}
 
 class UserFacts(object):
     __storm_table__ = 'user_facts'
@@ -146,9 +113,9 @@ class UserFacts(object):
 
 class BugFacts(object):
     __storm_table__ = 'bug_facts'
-    __storm_primary__ = "idBug", "user", "timestamp"
+    __storm_primary__ = "bug_id", "user", "timestamp"
 
-    idBug = Int()
+    bug_id = Int()
     user = Unicode()
     timestamp = Date()
     comments = Int()
@@ -159,7 +126,7 @@ class Bug(object):
     __storm_table__ = 'bugs'
 
     id = Int(primary=True)
-    idBug = Int()
+    bug_id = Int()
     open_date = DateTime()
     closed_date = DateTime()
     status = Unicode()
@@ -170,8 +137,8 @@ class Bug(object):
     last_changed = DateTime()
     last_visited = DateTime()
 
-    def __init__(self, idBug):
-        self.idBug = idBug
+    def __init__(self, bug_id):
+        self.bug_id = bug_id
 
     def update(self, bug):
         self.open_date = bug.open_date
@@ -185,30 +152,22 @@ class Bug(object):
         self.last_visited = datetime.datetime.today()
 
 
-class DWHBackend(Backend):
-    database_map = dict(
-      #sqlite=SQLite
-        mysql=DBMySQL
-    )
-
-    required_fields = ['db_driver', 'db_user', 'db_password', 'db_database','db_hostname', 'db_port']
+class DWHBackend(DBBackend):
+    required_fields = ['db_uri']
+    setup_commands = SETUP_COMMANDS
 
     def __init__(self, options):
         self.options = options
 
-    def _get_database(self):
-        driver = self.options['db_driver']
-        return self.database_map[driver](self.options)
-
     def _get_user_fact(self, user, date):
-        fact = self.db.store.find(UserFacts,
+        fact = self.store.find(UserFacts,
                                UserFacts.user == user,
                                UserFacts.timestamp == date).one()
         if not fact:
             fact = UserFacts()
             fact.user = user
             fact.timestamp = date
-            self.db.store.add(fact)
+            self.store.add(fact)
 
         return fact
 
@@ -244,12 +203,12 @@ class DWHBackend(Backend):
     def _add_bug_facts(self, bug, new_data):
         pass
 
-    def _get_bug(self, idBug):
-        bug = self.db.store.find(Bug,
-                                 Bug.idBug == idBug).one()
+    def _get_bug(self, bug_id):
+        bug = self.store.find(Bug,
+                                 Bug.bug_id == bug_id).one()
         if not bug:
-            bug = Bug(idBug)
-            self.db.store.add(bug)
+            bug = Bug(bug_id)
+            self.store.add(bug)
 
         return bug
 
@@ -257,9 +216,9 @@ class DWHBackend(Backend):
     #   Frontend Impletmentation
     #
 
-    def want_bug(self, idBug):
-        bug = self.db.store.find(Bug,
-                               Bug.idBug == int(idBug)).one()
+    def want_bug(self, bug_id):
+        bug = self.store.find(Bug,
+                               Bug.bug_id == int(bug_id)).one()
 
         # We have no information about the bug yet. Of course we want ;)
         if not bug:
@@ -279,17 +238,9 @@ class DWHBackend(Backend):
         self._add_user_facts(bug, new_data)
         self._add_bug_facts(bug, new_data)
         bug.update(new_data)
-        self.db.store.flush()
+        self.store.flush()
 
-    def done(self):
-        self.db.store.commit()
 
-    def check_configuration(self):
-        valid = all([self.options.has_key(key) for key in
-                        self.required_fields])
-        if valid:
-            self.db = self._get_database()
-        return valid
 
 
 register_interface('dwh', DWHBackend)

@@ -17,309 +17,213 @@
 # Authors: Daniel Izquierdo Cortazar <dizquierdo@gsyc.escet.urjc.es>
 #
 
-from storm.locals import Store, Unicode, Int, create_database, DateTime
+from storm.locals import (Unicode, Int, DateTime,
+                          Reference, ReferenceSet)
 
 #from storm import database
 #database.DEBUG = True
-from bicho.interfaces import Backend, register_interface
-from bicho.domain import Bug, Attachment, Comment, Change, GeneralInfo
+from bicho.interfaces import DBBackend, register_interface
 
-'''
-class SQLite(object):
+SETUP_COMMANDS = {
+    "SQLite": (
+        """CREATE TABLE IF NOT EXISTS Bugs (
+        bug_id       INTEGER PRIMARY KEY ,
+        summary      VARCHAR,
+        description  TEXT,
+        open_date    DATETIME,
+        status       VARCHAR,
+        resolution   VARCHAR,
+        severity     VARCHAR,
+        priority     VARCHAR,
+        category     VARCHAR,
+        assignee     VARCHAR,
+        reporter     VARCHAR)""",
 
-  def __init__(self, opts):
-    self.options = opts
-    db_name = "%s:%s.db" % (opts['db_driver'],opts['db_database'])
-    self.database = create_database(db_name)
-    self.store = Store(self.database)
-    self.store.execute("CREATE TABLE IF NOT EXISTS GeneralInfo(" +
-                       "id integer primary key," +
-                       "Project varchar(256), " +
-                       "Url varchar(256), " +
-                       "Tracker varchar(256), " +
-                       "Date datetime)")
+        """CREATE TABLE IF NOT EXISTS Comments (
+        id           INTEGER PRIMARY KEY,
+        bug_id       INTEGER,
+        date         DATETIME,
+        person       VARCHAR,
+        comment      TEXT)""",
 
-    self.store.execute ("CREATE TABLE  IF NOT EXISTS Bugs (" +
-                       "id integer primary key," +
-                       "idBug varchar(128)," +
-                       "Summary text," +
-                       "Description text,"+
-                       "DateSubmitted datetime,"+
-                       "Status varchar(64),"+
-                       "Resolution varchar(64),"+
-                       "Severity varchar(64),"+
-                       "Priority varchar(64),"+
-                       "Category varchar(128),"+
-                       "IGroup varchar(128),"+
-                       "AssignedTo varchar(128),"+
-                       "SubmittedBy varchar(128)) DEFAULT CHARSET=utf8")
+        """CREATE TABLE IF NOT EXISTS Attachments (
+        id           INTEGER PRIMARY KEY,
+        bug_id       INTEGER,
+        name         VARCHAR,
+        type         VARCHAR,
+        description  TEXT,
+        url          VARCHAR)""",
 
-    self.store.execute("CREATE TABLE IF NOT EXISTS Comments (" + 
-                       "id integer primary key," +  
-                       "idBug varchar(128)," +
-                       "DateSubmitted datetime,"+
-                       "SubmittedBy varchar(128), " + 
-                       "Comment text)")
+        """CREATE TABLE IF NOT EXISTS Changes (
+        id           INTEGER PRIMARY KEY,
+        bug_id       INTEGER,
+        field        VARCHAR,
+        old_value    VARCHAR,
+        new_value    VARCHAR,
+        date         DATETIME,
+        person       VARCHAR)""",
+    ),
 
-    self.store.execute("CREATE TABLE IF NOT EXISTS Attachments (" +
-                       "id integer primary key," +
-                       "idBug varchar(128)," +
-                       "Name varchar(256), " +
-                       "Type varchar(256), " +
-                       "Description text, " + 
-                       "Url varchar(256))")
+    "MySQL": (
+        """CREATE TABLE IF NOT EXISTS Bugs (
+        bug_id       INTEGER PRIMARY KEY ,
+        summary      TEXT,
+        description  TEXT,
+        open_date    DATETIME,
+        status       VARCHAR(128),
+        resolution   VARCHAR(128),
+        severity     VARCHAR(128),
+        priority     VARCHAR(128),
+        category     VARCHAR(128),
+        assignee     VARCHAR(128),
+        reporter     VARCHAR(128))""",
 
-    self.store.execute("CREATE TABLE IF NOT EXISTS Changes (" +
-                       "id integer primary key," +
-                       "idBug varchar(128)," +
-                       "Field varchar(256), " +
-                       "OldValue varchar(256), " +
-                       "NewValue varchar(256), " +
-                       "Date datetime, " +
-                       "SubmittedBy varchar(256))") 
-'''
-class DBMySQL(DBDatabase):
-  def __init__(self, opts):
-    self.options = opts
+        """CREATE TABLE IF NOT EXISTS Comments (
+        id           INTEGER AUTO_INCREMENT PRIMARY KEY,
+        bug_id       INTEGER,
+        date         DATETIME,
+        person       VARCHAR(128),
+        comment      TEXT)""",
 
-    try:
-      print opts['db_driver']
-      self.database = create_database(opts['db_driver'] +"://"+ 
-                      opts['db_user'] +":"+ opts['db_password']
-                      +"@"+ opts['db_hostname'] +":"+
-                      opts['db_port']+"/"+ opts['db_database'])
-    except DatabaseModuleError, e:
-      raise DBDatabaseDriverNotAvailable(str (e))
-    except ImportError:
-      raise DBDatabaseDriverNotSupported
-    except: 
-      raise
+        """CREATE TABLE IF NOT EXISTS Attachments (
+        id           INTEGER AUTO_INCREMENT PRIMARY KEY,
+        bug_id       INTEGER,
+        name         VARCHAR(128),
+        type         VARCHAR(128),
+        description  TEXT,
+        url          TEXT)""",
 
-    self.store = Store(self.database)
-    
-    self.store.execute("CREATE TABLE IF NOT EXISTS GeneralInfo(" +
-                       "id int auto_increment primary key," +
-                       "Project varchar(256), " +
-                       "Url varchar(256), " +
-                       "Tracker varchar(256), " +
-                       "Date datetime)")
-
-    self.store.execute ("CREATE TABLE  IF NOT EXISTS Bugs (" +
-                       "id int auto_increment primary key," +
-                       "idBug varchar(128)," +
-                       "Summary text," +
-                       "Description text,"+
-                       "DateSubmitted datetime,"+
-                       "Status varchar(64),"+
-                       "Resolution varchar(64),"+
-                       "Severity varchar(64),"+
-                       "Priority varchar(64),"+
-                       "Category varchar(128),"+
-                       "IGroup varchar(128),"+
-                       "AssignedTo varchar(128),"+
-                       "SubmittedBy varchar(128)) DEFAULT CHARSET=utf8")
-
-    self.store.execute("CREATE TABLE IF NOT EXISTS Comments (" + 
-                       "id int auto_increment primary key," +  
-                       "idBug varchar(128)," +
-                       "DateSubmitted datetime,"+
-                       "SubmittedBy varchar(128), " + 
-                       "Comment text)")
-
-    self.store.execute("CREATE TABLE IF NOT EXISTS Attachments (" +
-                       "id int auto_increment primary key," +
-                       "idBug varchar(128)," +
-                       "Name varchar(256), " +
-                       "Type varchar(256), " +
-                       "Description text, " + 
-                       "Url varchar(256))")
-
-    self.store.execute("CREATE TABLE IF NOT EXISTS Changes (" +
-                       "id int auto_increment primary key," +
-                       "idBug varchar(128)," +
-                       "Field varchar(256), " +
-                       "OldValue varchar(256), " +
-                       "NewValue varchar(256), " +
-                       "Date datetime, " +
-                       "SubmittedBy varchar(256))")
+        """CREATE TABLE IF NOT EXISTS Changes (
+        id           INTEGER AUTO_INCREMENT PRIMARY KEY,
+        bug_id       INTEGER,
+        field        VARCHAR(128),
+        old_value    VARCHAR(128),
+        new_value    VARCHAR(128),
+        date         DATETIME,
+        person       VARCHAR(128))""",
+    ),
+}
 
 
-class DBGeneralInfo(object):
-    __storm_table__ = "GeneralInfo"
-
-    id = Int(primary=True)
-    project = Unicode()
-    url = Unicode()
-    tracker = Unicode()
-    date = DateTime()
-
-    def __init__(self, info):
-        self.project = info.project
-        self.url = info.url
-        self.tracker = info.tracker
-        self.date = info.date
-
-
-
-class DBAttachment(object):
+class Attachment(object):
     __storm_table__ = "Attachments"
 
     id = Int(primary=True)
-    idbug = Unicode()
+    bug_id = Int()
     name = Unicode()
-    type = Unicoe()
     description = Unicode()
     url = Unicode()
 
-    def __init__(self, idbug, attachment):
-        self.idbug = idbug
+    def __init__(self, attachment):
         self.name = attachment.name
         self.type = attachment.type
         self.description = attachment.description
         self.url = attachment.url
 
 
-class DBComment(object):
+class Comment(object):
     __storm_table__ = "Comments"
 
     id = Int(primary=True)
-    idbug = Unicode()
-    datesumitted = DateTime()
-    submittedby = Unicode()
+    bug_id = Int()
+    date = DateTime()
+    person = Unicode()
     comment = Unicode()
 
-    def __init__(self, idbug, comment):
-        self.idbug = idbug
-        self.datesubmitted = comment.datesubmitted
-        self.submittedby = comment.submittedby
+    def __init__(self, comment):
+        self.date = comment.date
+        self.person = comment.person
         self.comment = comment.comment
 
 
-class DBChange(object):
+class Change(object):
     __storm_table__ = "Changes"
 
     id = Int(primary=True)
-    idbug = Unicode()
+    bug_id = Int()
     field = Unicode()
     old_value = Unicode()
     new_value = Unicode()
     date = DateTime()
-    submittedby = Unicode()
+    person = Unicode()
 
-    def __init__(self, idbug, change):
-        self.idbug = idbug
+    def __init__(self, change):
         self.field = change.field
         self.old_value = change.old_value
         self.new_value = change.new_value
         self.date = change.date
-        self.submittedby = change.submittedby
+        self.person = change.person
 
 
-class DBBug(object):
+class Bug(object):
     __storm_table__ = "Bugs"
 
-    id = Int(primary=True)
-    idbug = Unicode()
+    bug_id = Int(primary=True)
     summary = Unicode()
     description = Unicode()
-    datesubmitted = DateTime()
+    open_date = DateTime()
     status = Unicode()
     resolution = Unicode()
     priority = Unicode()
     severity = Unicode()
     category = Unicode()
-    igroup = Unicode()
-    assignedto = Unicode()
-    submittedby = Unicode()
+    assignee = Unicode()
+    reporter = Unicode()
+
+    comments = ReferenceSet(bug_id, Comment.bug_id)
+    changes = ReferenceSet(bug_id, Change.bug_id)
+    attachments = ReferenceSet(bug_id, Attachment.bug_id)
 
     def __init__(self, bug):
-        self.idbug = bug.idbug
+        self.bug_id = bug.bug_id
+        self.update(bug)
+
+    def update(self, bug):
         self.summary = bug.summary
         self.description = bug.description
-        self.datesubmitted = bug.datesubmitted
+        self.open_date = bug.open_date
         self.status = bug.status
         self.resolution = bug.resolution
         self.priority = bug.priority
         self.severity = bug.severity
         self.category = bug.category
-        self.igroup = bug.igroup
-        self.assignedto = bug.assignedto
-        self.submitted = bug.submittedby
+        self.assignee = bug.assignee
+        self.reporter = bug.reporter
 
 
-class DBBackend(Backend):
-    database_map = dict(
-      #sqlite=SQLite
-        mysql=DBMySQL
-    )
-
-    object_map = dict(
-        Bug=DBBug,
-        Attachment=DBAttachment,
-        Change=DBChange,
-        Comment=DBComment,
-        GeneralInfo=DBGeneralInfo
-    )
-
-    required_fields = ['db_driver', 'db_user', 'db_password', 'db_database',
-                       'db_hostname', 'db_port']
+class SQLBugBackend(DBBackend):
+    required_fields = ['db_uri']
+    setup_commands = SETUP_COMMANDS
 
     def __init__(self, options):
         self.options = options
-
-    def _get_database(self):
-        driver = self.options['db_driver']
-        return self.database_map[driver](self.options)
-
-    def _insert_general_info(self, info):
-        db_info = DBGeneralInfo(info)
-        self.store.add(db_info)
-        self.store.flush()
-
-    def _insert_bug(self, dbBug):
-        self.store.add(dbBug)
-        self.store.flush()
-
-    def _insert_comment(self, dbComment):
-        self.store.add(dbComment)
-        self.store.flush()
-
-    def _insert_attachment(self, dbAttach):
-        self.store.add(dbAttach)
-        self.store.flush()
-
-    def _insert_change(self, dbChange):
-        self.store.add(dbChange)
-        self.store.flush()
 
     #
     #   Frontend Impletmentation
     #
 
     def send_data(self, data):
-        bug = DBBug(data)
-        self.db.store.add(bug)
-        for change in data.changes:
-            self.db.store.add(DBChange(bug.idbug, change))
+        bug = self.store.get(Bug, data.bug_id)
+        if not bug:
+            bug = Bug(data)
+            self.store.add(bug)
+        else:
+            bug.update(data)
 
-        for comment in data.comments:
-            self.db.store.add(DBComment(bug.idbug, comment))
+        for change in data.changes[bug.changes.count():]:
+            bug.changes.add(Change(change))
 
-        for attachment in data.attachments:
-            self.db.store.add(DBAttachment(bug.idbug, attachment))
+        for comment in data.comments[bug.comments.count():]:
+            bug.comments.add(Comment(comment))
 
-        self.db.store.flush()
+        for attachment in data.attachments[bug.attachments.count():]:
+            bug.attachments.add(Attachment(attachment))
 
-    def done(self):
-        self.db.store.commit()
+        self.store.flush()
 
-    def check_configuration(self):
-        valid = all([self.options.has_key(key) for key in
-                        self.required_fields])
-        if valid:
-            self.db = self._get_database()
-        return valid
+    def want_bug(self, bug_id):
+        return True
 
 
-register_interface('sqlbug', DBBackend)
+register_interface('sqlbug', SQLBugBackend)
 
