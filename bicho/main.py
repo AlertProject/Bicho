@@ -87,11 +87,17 @@ def main(params):
     frontend = create_frontend(options)
     if not frontend.check_configuration():
         printerr("Check configuration for frontend '%s'" % options.frontend)
+        print backend.__class__.__name__
+        print frontend.__doc__
         error = True
 
     backend = create_backend(options)
     if not backend.check_configuration():
         printerr("Check configuration for backend '%s'" % options.backend)
+        print
+        print backend.__class__.__name__
+        print backend.__doc__
+
         error = True
 
     if error:
