@@ -26,29 +26,36 @@ from bicho.interfaces import DBBackend, register_interface
 
 SETUP_COMMANDS = {
     "SQLite": (
+        """CREATE TABLE IF NOT EXISTS GeneralInfo (
+        idBug       INTEGER PRIMARY KEY ,
+        Project   VARCHAR,
+        Url   VARCHAR,
+        Tracker   VARCHAR,
+        Date     DATETIME)""",
+        
         """CREATE TABLE IF NOT EXISTS Bugs (
-        bug_id       INTEGER PRIMARY KEY ,
-        summary      VARCHAR,
-        description  TEXT,
-        open_date    DATETIME,
-        status       VARCHAR,
-        resolution   VARCHAR,
-        severity     VARCHAR,
-        priority     VARCHAR,
-        category     VARCHAR,
-        assignee     VARCHAR,
-        reporter     VARCHAR)""",
+        idBug       INTEGER PRIMARY KEY ,
+        Summary      VARCHAR,
+        Description  TEXT,
+        DateSubmitted    DATETIME,
+        Status       VARCHAR,
+        Resolution   VARCHAR,
+        Severity     VARCHAR,
+        Priority     VARCHAR,
+        Category     VARCHAR,
+        AssignedTo     VARCHAR,
+        SubmittedBy     VARCHAR)""",
 
         """CREATE TABLE IF NOT EXISTS Comments (
         id           INTEGER PRIMARY KEY,
-        bug_id       INTEGER,
+        idBug       INTEGER,
         date         DATETIME,
         person       VARCHAR,
         comment      TEXT)""",
 
         """CREATE TABLE IF NOT EXISTS Attachments (
         id           INTEGER PRIMARY KEY,
-        bug_id       INTEGER,
+        idBug       INTEGER,
         name         VARCHAR,
         type         VARCHAR,
         description  TEXT,
@@ -56,7 +63,7 @@ SETUP_COMMANDS = {
 
         """CREATE TABLE IF NOT EXISTS Changes (
         id           INTEGER PRIMARY KEY,
-        bug_id       INTEGER,
+        idBug       INTEGER,
         field        VARCHAR,
         old_value    VARCHAR,
         new_value    VARCHAR,
@@ -65,51 +72,73 @@ SETUP_COMMANDS = {
     ),
 
     "MySQL": (
+        """CREATE TABLE IF NOT EXISTS GeneralInfo (
+        idBug       INTEGER PRIMARY KEY ,
+        Project     VARCHAR(256),
+        Url VARCHAR(256),
+        Tracker   VARCHAR(256),
+        Date DATETIME)""",
+        
         """CREATE TABLE IF NOT EXISTS Bugs (
-        bug_id       INTEGER PRIMARY KEY ,
-        summary      TEXT,
-        description  TEXT,
-        open_date    DATETIME,
-        status       VARCHAR(128),
-        resolution   VARCHAR(128),
-        severity     VARCHAR(128),
-        priority     VARCHAR(128),
-        category     VARCHAR(128),
-        assignee     VARCHAR(128),
-        reporter     VARCHAR(128))""",
+        idBug       INTEGER PRIMARY KEY ,
+        Summary      TEXT,
+        Description  TEXT,
+        DateSubmitted    DATETIME,
+        Status       VARCHAR(128),
+        Resolution   VARCHAR(128),
+        Severity     VARCHAR(128),
+        Priority     VARCHAR(128),
+        Category     VARCHAR(128),
+        AssignedTo     VARCHAR(128),
+        SubmmitedBy     VARCHAR(256))""",
 
         """CREATE TABLE IF NOT EXISTS Comments (
         id           INTEGER AUTO_INCREMENT PRIMARY KEY,
-        bug_id       INTEGER,
-        date         DATETIME,
-        person       VARCHAR(128),
-        comment      TEXT)""",
+        idBug       INTEGER,
+        Date         DATETIME,
+        SubmmitedBy       VARCHAR(256),
+        Comment      TEXT)""",
 
         """CREATE TABLE IF NOT EXISTS Attachments (
         id           INTEGER AUTO_INCREMENT PRIMARY KEY,
-        bug_id       INTEGER,
-        name         VARCHAR(128),
-        type         VARCHAR(128),
-        description  TEXT,
-        url          TEXT)""",
+        idBug       INTEGER,
+        Name         VARCHAR(128),
+        Type         VARCHAR(128),
+        Description  TEXT,
+        Url          TEXT)""",
 
         """CREATE TABLE IF NOT EXISTS Changes (
         id           INTEGER AUTO_INCREMENT PRIMARY KEY,
-        bug_id       INTEGER,
-        field        VARCHAR(128),
-        old_value    VARCHAR(128),
-        new_value    VARCHAR(128),
-        date         DATETIME,
-        person       VARCHAR(128))""",
+        idBug       INTEGER,
+        Field        VARCHAR(128),
+        OldValue    VARCHAR(128),
+        NewValue    VARCHAR(128),
+        Date         DATETIME,
+        SubmmitedBy       VARCHAR(256))""",
     ),
 }
 
+class GeneralInfo(object):
+  __storm_table__ = "GeneralInfo"
+
+  idBug = Int(primary=True)
+  Project = Unicode()
+  Url = Unicode()
+  Tracker = Unicode()
+  Date = Unicode()
+
+
+  def __init__(self, generalinfo):
+        self.project = genrealinfo.project
+        self.url = generalinfo.url
+        self.tracker = generalinfo.tracker
+        self.date = generalinfo.date 
 
 class Attachment(object):
     __storm_table__ = "Attachments"
 
     id = Int(primary=True)
-    bug_id = Int()
+    idBug = Int()
     name = Unicode()
     description = Unicode()
     url = Unicode()
@@ -125,7 +154,7 @@ class Comment(object):
     __storm_table__ = "Comments"
 
     id = Int(primary=True)
-    bug_id = Int()
+    idBug = Int()
     date = DateTime()
     person = Unicode()
     comment = Unicode()
@@ -140,7 +169,7 @@ class Change(object):
     __storm_table__ = "Changes"
 
     id = Int(primary=True)
-    bug_id = Int()
+    idBug = Int()
     field = Unicode()
     old_value = Unicode()
     new_value = Unicode()
@@ -158,7 +187,7 @@ class Change(object):
 class Bug(object):
     __storm_table__ = "Bugs"
 
-    bug_id = Int(primary=True)
+    idBug = Int(primary=True)
     summary = Unicode()
     description = Unicode()
     open_date = DateTime()
@@ -170,12 +199,13 @@ class Bug(object):
     assignee = Unicode()
     reporter = Unicode()
 
-    comments = ReferenceSet(bug_id, Comment.bug_id)
-    changes = ReferenceSet(bug_id, Change.bug_id)
-    attachments = ReferenceSet(bug_id, Attachment.bug_id)
+    comments = ReferenceSet(idBug, Comment.idBug)
+    changes = ReferenceSet(idBug, Change.idBug)
+    attachments = ReferenceSet(idBug, Attachment.idBug)
+    generalinfo = ReferenceSet(idBug, GeneralInfo.idBug)
 
     def __init__(self, bug):
-        self.bug_id = bug.bug_id
+        self.idBug = bug.idBug
         self.update(bug)
 
     def update(self, bug):
@@ -203,7 +233,7 @@ class SQLBugBackend(DBBackend):
     #
 
     def send_data(self, data):
-        bug = self.store.get(Bug, data.bug_id)
+        bug = self.store.get(Bug, data.idBug)
         if not bug:
             bug = Bug(data)
             self.store.add(bug)
@@ -221,7 +251,7 @@ class SQLBugBackend(DBBackend):
 
         self.store.flush()
 
-    def want_bug(self, bug_id):
+    def want_bug(self, idBug):
         return True
 
 
