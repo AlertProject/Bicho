@@ -29,8 +29,10 @@ def check_dependences():
     print "BeautifulSoup is not installed please install it..."
     return 0
 
-if (check_dependences() == 1):
-  setup(name = "Bicho",
+if not check_dependences():
+  sys.exit(-1)
+
+setup(name = "Bicho",
       version = "0.3-1",
       author =  "LibreSoft",
       author_email = "libresoft-tools-devel@lists.morfeo-project.org",
@@ -38,5 +40,3 @@ if (check_dependences() == 1):
       url = "https://forge.morfeo-project.org/projects/libresoft-tools/",      
       packages = ['bicho', 'bicho.backends','bicho.frontends','bicho.www'],
       scripts = ["bin/bicho"])
-else:
-  sys.exit(-1)
