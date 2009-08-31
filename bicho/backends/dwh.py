@@ -153,6 +153,13 @@ class Bug(object):
 
 
 class DWHBackend(DBBackend):
+    """This backend outputs to a data warehouse.
+    Required Configuration neededs:
+
+    - db_uri: an uri for the database following this pattern:
+
+    db_uri=scheme://username:password@hostname:port/database_name
+    """
     required_fields = ['db_uri']
     setup_commands = SETUP_COMMANDS
 
