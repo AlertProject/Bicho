@@ -1056,11 +1056,19 @@ class BGBackend (Backend):
         if nbugs == 0:
             printout("No bugs found. Did you provide the correct url?")
             sys.exit(0)
-
+            
         while (bugs):
             query_bugs = []
             while (len(query_bugs) < issues_per_xml_query and bugs):
-                query_bugs.append(bugs.pop())
+                bug = bugs.pop()
+                if (Config.only_pending):                    
+                    db_issue = bugsdb.get_issue(bug)
+                    if not db_issue:
+                        query_bugs.append(bug)
+                    else:
+                        printout(bug + " already downloaded")              
+                else:                          
+                    query_bugs.append(bug)
             issues = self.analyze_bug_list(query_bugs, url, dbtrk.id, bugsdb)
                         
             time.sleep(self.delay)

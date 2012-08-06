@@ -162,6 +162,9 @@ class Config:
         parser.add_option('--cache', action='store_true', dest='cache',
                           help='Use cached data already retrieved',
                           default=False)
+        parser.add_option('--only-pending', action='store_true', dest='only_pending',
+                          help='Only download pending issues not yet in the database',
+                          default=False)
 
     
         # Options for output database

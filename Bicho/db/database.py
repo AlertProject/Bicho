@@ -447,6 +447,27 @@ class DBDatabase:
                                 (user_id, tracker_id))
         return db_people
 
+    def get_issue(self, issue):
+        """
+        Get the identity based on the given id.
+
+        @param issue: issue identifier
+        @type issue: C{str}
+
+        @return: The selected identity.
+        @rtype: L{DBIssue}
+
+        @raise NotFoundError: When the identity is not found.
+        """
+        db_issue = self.store.find(DBIssue,
+                                    DBIssue.issue == unicode(issue)).one()
+        #if not db_issue:
+            #if the issue is not stored, return -1 to know its a new one
+        #    db_issue = -1
+
+        return db_issue
+
+
     def _get_db_issue(self, issue, tracker_id):
         """
         Get the identity based on the given id.
