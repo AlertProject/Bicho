@@ -103,14 +103,14 @@ class Config:
             raise InvalidConfig('Backend "'+ Config.backend + '" does not exists')
 
         req = Request(Config.url)
-        try:
-            print("Checking URL: "+Config.url)
-            response = urlopen(req)
-        except HTTPError, e:
-            raise InvalidConfig('The server could not fulfill the request '
-                               + str(e.msg) + '('+ str(e.code)+')')
-        except URLError, e:
-            raise InvalidConfig('We failed to reach a server. ' + str(e.reason))
+#        try:
+#            print("Checking URL: "+Config.url)
+#            response = urlopen(req)
+#        except HTTPError, e:
+#            raise InvalidConfig('The server could not fulfill the request '
+#                               + str(e.msg) + '('+ str(e.code)+')')
+#        except URLError, e:
+#            raise InvalidConfig('We failed to reach a server. ' + str(e.reason))
                 
         if vars(Config).has_key('input') and Config.input == 'db':
             Config.check_params(['db_driver_in', 'db_user_in', 'db_password_in',

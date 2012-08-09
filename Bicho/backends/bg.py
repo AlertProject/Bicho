@@ -1011,7 +1011,8 @@ class BGBackend (Backend):
         if self.backend_user and self.backend_password:
             self.__login()
 
-        url = self.url + "&order=changeddate&ctype=csv"
+        # url = self.url + "&order=changeddate&ctype=csv"
+        url = self.url + "&ctype=csv"
 
         printdbg(url)
 
@@ -1020,11 +1021,11 @@ class BGBackend (Backend):
             bugs = []
             bugs.append(self.url.split("show_bug.cgi?id=")[1])
         else:
-            last_mod_date = bugsdb.get_last_modification_date()
-
-            if last_mod_date:
-                url = url + "&chfieldfrom=" + last_mod_date
-                printdbg("Last bugs cached were modified on: %s" % last_mod_date)
+#            last_mod_date = bugsdb.get_last_modification_date()
+#
+#            if last_mod_date:
+#                url = url + "&chfieldfrom=" + last_mod_date
+#                printdbg("Last bugs cached were modified on: %s" % last_mod_date)
             f = self.__urlopen_auth(url)
 
             #Problems using csv library, not all the fields are delimited by
