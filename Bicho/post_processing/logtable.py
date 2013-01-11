@@ -49,7 +49,8 @@ from datetime import datetime
 
 from Bicho.Config import Config
 
-__sql_table_bugzilla__ = 'CREATE TABLE IF NOT EXISTS issues_log_bugzilla ( \
+
+__sql_table__ = 'CREATE TABLE IF NOT EXISTS issues_log ( \
                      id INTEGER NOT NULL AUTO_INCREMENT, \
                      tracker_id INTEGER NOT NULL, \
                      issue_id INTEGER NOT NULL, \
@@ -63,6 +64,35 @@ __sql_table_bugzilla__ = 'CREATE TABLE IF NOT EXISTS issues_log_bugzilla ( \
                      submitted_by INTEGER UNSIGNED NOT NULL, \
                      date DATETIME NOT NULL, \
                      assigned_to INTEGER UNSIGNED NOT NULL, \
+                     PRIMARY KEY(id), \
+                     UNIQUE KEY(id), \
+                     INDEX issues_issue_idx(issue_id), \
+                     INDEX issues_submitted_idx(submitted_by), \
+                     INDEX issues_assigned_idx(assigned_to), \
+                     INDEX issues_tracker_idx(tracker_id), \
+                     FOREIGN KEY(issue_id) \
+                       REFERENCES issues(id) \
+                         ON DELETE SET NULL \
+                         ON UPDATE CASCADE, \
+                     FOREIGN KEY(submitted_by) \
+                       REFERENCES people(id) \
+                         ON DELETE SET NULL \
+                         ON UPDATE CASCADE, \
+                     FOREIGN KEY(assigned_to) \
+                       REFERENCES people(id) \
+                         ON DELETE SET NULL \
+                         ON UPDATE CASCADE, \
+                     FOREIGN KEY(tracker_id) \
+                       REFERENCES trackers(id) \
+                         ON DELETE CASCADE \
+                         ON UPDATE CASCADE \
+                     ) ENGINE=MYISAM;'
+
+
+__sql_table_bugzilla__ = 'CREATE TABLE IF NOT EXISTS issues_log_bugzilla ( \
+                     id INTEGER NOT NULL AUTO_INCREMENT, \
+                     issue_id INTEGER NOT NULL, \
+                     log_id INTEGER NOT NULL, \
                      alias VARCHAR(32) default NULL, \
                      delta_ts DATETIME NOT NULL, \
                      reporter_accessible VARCHAR(32) default NULL, \
@@ -91,37 +121,22 @@ __sql_table_bugzilla__ = 'CREATE TABLE IF NOT EXISTS issues_log_bugzilla ( \
                      group_bugzilla VARCHAR(32) default NULL, \
                      PRIMARY KEY(id), \
                      UNIQUE KEY(id), \
-                     INDEX issues_submitted_idx(submitted_by), \
-                     INDEX issues_assigned_idx(assigned_to), \
-                     INDEX issues_tracker_idx(tracker_id), \
-                     FOREIGN KEY(submitted_by) \
-                       REFERENCES people(id) \
-                         ON DELETE SET NULL \
+                     INDEX issues_issue_idx(log_id), \
+                     INDEX issues_log_idx(issue_id), \
+                     FOREIGN KEY(issue_id) \
+                       REFERENCES issues_log(id) \
+                         ON DELETE CASCADE \
                          ON UPDATE CASCADE, \
-                     FOREIGN KEY(assigned_to) \
-                       REFERENCES people(id) \
-                         ON DELETE SET NULL \
-                         ON UPDATE CASCADE, \
-                     FOREIGN KEY(tracker_id) \
-                       REFERENCES trackers(id) \
+                     FOREIGN KEY(log_id) \
+                       REFERENCES issues_log(id) \
                          ON DELETE CASCADE \
                          ON UPDATE CASCADE \
                      ) ENGINE=MYISAM;'
 
 __sql_table_jira__ = 'CREATE TABLE IF NOT EXISTS issues_log_jira ( \
                      id INTEGER NOT NULL AUTO_INCREMENT, \
-                     tracker_id INTEGER NOT NULL, \
                      issue_id INTEGER NOT NULL, \
-                     issue VARCHAR(255) NOT NULL, \
-                     type VARCHAR(32) NULL, \
-                     summary VARCHAR(255) NOT NULL, \
-                     description TEXT NOT NULL, \
-                     status VARCHAR(32) NOT NULL, \
-                     resolution VARCHAR(32) NULL, \
-                     priority VARCHAR(32) NULL, \
-                     submitted_by INTEGER UNSIGNED NOT NULL, \
-                     date DATETIME NOT NULL, \
-                     assigned_to INTEGER UNSIGNED NOT NULL, \
+                     log_id INTEGER NOT NULL, \
                      issue_key VARCHAR(32) NOT NULL, \
                      link VARCHAR(100) NOT NULL, \
                      title VARCHAR(100) NOT NULL, \
@@ -136,19 +151,14 @@ __sql_table_jira__ = 'CREATE TABLE IF NOT EXISTS issues_log_jira ( \
                      project_key VARCHAR(35) NOT NULL, \
                      PRIMARY KEY(id), \
                      UNIQUE KEY(id), \
-                     INDEX issues_submitted_idx(submitted_by), \
-                     INDEX issues_assigned_idx(assigned_to), \
-                     INDEX issues_tracker_idx(tracker_id), \
-                     FOREIGN KEY(submitted_by) \
-                       REFERENCES people(id) \
-                         ON DELETE SET NULL \
+                     INDEX issues_issue_idx(log_id), \
+                     INDEX issues_log_idx(issue_id), \
+                     FOREIGN KEY(issue_id) \
+                       REFERENCES issues_log(id) \
+                         ON DELETE CASCADE \
                          ON UPDATE CASCADE, \
-                     FOREIGN KEY(assigned_to) \
-                       REFERENCES people(id) \
-                         ON DELETE SET NULL \
-                         ON UPDATE CASCADE, \
-                     FOREIGN KEY(tracker_id) \
-                       REFERENCES trackers(id) \
+                     FOREIGN KEY(log_id) \
+                       REFERENCES issues_log(id) \
                          ON DELETE CASCADE \
                          ON UPDATE CASCADE \
                      ) ENGINE=MYISAM;'
@@ -212,9 +222,9 @@ jira_issues_links = {
 class DBIssuesLog(object):
     """
     """
-    #__storm_table__ = 'issues_log_bugzilla'
+    __storm_table__ = 'issues_log'
+
     id = Int(primary=True)
-    #
     issue_id = Int()
     issue = Unicode()
     type = Unicode()
@@ -227,8 +237,8 @@ class DBIssuesLog(object):
     date = DateTime()
     assigned_to = Int()
     tracker_id = Int()
-    #
 
+    ref = Reference(issue_id, DBIssue.id)
     tracker = Reference(tracker_id, DBTracker.id)
     submitted = Reference(submitted_by, DBPeople.id)
     assigned = Reference(assigned_to, DBPeople.id)
@@ -238,10 +248,14 @@ class DBIssuesLog(object):
         self.tracker_id = tracker_id
 
 
-class DBBugzillaIssuesLog(DBIssuesLog):
+class DBBugzillaIssuesLog(object):
     """
     """
     __storm_table__ = 'issues_log_bugzilla'
+
+    id = Int(primary=True)
+    issue_id = Int()
+    log_id = Int()
     alias = Unicode()
     delta_ts = DateTime()
     reporter_accessible = Unicode()
@@ -268,13 +282,19 @@ class DBBugzillaIssuesLog(DBIssuesLog):
     cc = Unicode()
     group_bugzilla = Unicode()
     flag = Unicode()
-    issue_id = Int()
+
+    ref = Reference(issue_id, DBIssue.id)
+    issue_log = Reference(log_id, DBIssuesLog)
 
 
 class DBJiraIssuesLog(DBIssuesLog):
     """
     """
     __storm_table__ = 'issues_log_jira'
+
+    id = Int(primary=True)
+    issue_id = Int()
+    log_id = Int()
     issue_key = Unicode()
     link = Unicode()
     environment = Unicode()
@@ -286,6 +306,9 @@ class DBJiraIssuesLog(DBIssuesLog):
     project = Unicode()
     project_id = Int
     project_key = Unicode()
+
+    ref = Reference(issue_id, DBIssuesLog)
+    issue_log = Reference(log_id, DBIssuesLog)
 
 
 class IssuesLog():
@@ -307,81 +330,11 @@ class IssuesLog():
 
     def create_db(self):
         print("self.backend_name = %s" % (self.backend_name))
+        self.store.execute(__sql_table__)
         if self.backend_is_bugzilla():
             self.store.execute(__sql_table_bugzilla__)
         elif self.backend_is_jira():
             self.store.execute(__sql_table_jira__)
-
-    def copy_issue(self, db_ilog):
-        """
-        This method creates a copy of DBBugzilla/JiraIssuesLog object
-        """
-
-        if self.backend_is_bugzilla():
-            aux = DBBugzillaIssuesLog(db_ilog.issue, db_ilog.tracker_id)
-            aux.issue_id = db_ilog.issue_id
-            aux.type = db_ilog.type
-            aux.summary = db_ilog.summary
-            aux.description = db_ilog.description
-            aux.status = db_ilog.status
-            aux.resolution = db_ilog.resolution
-            aux.priority = db_ilog.priority
-            aux.submitted_by = db_ilog.submitted_by
-            aux.date = db_ilog.date
-            aux.assigned_to = db_ilog.assigned_to
-
-            #aux = DBBugzillaIssuesLog (db_ilog.issue_id)
-            aux.alias = db_ilog.alias
-            aux.delta_ts = db_ilog.delta_ts
-            aux.reporter_accessible = db_ilog.reporter_accessible
-            aux.cclist_accessible = db_ilog.cclist_accessible
-            aux.classification_id = db_ilog.classification_id
-            aux.classification = db_ilog.classification
-            aux.product = db_ilog.product
-            aux.component = db_ilog.component
-            aux.version = db_ilog.version
-            aux.rep_platform = db_ilog.rep_platform
-            aux.op_sys = db_ilog.op_sys
-            aux.dup_id = db_ilog.dup_id
-            aux.bug_file_loc = db_ilog.bug_file_loc
-            aux.status_whiteboard = db_ilog.status_whiteboard
-            aux.target_milestone = db_ilog.target_milestone
-            aux.votes = db_ilog.votes
-            aux.everconfirmed = db_ilog.everconfirmed
-            aux.qa_contact = db_ilog.qa_contact
-            aux.estimated_time = db_ilog.estimated_time
-            aux.remaining_time = db_ilog.remaining_time
-            aux.actual_time = db_ilog.actual_time
-            aux.deadline = db_ilog.deadline
-            aux.keywords = db_ilog.keywords
-            aux.cc = db_ilog.cc
-            aux.group_bugzilla = db_ilog.group_bugzilla
-            aux.flag = db_ilog.flag
-            return aux
-
-        elif self.backend_is_jira():
-            aux = DBJiraIssuesLog(db_ilog.issue, db_ilog.tracker_id)
-            aux.issue_id = db_ilog.issue_id
-            aux.type = db_ilog.type
-            aux.summary = db_ilog.summary
-            aux.description = db_ilog.description
-            aux.status = db_ilog.status
-            aux.resolution = db_ilog.resolution
-            aux.priority = db_ilog.priority
-            aux.submitted_by = db_ilog.submitted_by
-            aux.date = db_ilog.date
-            aux.assigned_to = db_ilog.assigned_to
-
-            aux.link = db_ilog.link
-            aux.component = db_ilog.component
-            aux.version = db_ilog.version
-            aux.issue_key = db_ilog.issue_key
-            aux.environment = db_ilog.environment
-            aux.project = db_ilog.project
-            aux.project_key = db_ilog.project_key
-            aux.security = db_ilog.security
-
-            return aux
 
     def get_people_id(self, email, tracker_id):
         """
@@ -410,16 +363,10 @@ class IssuesLog():
         """
         This method gets the date of the last change included in the log table
         """
-        if self.backend_is_bugzilla():
-            result = self.store.find(DBBugzillaIssuesLog)
-            aux = result.order_by(Desc(DBBugzillaIssuesLog.date))[:1]
-            for entry in aux:
-                return entry.date
-        elif self.backend_is_jira():
-            result = self.store.find(DBJiraIssuesLog)
-            aux = result.order_by(Desc(DBJiraIssuesLog.date))[:1]
-            for entry in aux:
-                return entry.date
+        result = self.store.find(DBIssuesLog)
+        aux = result.order_by(Desc(DBIssuesLog.date))[:1]
+        for entry in aux:
+            return entry.date
         return None
 
     def get_issues_changed_since(self, date):
@@ -444,78 +391,77 @@ class IssuesLog():
         This method returns a db_ilog object with the last row found in
         the log table
         """
-        db_ilog = None
+        db_ilog_ext = None
+
+        rows = self.store.find(DBIssuesLog,
+                               DBIssuesLog.issue_id==issue_id)
+        aux = rows.order_by(Desc(DBIssuesLog.id))[0]
+
+        db_ilog = DBIssuesLog(aux.issue, aux.tracker_id)
+        db_ilog.issue_id = aux.issue_id
+        db_ilog.type = aux.type
+        db_ilog.summary = aux.summary
+        db_ilog.description = aux.description
+        db_ilog.status = aux.status
+        db_ilog.resolution = aux.resolution
+        db_ilog.priority = aux.priority
+        db_ilog.submitted_by = aux.submitted_by
+        db_ilog.date = aux.date
+        db_ilog.assigned_to = aux.assigned_to
+
         if self.backend_is_jira():
             rows = self.store.find(DBJiraIssuesLog,
-                                   DBJiraIssuesLog.issue_id==issue_id)
-            lrow = rows.order_by(Desc(DBJiraIssuesLog.id))[:1]
-            for aux in lrow:  # FIXME it only contains an element!
-                db_ilog = DBJiraIssuesLog(aux.issue, aux.tracker_id)
-                db_ilog.issue_id = aux.issue_id
-                db_ilog.type = aux.type
-                db_ilog.summary = aux.summary
-                db_ilog.description = aux.description
-                db_ilog.status = aux.status
-                db_ilog.resolution = aux.resolution
-                db_ilog.priority = aux.priority
-                db_ilog.submitted_by = aux.submitted_by
-                db_ilog.date = aux.date
-                db_ilog.assigned_to = aux.assigned_to
-                db_ilog.issue_key = aux.issue_key
-                db_ilog.link = aux.link
-                db_ilog.environment = aux.environment
-                db_ilog.security = aux.security
-                db_ilog.updated = aux.updated
-                db_ilog.version = aux.version
-                db_ilog.component = aux.component
-                db_ilog.votes = aux.votes
-                db_ilog.project = aux.project
-                db_ilog.project_id = aux.project_id
-                db_ilog.project_key = aux.project_key
+                                   DBJiraIssuesLog.log_id==aux.id)
+            aux = rows.order_by(Desc(DBJiraIssuesLog.id))[0]
+
+            db_ilog_ext = DBJiraIssuesLog()
+            db_ilog_ext.issue_id = aux.issue_id
+            db_ilog_ext.issue_key = aux.issue_key
+            db_ilog_ext.link = aux.link
+            db_ilog_ext.environment = aux.environment
+            db_ilog_ext.security = aux.security
+            db_ilog_ext.updated = aux.updated
+            db_ilog_ext.version = aux.version
+            db_ilog_ext.component = aux.component
+            db_ilog_ext.votes = aux.votes
+            db_ilog_ext.project = aux.project
+            db_ilog_ext.project_id = aux.project_id
+            db_ilog_ext.project_key = aux.project_key
         else:  # elif self.backend_is_bugzilla():
             rows = self.store.find(DBBugzillaIssuesLog,
-                                   DBBugzillaIssuesLog.issue_id==issue_id)
-            lrow = rows.order_by(Desc(DBBugzillaIssuesLog.id))[:1]
-            for aux in lrow:  # FIXME it only contains an element!
-                db_ilog = DBBugzillaIssuesLog(aux.issue, aux.tracker_id)
-                db_ilog.issue_id = aux.issue_id
-                db_ilog.type = aux.type
-                db_ilog.summary = aux.summary
-                db_ilog.description = aux.description
-                db_ilog.status = aux.status
-                db_ilog.resolution = aux.resolution
-                db_ilog.priority = aux.priority
-                db_ilog.submitted_by = aux.submitted_by
-                db_ilog.date = aux.date
-                db_ilog.assigned_to = aux.assigned_to
-                db_ilog.alias = aux.alias
-                db_ilog.delta_ts = aux.delta_ts
-                db_ilog.reporter_accessible = aux.reporter_accessible
-                db_ilog.cclist_accessible = aux.cclist_accessible
-                db_ilog.classification_id = aux.classification_id
-                db_ilog.classification = aux.classification
-                db_ilog.product = aux.product
-                db_ilog.component = aux.component
-                db_ilog.version = aux.version
-                db_ilog.rep_platform = aux.rep_platform
-                db_ilog.op_sys = aux.op_sys
-                db_ilog.dup_id = aux.dup_id
-                db_ilog.bug_file_loc = aux.bug_file_loc
-                db_ilog.status_whiteboard = aux.status_whiteboard
-                db_ilog.target_milestone = aux.target_milestone
-                db_ilog.votes = aux.votes
-                db_ilog.everconfirmed = aux.everconfirmed
-                db_ilog.qa_contact = aux.qa_contact
-                db_ilog.estimated_time = aux.estimated_time
-                db_ilog.remaining_time = aux.remaining_time
-                db_ilog.actual_time = aux.actual_time
-                db_ilog.deadline = aux.deadline
-                db_ilog.keywords = aux.keywords
-                db_ilog.cc = aux.cc
-                db_ilog.group_bugzilla = aux.group_bugzilla
-                db_ilog.flag = aux.flag
+                                   DBBugzillaIssuesLog.log_id==aux.id)
+            aux = rows.order_by(Desc(DBBugzillaIssuesLog.id))[0]
 
-        return db_ilog
+            db_ilog_ext = DBBugzillaIssuesLog()
+            db_ilog_ext.issue_id = aux.issue_id
+            db_ilog_ext.alias = aux.alias
+            db_ilog_ext.delta_ts = aux.delta_ts
+            db_ilog_ext.reporter_accessible = aux.reporter_accessible
+            db_ilog_ext.cclist_accessible = aux.cclist_accessible
+            db_ilog_ext.classification_id = aux.classification_id
+            db_ilog_ext.classification = aux.classification
+            db_ilog_ext.product = aux.product
+            db_ilog_ext.component = aux.component
+            db_ilog_ext.version = aux.version
+            db_ilog_ext.rep_platform = aux.rep_platform
+            db_ilog_ext.op_sys = aux.op_sys
+            db_ilog_ext.dup_id = aux.dup_id
+            db_ilog_ext.bug_file_loc = aux.bug_file_loc
+            db_ilog_ext.status_whiteboard = aux.status_whiteboard
+            db_ilog_ext.target_milestone = aux.target_milestone
+            db_ilog_ext.votes = aux.votes
+            db_ilog_ext.everconfirmed = aux.everconfirmed
+            db_ilog_ext.qa_contact = aux.qa_contact
+            db_ilog_ext.estimated_time = aux.estimated_time
+            db_ilog_ext.remaining_time = aux.remaining_time
+            db_ilog_ext.actual_time = aux.actual_time
+            db_ilog_ext.deadline = aux.deadline
+            db_ilog_ext.keywords = aux.keywords
+            db_ilog_ext.cc = aux.cc
+            db_ilog_ext.group_bugzilla = aux.group_bugzilla
+            db_ilog_ext.flag = aux.flag
+
+        return db_ilog, db_ilog_ext
 
     def issue_is_new(self, issue_id):
         """
@@ -529,7 +475,7 @@ class IssuesLog():
                                      DBBugzillaIssuesLog.issue_id == issue_id)
         return (result.count() == 0)
 
-    def build_initial_state(self, db_ilog):
+    def build_initial_state(self, db_ilog, db_ilog_ext):
         """
         This method gets the first changes of every field in
         order to get the initial state of the bug
@@ -561,37 +507,37 @@ class IssuesLog():
                         elif table_field == 'resolution':
                             db_ilog.resolution = v[0]
                         elif table_field == 'alias':
-                            db_ilog.alias = v[0]
+                            db_ilog_ext.alias = v[0]
                         elif table_field == 'reporter_accessible':
-                            db_ilog.reporter_accessible = v[0]
+                            db_ilog_ext.reporter_accessible = v[0]
                         elif table_field == 'cclist_accessible':
-                            db_ilog.cclist_accessible = v[0]
+                            db_ilog_ext.cclist_accessible = v[0]
                         elif table_field == 'product':
-                            db_ilog.product = v[0]
+                            db_ilog_ext.product = v[0]
                         elif table_field == 'component':
-                            db_ilog.component = v[0]
+                            db_ilog_ext.component = v[0]
                         elif table_field == 'version':
-                            db_ilog.version = v[0]
+                            db_ilog_ext.version = v[0]
                         elif table_field == 'rep_platform':
-                            db_ilog.rep_platform = v[0]
+                            db_ilog_ext.rep_platform = v[0]
                         elif table_field == 'op_sys':
-                            db_ilog.op_sys = v[0]
+                            db_ilog_ext.op_sys = v[0]
                         elif table_field == 'bug_file_loc':
-                            db_ilog.bug_file_loc = v[0]
+                            db_ilog_ext.bug_file_loc = v[0]
                         elif table_field == 'status_whiteboard':
-                            db_ilog.status_whiteboard = v[0]
+                            db_ilog_ext.status_whiteboard = v[0]
                         elif table_field == 'target_milestone':
-                            db_ilog.target_milestone = v[0]
+                            db_ilog_ext.target_milestone = v[0]
                         elif table_field == 'votes':
-                            db_ilog.votes = v[0]
+                            db_ilog_ext.votes = v[0]
                         elif table_field == 'everconfirmed':
-                            db_ilog.everconfirmed = v[0]
+                            db_ilog_ext.everconfirmed = v[0]
                         elif table_field == 'qa_contact':
-                            db_ilog.qa_contact = v[0]
+                            db_ilog_ext.qa_contact = v[0]
                         elif table_field == 'keywords':
-                            db_ilog.Keywords = v[0]
+                            db_ilog_ext.Keywords = v[0]
                         elif table_field == 'cc':
-                            db_ilog.cc = v[0]
+                            db_ilog_ext.cc = v[0]
                 if self.backend_is_jira():
                     # Jira section
                     #
@@ -603,6 +549,8 @@ class IssuesLog():
                             db_ilog.priority = v[0]
                         elif table_field == 'type':
                             db_ilog.type = v[0]
+                        elif table_field == 'description':
+                            db_ilog.description = v[0]
                         elif table_field == 'assigned_to':
                             db_ilog.assigned_to = self.get_people_id(v[0])
                         elif table_field == 'status':
@@ -610,17 +558,14 @@ class IssuesLog():
                         elif table_field == 'resolution':
                             db_ilog.resolution = v[0]
                         elif table_field == 'link':
-                            db_ilog.link = v[0]
+                            db_ilog_ext.link = v[0]
                         elif table_field == 'environment':
-                            db_ilog.environment = v[0]
+                            db_ilog_ext.environment = v[0]
                         elif table_field == 'component':
-                            db_ilog.component = v[0]
-                        elif table_field == 'description':
-                            db_ilog.description = v[0]
+                            db_ilog_ext.component = v[0]
                         elif table_field == 'security':
-                            db_ilog.security = v[0]
-
-        return db_ilog
+                            db_ilog_ext.security = v[0]
+        return db_ilog, db_ilog_ext
 
     def backend_is_bugzilla(self):
         return self.backend_name == 'bg'
@@ -630,81 +575,73 @@ class IssuesLog():
 
     def get_last_values(self, issue_row):
         i = issue_row
-        db_ilog = None
-        if self.backend_is_bugzilla():
-            db_ilog_bugzilla = DBBugzillaIssuesLog(i.issue, i.tracker_id)
-            db_ilog_bugzilla.issue_id = i.id
-            db_ilog_bugzilla.type = i.type
-            db_ilog_bugzilla.summary = i.summary
-            db_ilog_bugzilla.description = i.description
-            db_ilog_bugzilla.status = i.status
-            db_ilog_bugzilla.resolution = i.resolution
-            db_ilog_bugzilla.priority = i.priority
-            db_ilog_bugzilla.submitted_by = i.submitted_by
-            db_ilog_bugzilla.date = i.submitted_on
-            db_ilog_bugzilla.assigned_to = i.assigned_to
+        db_ilog = DBIssuesLog(i.issue, i.tracker_id)
+        db_ilog_ext = None
 
+        db_ilog.issue_id = i.id
+        db_ilog.type = i.type
+        db_ilog.summary = i.summary
+        db_ilog.description = i.description
+        db_ilog.status = i.status
+        db_ilog.resolution = i.resolution
+        db_ilog.priority = i.priority
+        db_ilog.submitted_by = i.submitted_by
+        db_ilog.date = i.submitted_on
+        db_ilog.assigned_to = i.assigned_to
+
+        if self.backend_is_bugzilla():
+            db_ilog_ext = DBBugzillaIssuesLog()
             ib = self.store.find(DBBugzillaIssueExt, \
-                                 DBBugzillaIssueExt.issue_id == db_ilog_bugzilla.issue_id).one()
+                                 DBBugzillaIssueExt.issue_id == db_ilog.issue_id).one()
 
             ####
-            db_ilog_bugzilla.alias = ib.alias
-            db_ilog_bugzilla.delta_ts = ib.delta_ts
-            db_ilog_bugzilla.reporter_accessible = ib.reporter_accessible
-            db_ilog_bugzilla.cclist_accessible = ib.cclist_accessible
-            db_ilog_bugzilla.classification_id = ib.classification_id
-            db_ilog_bugzilla.classification = ib.classification
-            db_ilog_bugzilla.product = ib.product
-            db_ilog_bugzilla.component = ib.component
-            db_ilog_bugzilla.version = ib.version
-            db_ilog_bugzilla.rep_platform = ib.rep_platform
-            db_ilog_bugzilla.op_sys = ib.op_sys
-            db_ilog_bugzilla.dup_id = ib.dup_id
-            db_ilog_bugzilla.bug_file_loc = ib.bug_file_loc
-            db_ilog_bugzilla.status_whiteboard = ib.status_whiteboard
-            db_ilog_bugzilla.target_milestone = ib.target_milestone
-            db_ilog_bugzilla.votes = ib.votes
-            db_ilog_bugzilla.everconfirmed = ib.everconfirmed
-            db_ilog_bugzilla.qa_contact = ib.qa_contact
-            db_ilog_bugzilla.estimated_time = ib.estimated_time
-            db_ilog_bugzilla.remaining_time = ib.remaining_time
-            db_ilog_bugzilla.actual_time = ib.actual_time
-            db_ilog_bugzilla.deadline = ib.deadline
-            db_ilog_bugzilla.keywords = ib.keywords
-            db_ilog_bugzilla.cc = ib.cc
-            db_ilog_bugzilla.group_bugzilla = ib.group_bugzilla
-            db_ilog_bugzilla.flag = ib.flag
-            db_ilog = db_ilog_bugzilla
-
+            db_ilog_ext.issue_id = i.id
+            db_ilog_ext.alias = ib.alias
+            db_ilog_ext.delta_ts = ib.delta_ts
+            db_ilog_ext.reporter_accessible = ib.reporter_accessible
+            db_ilog_ext.cclist_accessible = ib.cclist_accessible
+            db_ilog_ext.classification_id = ib.classification_id
+            db_ilog_ext.classification = ib.classification
+            db_ilog_ext.product = ib.product
+            db_ilog_ext.component = ib.component
+            db_ilog_ext.version = ib.version
+            db_ilog_ext.rep_platform = ib.rep_platform
+            db_ilog_ext.op_sys = ib.op_sys
+            db_ilog_ext.dup_id = ib.dup_id
+            db_ilog_ext.bug_file_loc = ib.bug_file_loc
+            db_ilog_ext.status_whiteboard = ib.status_whiteboard
+            db_ilog_ext.target_milestone = ib.target_milestone
+            db_ilog_ext.votes = ib.votes
+            db_ilog_ext.everconfirmed = ib.everconfirmed
+            db_ilog_ext.qa_contact = ib.qa_contact
+            db_ilog_ext.estimated_time = ib.estimated_time
+            db_ilog_ext.remaining_time = ib.remaining_time
+            db_ilog_ext.actual_time = ib.actual_time
+            db_ilog_ext.deadline = ib.deadline
+            db_ilog_ext.keywords = ib.keywords
+            db_ilog_ext.cc = ib.cc
+            db_ilog_ext.group_bugzilla = ib.group_bugzilla
+            db_ilog_ext.flag = ib.flag
         elif self.backend_is_jira():
-            db_ilog = DBJiraIssuesLog(i.issue, i.tracker_id)
-            db_ilog.issue_id = i.id
-            db_ilog.type = i.type
-            db_ilog.summary = i.summary
-            db_ilog.description = i.description
-            db_ilog.status = i.status
-            db_ilog.resolution = i.resolution
-            db_ilog.priority = i.priority
-            db_ilog.submitted_by = i.submitted_by
-            db_ilog.date = i.submitted_on
-            db_ilog.assigned_to = i.assigned_to
+            db_ilog_ext = DBJiraIssuesLog()
 
             ib = self.store.find(DBJiraIssueExt, \
                                  DBJiraIssueExt.issue_id == db_ilog.issue_id).one()
 
-            db_ilog.issue_key = ib.issue_key
-            db_ilog.link = ib.link
-            db_ilog.environment = ib.environment
-            db_ilog.security = ib.security
-            db_ilog.updated = ib.updated
-            db_ilog.version = ib.version
-            db_ilog.component = ib.component
-            db_ilog.votes = ib.votes
-            db_ilog.project = ib.project
-            db_ilog.project_id = ib.project_id
-            db_ilog.project_key = ib.project_key
+            db_ilog_ext.issue_id = i.id
+            db_ilog_ext.issue_key = ib.issue_key
+            db_ilog_ext.link = ib.link
+            db_ilog_ext.environment = ib.environment
+            db_ilog_ext.security = ib.security
+            db_ilog_ext.updated = ib.updated
+            db_ilog_ext.version = ib.version
+            db_ilog_ext.component = ib.component
+            db_ilog_ext.votes = ib.votes
+            db_ilog_ext.project = ib.project
+            db_ilog_ext.project_id = ib.project_id
+            db_ilog_ext.project_key = ib.project_key
 
-        return db_ilog
+        return db_ilog, db_ilog_ext
 
     def insert_new_bugs_created(self, date_from, date_to):
         """
@@ -724,9 +661,13 @@ class IssuesLog():
         issues = issues.order_by(Asc(DBIssue.submitted_on))
         ## we store the initial data for each bug found
         for i in issues:
-            db_ilog = self.get_last_values(i)  # from issues and change tables
-            db_ilog = self.build_initial_state(db_ilog)
+            db_ilog, db_ilog_ext = self.get_last_values(i)  # from issues and change tables
+            db_ilog, db_ilog_ext = self.build_initial_state(db_ilog, db_ilog_ext)
             self.store.add(db_ilog)
+            self.store.flush()
+            db_ilog_ext.log_id = db_ilog.id
+            self.store.add(db_ilog_ext)
+            self.store.flush()
             printdbg("Issue #%s created at %s - date_from = %s - date_to = %s"
                      % (db_ilog.issue, db_ilog.date, date_from, date_to))
 
@@ -739,7 +680,6 @@ class IssuesLog():
         return result
 
     def run(self):
-
         last_change_date = self.get_last_change_date()
         printdbg("Last change logged at %s" % (last_change_date))
 
@@ -770,7 +710,7 @@ class IssuesLog():
             #print("field = %s, new_value = %s, changed_by = %s, date = %s"
             #      % (field, new_value, str(changed_by), str(date)))
 
-            db_ilog = self.get_previous_state(issue_id)
+            db_ilog, db_ilog_ext = self.get_previous_state(issue_id)
 
             printdbg("Issue #%s modified at %s" %
                      (db_ilog.issue, date))
@@ -798,48 +738,41 @@ class IssuesLog():
                     elif table_field == 'resolution':
                         db_ilog.resolution = new_value
                     elif table_field == 'alias':
-                        db_ilog.alias = new_value
+                        db_ilog_ext.alias = new_value
                     elif table_field == 'reporter_accessible':
-                        db_ilog.reporter_accessible = new_value
+                        db_ilog_ext.reporter_accessible = new_value
                     elif table_field == 'cclist_accessible':
-                        db_ilog.cclist_accessible = new_value
+                        db_ilog_ext.cclist_accessible = new_value
                     elif table_field == 'product':
-                        db_ilog.product = new_value
+                        db_ilog_ext.product = new_value
                     elif table_field == 'component':
-                        db_ilog.component = new_value
+                        db_ilog_ext.component = new_value
                     elif table_field == 'version':
-                        db_ilog.version = new_value
+                        db_ilog_ext.version = new_value
                     elif table_field == 'rep_platform':
-                        db_ilog.rep_platform = new_value
+                        db_ilog_ext.rep_platform = new_value
                     elif table_field == 'op_sys':
-                        db_ilog.op_sys = new_value
+                        db_ilog_ext.op_sys = new_value
                     elif table_field == 'bug_file_loc':
-                        db_ilog.bug_file_loc = new_value
+                        db_ilog_ext.bug_file_loc = new_value
                     elif table_field == 'status_whiteboard':
-                        db_ilog.status_whiteboard = new_value
+                        db_ilog_ext.status_whiteboard = new_value
                     elif table_field == 'target_milestone':
-                        db_ilog.target_milestone = new_value
+                        db_ilog_ext.target_milestone = new_value
                     elif table_field == 'votes':
-                        db_ilog.votes = new_value
+                        db_ilog_ext.votes = new_value
                     elif table_field == 'everconfirmed':
-                        db_ilog.everconfirmed = new_value
+                        db_ilog_ext.everconfirmed = new_value
                     elif table_field == 'qa_contact':
-                        db_ilog.qa_contact = new_value
+                        db_ilog_ext.qa_contact = new_value
                     elif table_field == 'keywords':
-                        db_ilog.Keywords = new_value
+                        db_ilog_ext.Keywords = new_value
                     elif table_field == 'cc':
-                        db_ilog.cc = new_value
-
-                    try:
-                        self.store.add(db_ilog)
-                    except:
-                        traceback.print_exc()
-
+                        db_ilog_ext.cc = new_value
             elif self.backend_is_jira():
                 # Jira section
                 #
                 #
-
                 if (field in jira_issues_links):
                     table_field = jira_issues_links[field]
                     db_ilog.submitted_by = changed_by
@@ -861,18 +794,22 @@ class IssuesLog():
                     elif table_field == 'description':
                         db_ilog.description = new_value
                     elif table_field == 'link':
-                        db_ilog.link = new_value
+                        db_ilog_ext.link = new_value
                     elif table_field == 'component':
-                        db_ilog.component = new_value
+                        db_ilog_ext.component = new_value
                     elif table_field == 'version':
-                        db_ilog.version = new_value
+                        db_ilog_ext.version = new_value
                     elif table_field == 'security':
-                        db_ilog.security = new_value
-                    try:
-                        self.store.add(db_ilog)
-                    except:
-                        traceback.print_exc()
+                        db_ilog_ext.security = new_value
 
+            try:
+                self.store.add(db_ilog)
+                self.store.flush()
+                db_ilog_ext.log_id = db_ilog.id
+                self.store.add(db_ilog_ext)
+                self.store.flush()
+            except:
+                traceback.print_exc()
             # if there are changes, it stores the last bugs after the last
             # change. If there are no changes, insert all the created bugs
         self.insert_new_bugs_created(date_from, None)
