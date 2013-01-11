@@ -21,17 +21,15 @@
 #       Luis Cañas Díaz <lcanas@libresoft.es>
 #
 
-import sys
-import os
-import errno
-import urllib
 import cgi
-import time
+import errno
+import os
 import random
+import sys
+import time
+import urllib
 
 from Config import Config
-
-config = Config ()
 
 def printout (str = '\n'):
     if str != '\n':
@@ -46,16 +44,16 @@ def printerr (str = '\n'):
     sys.stderr.flush ()
 
 def printwrn (str = '\n'):
-    if config.quiet:
+    if Config.quiet:
         return
 
     printerr ("WRN: " + str)
 
 def printdbg (str = '\n'):
-    if not config.debug:
+    if not Config.debug:
         return
-
-    printout ("DBG: " + str)
+    t = time.strftime("%d/%b/%Y-%X")
+    printout ("DBG: [" + t +"] "+ str)
 
 def get_domain(url):
     strings = url.split('/')
@@ -98,11 +96,22 @@ def url_get_attr(url, attr=None):
 def rdelay():
     # it adds a random delay
     random.seed()
-    if config.delay:
+    if Config.delay:
         printdbg("delay")
         time.sleep(random.randint(0,20))
 
 _dirs = {}
+
+def create_dir(dir):
+    try:
+        os.mkdir (dir, 0700)
+    except OSError, e:
+        if e.errno == errno.EEXIST:
+            if not os.path.isdir (dir):
+                raise
+        else:
+            raise
+
 
 def bicho_dot_dir ():
     try:
@@ -111,15 +120,19 @@ def bicho_dot_dir ():
         pass
 
     dot_dir = os.path.join (os.environ.get ('HOME'), '.bicho')
-    try:
-        os.mkdir (dot_dir, 0700)
-    except OSError, e:
-        if e.errno == errno.EEXIST:
-            if not os.path.isdir (dot_dir):
-                raise
-        else:
-            raise
-
+    create_dir (dot_dir)
+    create_dir (os.path.join(dot_dir, "cache"))
+        
     _dirs['dot'] = dot_dir
 
     return dot_dir
+
+# http://stackoverflow.com/questions/8733233/filtering-out-certain-bytes-in-python
+def valid_XML_char_ordinal(i):
+    return (
+            # Conditions ordered by presumed frequency
+            0x20 <= i <= 0xD7FF
+            or i in (0x9, 0xA, 0xD)
+            or 0xE000 <= i <= 0xFFFD
+            or 0x10000 <= i <= 0x10FFFF
+    )

@@ -25,10 +25,13 @@ Database module
 """
 
 import datetime
-from storm.locals import DateTime, Int, Reference, Unicode
-from Bicho.utils import printerr, printdbg, printout
 
+from storm.exceptions import IntegrityError # DatabaseError,
+from storm.locals import DateTime, Int, Reference, Unicode
+
+from Bicho.utils import printdbg
 from Bicho.Config import Config
+
 
 class NotFoundError(Exception):
     """
@@ -127,7 +130,7 @@ class DBDatabase:
             db_people.set_email(people.email)
             self.store.add(db_people)
             self.store.commit()
-        except:
+        except IntegrityError:
             db_people = self._get_db_people(people.user_id, tracker_id)
         return db_people
 
@@ -160,14 +163,15 @@ class DBDatabase:
             db_issue.description = unicode(issue.description)
             db_issue.status = unicode(issue.status)
             db_issue.resolution = unicode(issue.resolution)
-            db_issue.resolution = unicode(issue.resolution)
             db_issue.priority = unicode(issue.priority)
             db_issue.submitted_by = self.insert_people(issue.submitted_by, 
                                                        tracker_id).id
 
             db_issue.submitted_on = issue.submitted_on
-            db_issue.assigned_to = self.insert_people(issue.assigned_to, 
-                                                      tracker_id).id
+            
+            if issue.assigned_to is not None:
+                db_issue.assigned_to = self.insert_people(issue.assigned_to,
+                                                          tracker_id).id
 
             #if issue is new, we add to the data base before the flush()
             if newIssue == True:
@@ -226,6 +230,18 @@ class DBDatabase:
         except:
             self.store.rollback()
             raise
+
+    def get_last_modification_date(self, state = None):
+        """
+        Return last modification date stored in database
+        """
+        if self.backend is not None:
+            # in the github backend we need to get both open and closed
+            # issues in two different petitions
+            if state:
+                return self.backend.get_last_modification_date(self.store, state)
+            else:
+                return self.backend.get_last_modification_date(self.store)
 
     def _insert_relationship(self, issue_id, type, rel_id):
         """
@@ -419,9 +435,14 @@ class DBDatabase:
 
         @raise NotFoundError: When the identity is not found.
         """
-        db_people = self.store.find(DBPeople,
-                                    DBPeople.user_id == unicode(user_id),
-                                    DBPeople.tracker_id == tracker_id).one()
+        try:
+            db_people = self.store.find(DBPeople,
+                                        DBPeople.user_id == unicode(user_id),
+                                        DBPeople.tracker_id == tracker_id).one()
+        except Exception, e:
+            print ("petó el find")
+            print e
+            
         if not db_people:
             raise NotFoundError('Idenitity %s not found in tracker %s' % 
                                 (user_id, tracker_id))
@@ -1035,12 +1056,21 @@ class DBBackend:
         """
         raise NotImplementedError
 
+    def get_last_modification_date(self, ext):
+        """
+        Abstract method for obtaining the last change stored in the database
+        """
+        raise NotImplementedError
+
 
 def get_database(backend=None):
     """
     """
-    opts = Config()
+    opts = Config
+    if not vars(Config).has_key('url'):
+        opts = Config()
 
     if opts.db_driver_out == "mysql":
         from Bicho.db.mysql import DBMySQL
         return DBMySQL(backend)
+    

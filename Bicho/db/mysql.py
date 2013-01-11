@@ -23,11 +23,15 @@
 MySQL database module
 """
 
+import warnings
+
 from storm.locals import Store, create_database
+
 from Bicho.Config import Config
 from Bicho.db.database import DBDatabase, DBTracker, DBPeople, \
     DBIssue, DBIssuesWatchers, DBIssueRelationship, DBComment, DBAttachment, \
     DBChange, DBSupportedTracker, DBIssueTempRelationship
+
 
 class DBMySQL(DBDatabase):
     """
@@ -53,7 +57,11 @@ class DBMySQL(DBDatabase):
         if backend is not None:
             clsl.extend([cls for cls in backend.MYSQL_EXT])
 
+        self.suppress_warnings()
         self.create_tables(clsl)
+
+    def suppress_warnings(self):
+        warnings.filterwarnings("ignore", message="Table .* already exists")
 
 
 class DBSupportedTracker(DBSupportedTracker):
@@ -95,7 +103,7 @@ class DBPeopleMySQL(DBPeople):
                      id INTEGER NOT NULL AUTO_INCREMENT, \
                      name VARCHAR(64) NULL, \
                      email VARCHAR(64) NULL, \
-                     user_id VARCHAR(64) NOT NULL, \
+                     user_id VARCHAR(255) NOT NULL, \
                      tracker_id INTEGER NOT NULL, \
                      PRIMARY KEY(id), \
                      UNIQUE KEY(user_id, tracker_id), \

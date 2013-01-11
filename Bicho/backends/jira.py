@@ -19,20 +19,22 @@
 #          Juan Francisco Gato Luis <jfcogato@libresoft.es>
 #          Luis Cañas Díaz <lcanas@libresoft.es>
 #          Santiago Dueñas <sduenas@libresoft.es>
+#          Alvaro del Castillo <acs@bitergia.com>
 
 import datetime
 import urllib
 import time
+import sys
 
-from storm.locals import Int, DateTime, Unicode, Reference
+from storm.locals import Int, DateTime, Unicode, Reference, Desc
 
 from dateutil.parser import parse
 from Bicho.common import Issue, People, Tracker, Comment, Change, Attachment
-from Bicho.backends import Backend, register_backend
+from Bicho.backends import Backend
 from Bicho.db.database import DBIssue, DBBackend, get_database
 from Bicho.Config import Config
 from Bicho.utils import printout, printerr, printdbg
-from BeautifulSoup import BeautifulSoup
+from BeautifulSoup import BeautifulSoup, Tag, NavigableString 
 #from BeautifulSoup import NavigableString
 from BeautifulSoup import Comment as BFComment
 #from Bicho.Config import Config
@@ -40,6 +42,8 @@ from BeautifulSoup import Comment as BFComment
 
 import xml.sax.handler
 #from xml.sax._exceptions import SAXParseException
+
+import feedparser
 
 
 
@@ -185,6 +189,17 @@ class DBJiraBackend(DBBackend):
         """
         pass
 
+    def get_last_modification_date(self, store):
+        # get last modification date (day) stored in the database
+        # select date_last_updated as date from issues_ext_bugzilla order by date
+        result = store.find(DBJiraIssueExt)
+        aux = result.order_by(Desc(DBJiraIssueExt.updated))[:1]
+
+        for entry in aux:
+            return entry.updated.strftime('%Y-%m-%d') 
+
+        return None
+
 
 ####################################
 
@@ -310,6 +325,7 @@ class SoupHtmlParser():
     def __init__ (self, html, idBug):
         self.html = html
         self.idBug = idBug
+        self.changes_lost = 0
 
     def remove_comments(self, soup):
         cmts = soup.findAll(text=lambda text:isinstance(text, BFComment))
@@ -331,11 +347,28 @@ class SoupHtmlParser():
     
         for table in tables:
             change_author = table.find("div", {"class": "action-details"})
-            
-            if change_author == None:
-                break
-            author = People(change_author.contents[2].strip())
-            date = parse(change_author.contents[4]).replace(tzinfo=None)
+            if change_author == None or len(change_author)<3:
+                self.changes_lost += 1
+                printerr("Change author format not supported. Change lost!")
+                continue
+            if isinstance(change_author.contents[2], Tag):
+                change_author_str = change_author.contents[2]['rel']
+            elif isinstance(change_author.contents[2], NavigableString):
+                change_author_str = change_author.contents[2]
+            else:
+                printerr("Change author format not supported")
+                printdbg(change_author)
+                continue
+            author = People(change_author_str.strip())
+            author.set_email(BugsHandler.getUserEmail(change_author_str.strip()))
+            if isinstance(change_author.contents[4], Tag):
+                date_str = change_author.contents[4].find('time')['datetime']
+            elif isinstance(change_author.contents[4], NavigableString):
+                date_str = change_author.contents[4]
+            else:
+                printerr("Change date format not supported")
+                continue
+            date = parse(date_str).replace(tzinfo=None)
  
             rows = list(table.findAll('tr'))
             for row in rows:
@@ -352,8 +385,11 @@ class SoupHtmlParser():
 class BugsHandler(xml.sax.handler.ContentHandler):
 
     def __init__ (self):
-        
-        #store all bugs
+        self.issues_data = []
+        self.init_bug()
+
+    def init_bug (self):
+
         self.mapping = []
         self.comments = []
         self.attachments = []
@@ -422,11 +458,14 @@ class BugsHandler(xml.sax.handler.ContentHandler):
         self.is_customfieldname = False
         self.is_customfieldvalue = False
 
-    def startElement(self, name, attrs):      
-        if name == 'title':
+    def startElement(self, name, attrs):
+        if name == "item":
+            self.init_bug()
+        elif name == 'title':
             self.is_title = True
         elif name == 'link':
             self.is_link = True
+            self.link = ''
         elif name == 'description':
             self.is_description = True
         elif name == 'environment':
@@ -443,8 +482,10 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             self.is_security = True
         elif name == 'created':
             self.is_created = True
+            self.created = ''
         elif name == 'updated':
             self.is_updated = True
+            self.updated = ''
         elif name == 'version':
             self.is_version = True
         elif name == 'component':
@@ -453,17 +494,17 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             self.is_votes = True
         elif name == 'project':
             self.is_project = True
-            self.project_id = str(attrs['id'])
-            self.project_key = str(attrs['key'])
+            self.project_id = attrs['id']
+            self.project_key = attrs['key']
         elif name == 'key':
             self.is_issue_key = True
             self.key_id = attrs['id']
         elif name == 'assignee':
             self.is_assignee = True
-            self.assignee_username = str(attrs['username'])
+            self.assignee_username = attrs['username']
         elif name == 'reporter':
             self.is_reporter = True
-            self.reporter_username = str(attrs['username'])
+            self.reporter_username = attrs['username']
         elif name == 'comment':
             self.is_comment = True
             self.comment_id = attrs['id']
@@ -487,9 +528,9 @@ class BugsHandler(xml.sax.handler.ContentHandler):
 
     def characters(self, ch):
         if self.is_title:
-            self.title = str(ch)
+            self.title = ch
         elif self.is_link:
-            self.link = str(ch)
+            self.link += ch
         elif self.is_description:
             #FIXME problems with ascii, not support str() function
             if (self.first_desc == True):
@@ -497,18 +538,17 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             else:
                 self.description = self.description + ch.strip()
         elif self.is_environment:
-            self.environment = self.environment + str(ch)
+            self.environment = self.environment + ch
         elif self.is_summary:
-            self.summary = str(ch)
+            self.summary = ch
         elif self.is_bug_type:
-            self.bug_type = str(ch)
+            self.bug_type = ch
         elif self.is_status:
-            self.status = str(ch)
+            self.status = ch
         elif self.is_resolution:
-            self.resolution = str(ch)
+            self.resolution = ch
         elif self.is_security:
-            print str(ch)
-            self.security = str(ch)
+            self.security = ch
         elif self.is_assignee:
             #FIXME problems with ascii, not support str() function
             self.assignee = ch
@@ -516,19 +556,19 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             #FIXME problems with ascii, not support str() function
             self.reporter = ch
         elif self.is_created:
-            self.created = str(ch)
+            self.created += ch
         elif self.is_updated:
-            self.updated = str(ch)
+            self.updated += ch
         elif self.is_version:
-            self.version = str(ch)
+            self.version = ch
         elif self.is_component:
-            self.component = str(ch)
+            self.component = ch
         elif self.is_votes:
             self.votes = int(ch)
         elif self.is_project:
-            self.project = str(ch)
+            self.project = ch
         elif self.is_issue_key:
-            self.issue_key = str(ch)
+            self.issue_key = ch
         elif self.is_comment:
             #FIXME problems with ascii, not support str() function
             self.comment = self.comment + ch
@@ -637,72 +677,105 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             newbug.attachments = self.attachments
             newbug.customfields = self.customfields
 
-            self.mapping.append(newbug)
-            self.comments = []
-            self.attachments = []
-            self.customfields = []
-            self.first_desc = True
-            self.description = ""
-            self.environment = ""
+            self.issues_data.append(newbug)
 
-    def getIssue(self):
-        #Return the parse data bug into issue object
-        for bug in self.mapping:
+    @staticmethod
+    def remove_unicode(str):
+        """
+        Cleanup u'' chars indicating a unicode string
+        """
+        if (str.startswith('u\'') and str.endswith('\'')):
+            str = str[2:len(str)-1]
+        return str
 
-            issue_id = bug.key_id
-            issue_type = bug.bug_type
-            summary = bug.summary
-            description = bug.description
-            status = bug.status
-            resolution = bug.resolution
-
-            submitted_by = People(bug.assignee_username)
-            submitted_by.set_name(bug.assignee)            
-
-            assigned_by = People(bug.reporter_username)
-            assigned_by.set_name(bug.reporter)
-            
-            submitted_on = parse(bug.created).replace(tzinfo=None)
-
-            issue = JiraIssue(issue_id, issue_type, summary, description, submitted_by, submitted_on)
-            issue.set_assigned(assigned_by)
-            issue.setIssue_key(bug.issue_key)
-            issue.setTitle(bug.title)
-            issue.setLink(bug.link)
-            issue.setEnvironment(bug.environment)
-            issue.setSecurity(bug.security)
-            issue.setUpdated(parse(bug.updated).replace(tzinfo=None))
-            issue.setVersion(bug.version)
-            issue.setComponent(bug.component)
-            issue.setVotes(bug.votes)
-            issue.setProject(bug.project)
-            issue.setProject_id(bug.project_id)
-            issue.setProject_key(bug.project_key)
-            issue.setStatus(status)
-            issue.setResolution(resolution)
-            
-            bug_activity_url = bug.link + '?page=com.atlassian.jira.plugin.system.issuetabpanels%3Achangehistory-tabpanel'
-            data_activity = urllib.urlopen(bug_activity_url).read()
-            parser = SoupHtmlParser(data_activity, bug.key_id)
-            changes = parser.parse_changes()
-            for c in changes:
-                issue.add_change(c)     
-
-            for comment in bug.comments:
-                comment_by = People(comment.comment_author)
-                comment_on = parse(comment.comment_created).replace(tzinfo=None)
-                com = Comment(comment.comment, comment_by, comment_on)
-                issue.add_comment(com)
-
-            for attachment in bug.attachments:
-                url = "/secure/attachment/" + attachment.attachment_id + "/" + attachment.attachment_name
-                attachment_by = People(attachment.attachment_author)
-                attachment_on = parse(attachment.attachment_created).replace(tzinfo=None)
-                attach = Attachment(url, attachment_by, attachment_on)
-                issue.add_attachment(attach)
-            #FIXME customfield are not stored in db because is the fields has the same in all the bugs
+    @staticmethod
+    def getUserEmail(username):
+        return ""
+        # http://issues.liferay.com/activity?maxResults=1&streams=user+IS+kalman.vincze
+        if not vars(BugsHandler).has_key("_emails"):
+            BugsHandler._emails = {}
+        if BugsHandler._emails.has_key(username):
+            email = BugsHandler._emails[username]
+        else:
+            serverUrl = Config.url.split("/browse/")[0]
+            user_url = serverUrl + "/activity?maxResults=1&streams=user+IS+"+username
+            email = ""
+            d = feedparser.parse(user_url)
+            if d.has_key('entries'):
+                if len(d['entries'])>0:
+                    email = d['entries'][0]['author_detail']['email']
+                    email = BugsHandler.remove_unicode(email)
+                    printdbg(username + " " + email)
+            BugsHandler._emails[username] = email
+        return email
     
-            return issue
+    def getIssues(self):
+        bicho_bugs = []
+        for bug in self.issues_data:
+            bicho_bugs.append(self.getIssue(bug))
+        return bicho_bugs
+        
+    def getIssue(self, bug):
+        #Return the parse data bug into issue object
+        issue_id = bug.key_id
+        issue_type = bug.bug_type
+        summary = bug.summary
+        description = bug.description
+        status = bug.status
+        resolution = bug.resolution
+
+        assigned_by = People(bug.assignee_username)
+        assigned_by.set_name(bug.assignee)
+        assigned_by.set_email(BugsHandler.getUserEmail(bug.assignee_username))
+
+        submitted_by = People(bug.reporter_username)
+        submitted_by.set_name(bug.reporter)
+        submitted_by.set_email(BugsHandler.getUserEmail(bug.reporter_username))
+
+        submitted_on = parse(bug.created).replace(tzinfo=None)
+
+        issue = JiraIssue(issue_id, issue_type, summary, description, submitted_by, submitted_on)
+        issue.set_assigned(assigned_by)
+        issue.setIssue_key(bug.issue_key)
+        issue.setTitle(bug.title)
+        issue.setLink(bug.link)
+        issue.setEnvironment(bug.environment)
+        issue.setSecurity(bug.security)
+        issue.setUpdated(parse(bug.updated).replace(tzinfo=None))
+        issue.setVersion(bug.version)
+        issue.setComponent(bug.component)
+        issue.setVotes(bug.votes)
+        issue.setProject(bug.project)
+        issue.setProject_id(bug.project_id)
+        issue.setProject_key(bug.project_key)
+        issue.setStatus(status)
+        issue.setResolution(resolution)
+
+        bug_activity_url = bug.link + '?page=com.atlassian.jira.plugin.system.issuetabpanels%3Achangehistory-tabpanel'
+        printdbg("Bug activity: " + bug_activity_url)
+        data_activity = urllib.urlopen(bug_activity_url).read()
+        parser = SoupHtmlParser(data_activity, bug.key_id)
+        changes = parser.parse_changes()
+        for c in changes:
+            issue.add_change(c)
+
+        for comment in bug.comments:
+            comment_by = People(comment.comment_author)
+            comment_by.set_email(BugsHandler.getUserEmail(comment.comment_author))
+            comment_on = parse(comment.comment_created).replace(tzinfo=None)
+            com = Comment(comment.comment, comment_by, comment_on)
+            issue.add_comment(com)
+
+        for attachment in bug.attachments:
+            url = "/secure/attachment/" + attachment.attachment_id + "/" + attachment.attachment_name
+            attachment_by = People(attachment.attachment_author)
+            attachment_by.set_email(BugsHandler.getUserEmail(attachment.attachment_author))
+            attachment_on = parse(attachment.attachment_created).replace(tzinfo=None)
+            attach = Attachment(url, attachment_by, attachment_on)
+            issue.add_attachment(attach)
+        #FIXME customfield are not stored in db because is the fields has the same in all the bugs
+
+        return issue
 
 class JiraBackend(Backend):
     """
@@ -710,28 +783,91 @@ class JiraBackend(Backend):
     """
 
     def __init__(self):
-        options = Config()
-        self.delay = options.delay
-   
+        self.delay = Config.delay
+        self.url = Config.url
+        
+    def basic_jira_url(self):
+        serverUrl = self.url.split("/browse/")[0]
+        product = self.url.split("/browse/")[1]
+        query = "/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml"
+        url_issues  = serverUrl + query + "?pid="+product
+        url_issues += "&sorter/field=updated&sorter/order=INC"
+        if self.last_mod_date:
+             url_issues += "&updated:after="+self.last_mod_date
+        return url_issues
+
     def bugsNumber(self,url):
-        serverUrl = url.split("/browse/")[0]
-        oneBug = serverUrl + "/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+%3D+" + url.split("/browse/")[1] + "&tempMax=1"
+        oneBug = self.basic_jira_url()
+        oneBug += "&tempMax=1"
+        printdbg("Getting number of issues: " + oneBug)
         data_url = urllib.urlopen(oneBug).read()
         bugs = data_url.split("<issue")[1].split('\"/>')[0].split("total=\"")[1]
-        return bugs
+        return int(bugs)
+
+    # http://stackoverflow.com/questions/8733233/filtering-out-certain-bytes-in-python
+    def valid_XML_char_ordinal(self, i):
+        return ( # conditions ordered by presumed frequency
+            0x20 <= i <= 0xD7FF
+            or i in (0x9, 0xA, 0xD)
+            or 0xE000 <= i <= 0xFFFD
+            or 0x10000 <= i <= 0x10FFFF
+            )
+        
+    def safe_xml_parse(self, url_issues, handler):
+        f = urllib.urlopen(url_issues)
+        parser = xml.sax.make_parser()
+        parser.setContentHandler(handler)
+
+        try:
+            contents = f.read()
+            parser.feed(contents)
+            parser.close()
+        except Exception:
+            # Clean only the invalid XML
+            try:
+                parser2 = xml.sax.make_parser()
+                parser2.setContentHandler(handler)
+                parser2.setContentHandler(handler)
+                printdbg("Cleaning dirty XML")
+                cleaned_contents = ''. \
+                    join(c for c in contents if self.valid_XML_char_ordinal(ord(c)))
+                parser2.feed(cleaned_contents)
+                parser2.close()
+            except Exception:
+                printerr("Error parsing URL: %s" % (bugs_url))
+                raise
+        f.close()
+
+    def analyze_bug_list(self, nissues, offset, bugsdb, dbtrk_id):
+        url_issues = self.basic_jira_url()
+        url_issues += "&tempMax=" + str(nissues) + "&pager/start=" + str(offset)
+        printdbg(url_issues)
+        
+        handler = BugsHandler()
+        self.safe_xml_parse(url_issues, handler)
+
+        try:
+            issues = handler.getIssues()            
+            for issue in issues:
+                bugsdb.insert_issue(issue, dbtrk_id)
+        except Exception, e:
+            import traceback
+            traceback.print_exc()
+            sys.exit(0)
  
-    def run(self,url):
+    def run(self):
         printout("Running Bicho with delay of %s seconds" % (str(self.delay)))
 
+        issues_per_xml_query = 10
         bugsdb = get_database(DBJiraBackend())
 
         bugsdb.insert_supported_traker("jira","4.1.2")
-        trk = Tracker(url.split("-")[0], "jira", "4.1.2")
+        trk = Tracker(self.url.split("-")[0], "jira", "4.1.2")
         dbtrk = bugsdb.insert_tracker(trk)
 
-        serverUrl = url.split("/browse/")[0]
-        query = "/si/jira.issueviews:issue-xml/"
-        project = url.split("/browse/")[1]
+        serverUrl = self.url.split("/browse/")[0]
+        query =  "/si/jira.issueviews:issue-xml/"
+        project = self.url.split("/browse/")[1]
 
         if (project.split("-").__len__() > 1):
             bug_key = project
@@ -745,32 +881,27 @@ class JiraBackend(Backend):
             parser.setContentHandler(handler)
             try:
                 parser.parse(serverUrl + query + bug_key + "/" + bug_key + ".xml")
-                issue = handler.getIssue()
+                issue = handler.getIssues()[0]
                 bugsdb.insert_issue(issue, dbtrk.id)
             except Exception, e:
                 #printerr(e)
                 print(e)
 
         else:
-            bugs_number = self.bugsNumber(url)
+            self.last_mod_date = bugsdb.get_last_modification_date()
+            if self.last_mod_date:
+                # self.url = self.url + "&updated:after=" + last_mod_date
+                printdbg("Last bugs cached were modified on: %s" % self.last_mod_date)
 
-            for i in range(int(bugs_number)+1):
-                if i != 0:
-                    bug_key = project + "-" + str(i)
-                    printdbg(serverUrl + query + bug_key + "/" + bug_key + ".xml")
+            bugs_number = self.bugsNumber(self.url)
+            print "Total bugs", str(bugs_number)
+            remaining = bugs_number
+            while (remaining>0):
+                self.analyze_bug_list(issues_per_xml_query, bugs_number-remaining, bugsdb, dbtrk.id)
+                remaining -= issues_per_xml_query
+                print "Remaining time: ", (remaining/issues_per_xml_query)*Config.delay/60, "m", "(",remaining,")"
+                time.sleep(self.delay)
 
-                    parser = xml.sax.make_parser(  )
-                    handler = BugsHandler(  )
-                    parser.setContentHandler(handler)
-                    try:
-                        parser.parse(serverUrl + query + bug_key + "/" + bug_key + ".xml")
-                        issue = handler.getIssue()
-                        bugsdb.insert_issue(issue, dbtrk.id)
-                    except Exception, e:
-                        #printerr(e)
-                        print(e)
-                    time.sleep(self.delay)
+            printout("Done. %s bugs analyzed" % (bugs_number))
 
-        printout("Done. %s bugs analyzed" % (bugs_number))
-
-register_backend ("jira", JiraBackend)
+Backend.register_backend ("jira", JiraBackend)

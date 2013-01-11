@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2007-2011 GSyC/LibreSoft, Universidad Rey Juan Carlos
+#
+# Copyright (C) 2007-2012 GSyC/LibreSoft, Universidad Rey Juan Carlos
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,25 +20,29 @@
 #          Juan Francisco Gato Luis <jfcogato@libresoft.es>
 #          Luis Cañas Díaz <lcanas@libresoft.es>
 #          Santiago Dueñas <sduenas@libresoft.es>
+#          Alvaro del Castillo <acs@bitergia.com>
 
-import urllib
 import string
-import sys
 import time
-
-from BeautifulSoup import BeautifulSoup
-from BeautifulSoup import Comment as BFComment
-from Bicho.backends import Backend, register_backend
-from Bicho.Config import Config
-from Bicho.utils import printerr, printdbg, printout
-from Bicho.common import Tracker, People, Issue, Comment, Change
-from Bicho.db.database import DBIssue, DBBackend, get_database
-
-from storm.locals import DateTime, Int, Reference, Unicode
+import urllib
+import urllib2
+import urlparse
 import xml.sax.handler
-#from xml.sax._exceptions import SAXParseException
+
+from datetime import datetime, timedelta
 from dateutil.parser import parse
-from datetime import datetime
+
+from storm.locals import DateTime, Int, Reference, Unicode, Desc
+
+from BeautifulSoup import BeautifulSoup, Comment as BFComment
+
+from Bicho.Config import Config
+from Bicho.backends import Backend
+from Bicho.common import Tracker, People, Issue, Comment, Change
+from Bicho.db.database import DBIssue, DBBackend, DBTracker, get_database
+from Bicho.utils import printerr, printdbg, printout, valid_XML_char_ordinal
+
+BUGZILLA = "bugzilla"
 
 class DBBugzillaIssueExt(object):
     """
@@ -65,7 +70,7 @@ class DBBugzillaIssueExt(object):
     qa_contact = Unicode()
     estimated_time = Unicode()
     remaining_time = Unicode()
-    actual_time = DateTime()
+    actual_time = Unicode()
     deadline = DateTime()
     keywords = Unicode()
     cc = Unicode()
@@ -106,7 +111,7 @@ class DBBugzillaIssueExtMySQL(DBBugzillaIssueExt):
                      qa_contact VARCHAR(32) default NULL, \
                      estimated_time VARCHAR(32) default NULL, \
                      remaining_time VARCHAR(32) default NULL, \
-                     actual_time DATETIME default NULL, \
+                     actual_time VARCHAR(32) default NULL, \
                      deadline DATETIME default NULL, \
                      keywords VARCHAR(32) default NULL, \
                      flag VARCHAR(32) default NULL, \
@@ -149,7 +154,7 @@ class DBBugzillaBackend(DBBackend):
 
         try:
             db_issue_ext = store.find(DBBugzillaIssueExt,
-                                    DBBugzillaIssueExt.issue_id == issue_id).one()
+                                      DBBugzillaIssueExt.issue_id == issue_id).one()
             if not db_issue_ext:
                 newIssue = True
                 db_issue_ext = DBBugzillaIssueExt(issue_id)
@@ -175,7 +180,7 @@ class DBBugzillaBackend(DBBackend):
             db_issue_ext.estimated_time = self.__return_unicode(issue.estimated_time)
             db_issue_ext.remaining_time = self.__return_unicode(issue.remaining_time)
             db_issue_ext.actual_time = self.__return_unicode(issue.actual_time)
-            db_issue_ext.deadline = self.__return_unicode(issue.deadline)
+            db_issue_ext.deadline = issue.deadline
             db_issue_ext.keywords = self.__return_unicode(issue.keywords)
             db_issue_ext.group = self.__return_unicode(issue.group)
             db_issue_ext.flag = self.__return_unicode(issue.flag)
@@ -225,6 +230,22 @@ class DBBugzillaBackend(DBBackend):
         """
         pass
 
+    def get_last_modification_date(self, store, trk_id):
+        # Get last modification date (day) stored in the database
+        # select date_last_updated as date from issues_ext_bugzilla
+        # order by date
+        result = store.find(DBBugzillaIssueExt,
+                            DBBugzillaIssueExt.issue_id == DBIssue.id,
+                            DBIssue.tracker_id == DBTracker.id,
+                            DBTracker.id == trk_id)
+
+        if result.is_empty():
+            return None
+
+        db_issue_ext = result.order_by(Desc(DBBugzillaIssueExt.delta_ts))[0]
+        delta_ts = db_issue_ext.delta_ts
+        return delta_ts
+
 
 class SoupHtmlParser():
     """
@@ -267,19 +288,18 @@ class SoupHtmlParser():
         soup = BeautifulSoup(self.html)
         self.remove_comments(soup)
         remove_tags = ['a', 'span','i']
-        #[i.replaceWith(i.contents[0]) for i in soup.findAll(remove_tags)]
-        for i in soup.findAll(remove_tags):
-            try:
-                i.replaceWith(i.contents[0])
-            except:
-                printdbg("Error ignored parsing HTML")
         changes = []
-
         tables = soup.findAll('table')
-        # We need the first table with 5 cols in the first line
+
+        # We look for the first table with 5 cols
         table = None
         for table in tables:
             if len(table.tr.findAll('th')) == 5:
+                try:
+                    for i in table.findAll(remove_tags):
+                        i.replaceWith(i.text)
+                except:
+                    printerr("error removing HTML tags")
                 break
 
         if table is None:
@@ -292,11 +312,25 @@ class SoupHtmlParser():
                 person_email = cols[0].contents[0].strip()
                 person_email = unicode(person_email.replace('&#64;', '@'))
                 date = self._to_datetime_with_secs(cols[1].contents[0].strip())
-                field = unicode(cols[2].contents[0].strip())
+                # when the field contains an Attachment, the list has more
+                #than a field. For example:
+                #
+                # [u'\n', u'Attachment #12723', u'\n              Flag\n            ']
+                #
+                if len(cols[2].contents) > 1:
+                    aux_c = unicode(" ".join(cols[2].contents))
+                    field = unicode(aux_c.replace("\n","").strip())
+                else:
+                    field = unicode(cols[2].contents[0].replace("\n","").strip())
                 removed = unicode(cols[3].contents[0].strip())
                 added = unicode(cols[4].contents[0].strip())
             else:
-                field = cols[0].contents[0].strip()
+                # same as above with the Attachment example
+                if len(cols[0].contents) > 1:
+                    aux_c = unicode(" ".join(cols[0].contents))
+                    field = aux_c.replace("\n","").strip()
+                else:
+                    field = cols[0].contents[0].strip()
                 removed = cols[1].contents[0].strip()
                 added = cols[2].contents[0].strip()
 
@@ -571,20 +605,58 @@ class BugzillaIssue(Issue):
         """
         self.flag = flag
 
-
-class BugsHandler(xml.sax.handler.ContentHandler):
+class BugzillaHandler(xml.sax.handler.ContentHandler):
     """
-    Parses XML for each bug, the XML is using
+    Parses XML to get bugzilla version, the XML is using
     https://bugzilla.libresoft.es/bugzilla.dtd
     """
 
+    def __init__ (self):
+        self.init_bugzilla()
 
-    # TBD get the bugzilla version number
+    def init_bugzilla(self):
+
+        self.bugzilla = {
+              "version": None,
+              "urlbase": None,
+              "maintainer": None,
+              "exporter": None
+          }
+
+    def get_bugzilla(self):
+        return self.bugzilla
+
+    def get_version(self):
+        return self.bugzilla["version"]
+
+    def startElement(self, name, attrs):
+        if name == BUGZILLA:
+            self.init_bugzilla()
+
+            for attrName in attrs.keys():
+                self.bugzilla[attrName] = unicode(attrs.get(attrName))
+
+class BugsHandler(xml.sax.handler.ContentHandler):
+    """
+    Parses XML for a list of bugs, the XML is using
+    https://bugzilla.libresoft.es/bugzilla.dtd
+    """
 
     def __init__ (self):
         """
         """
-        # TBD attachments and flag, see bugzilla.dtd
+        # TBD attachments and flag, see bugzilla.dtd        
+        #self.issues_data = {}
+        self.issues_data = []
+        self.init_bug()
+        
+    def get_issues(self):
+        return self.issues_data
+
+    def init_bug (self):
+        """
+        Clean all the values to start parsing a new bug
+        """
 
         self.atags = {
             "bug_id": None,
@@ -662,6 +734,11 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             self.tag_name = name
             self.interestData = []
 
+        if name == "bug":
+            self.init_bug()
+        # else:
+        #    printdbg("Tag unknown: " + name);
+
         for attrName in attrs.keys():
             if self.tag_name == "reporter":
                 self.atags["reporter_name"] = unicode(attrs.get(attrName))
@@ -693,7 +770,9 @@ class BugsHandler(xml.sax.handler.ContentHandler):
     def endElement(self, name):
         if self.atags.has_key( name ):
             aux = string.join(self.interestData)
-            self.atags[name] = unicode(aux)
+            if not self.atags[name]:
+                #delta_ts could be overwritten by delta_ts of attachment
+                self.atags[name] = unicode(aux)
             self.tag_name = None
         elif self.long_desc_tags.has_key( name ):
             aux = string.join(self.interestData)
@@ -711,10 +790,9 @@ class BugsHandler(xml.sax.handler.ContentHandler):
             elif name == 'attachment':
                 pass
             self.tag_name = None
-
-        else:
-            printdbg( "unknown tag:" + name)
-
+        elif name == "bug":
+            #self.issues_data[self.atags["bug_id"]] = self.get_issue()
+            self.issues_data.append(self.get_issue())
 
     def print_debug_data(self):
         printdbg("")
@@ -751,12 +829,16 @@ class BugsHandler(xml.sax.handler.ContentHandler):
         """
         return parse(str_date).replace(tzinfo=None)
 
-
     def get_issue(self):
         issue_id = self.atags["bug_id"]
         type  = self.atags["bug_severity"]
         summary = self.atags["short_desc"]
-        desc = self.ctags["long_desc"][0]["thetext"]
+
+        if len(self.ctags["long_desc"]) > 0:
+            desc = self.ctags["long_desc"][0]["thetext"]
+        else:
+            desc = ""
+
         submitted_by = People(self.atags["reporter"])
         submitted_by.set_name(self.atags["reporter_name"])
         submitted_by.set_email(self.atags["reporter"])
@@ -822,7 +904,7 @@ class BugsHandler(xml.sax.handler.ContentHandler):
         issue.set_remaining_time(self.atags["remaining_time"])
         issue.set_actual_time(self.atags["actual_time"])
         if self.atags["deadline"]:
-            issue.set_deadline(self.atags["deadline"])
+            issue.set_deadline(self._convert_to_datetime(self.atags["deadline"]))
         issue.set_keywords(self.btags["keywords"])
         # we also store the list of watchers/CC
         for w in self.btags["cc"]:
@@ -833,163 +915,356 @@ class BugsHandler(xml.sax.handler.ContentHandler):
 
         return issue
 
+# 500 is the max recommend by bugmaster@gnome.org.
+# Use 1 for legacy working.
+MAX_ISSUES_PER_XML_QUERY = 500
 
-class DBIssueBugzilla(object):
-    """
-    """
-    __storm_table__ = 'issues_extra'
+# length of hibernation in seconds
+HIBERNATION_LENGTH = 100
 
-    id = Int(primary=True)
-    alias = Unicode()
-    delta_ts = DateTime()
-    reporter_accessible = Unicode()
-    cclist_accessible = Unicode()
-    classification_id = Unicode()
-    classification = Unicode()
-    product = Unicode()
-    component = Unicode()
-    version = Unicode()
-    rep_platform = Unicode()
-    op_sys = Unicode()
-    dup_id = Int()
-    bug_file_loc = Unicode()
-    status_whiteboard = Unicode()
-    target_milestone = Unicode()
-    votes = Int()
-    everconfirmed = Unicode()
-    qa_contact = Unicode()
-    estimated_time = Unicode()
-    remaining_time = Unicode()
-    actual_time = DateTime()
-    deadline = Unicode()
-    keywords = Unicode()
-    cc = Unicode()
-    group = Unicode()
-    flag = Unicode()
-    issue_id = Int()
-
-    issue = Reference(issue_id, DBIssue.id)
-
-    def __init__(self, issue_id):
-        self.issue_id = issue_id
-
-class BGBackend (Backend):
+class BGBackend(Backend):
 
     def __init__ (self):
-        Backend.__init__ (self)
-        options = Config()
-        self.url = options.url
-        self.delay = options.delay
-
-    def get_domain(self, url):
-        strings = url.split('/')
-        return strings[0] + "//" + strings[2] + "/"
-
-    def analyze_bug(self, bug_id, url):
-        #Retrieving main bug information
-        bug_url = url + "show_bug.cgi?id=" + bug_id + "&ctype=xml"
-        printdbg(bug_url)
-
-        handler = BugsHandler()
-        parser = xml.sax.make_parser()
-        parser.setContentHandler(handler)
-        f = urllib.urlopen(bug_url)
+        self.url = Config.url
+        self.delay = Config.delay
+        self.cookies = {}
+        self.version = None
+        self.tracker = None
+        self.retrieved = {} # retrieved issues on this run
 
         try:
-            parser.feed(f.read())
+            self.backend_password = Config.backend_password
+            self.backend_user = Config.backend_user
+        except AttributeError:
+            printout("No bugzilla account provided, mail addresses won't " +\
+                     "be retrieved")
+            self.backend_password = None
+            self.backend_user = None
+
+        self.bugsdb = get_database(DBBugzillaBackend())
+
+    def run(self):
+        printout("Running Bicho with delay of %s seconds" % str(self.delay))
+
+        self._login()
+        self._set_version()
+        self._set_tracker()
+
+        self._process_issues()
+
+        if not self.retrieved:
+            printout("No issues found. Did you provide the correct url?")
+        else:
+            printout("Done. %d issues retrieved" % len(self.retrieved))
+
+    def _login(self):
+        """
+        Authenticates a user in a bugzilla tracker
+        """
+        if not (self.backend_user and self.backend_password):
+            printdbg("No account data provided. Not logged in bugzilla")
+            return
+
+        import cookielib
+
+        cookie_j = cookielib.CookieJar()
+        cookie_h = urllib2.HTTPCookieProcessor(cookie_j)
+
+        url = self._get_login_url(self.url)
+        values = {'Bugzilla_login': self.backend_user,
+                  'Bugzilla_password': self.backend_password}
+
+        opener = urllib2.build_opener(cookie_h)
+        urllib2.install_opener(opener)
+        data = urllib.urlencode(values)
+        request = urllib2.Request(url, data)
+        urllib2.urlopen(request)
+        for i, c in enumerate(cookie_j):
+            self.cookies[c.name] = c.value
+
+        printout("Logged in bugzilla as %s" % self.backend_user)
+        printdbg("Bugzilla session cookies: %s" % self.cookies)
+
+    def _set_version(self):
+        if self.version:
+            printdbg("Bugzilla version: %s" % self.version)
+            return
+
+        info_url = self._get_info_url(self.url)
+
+        f = self._urlopen_auth(info_url)
+        try:
+            printdbg("Getting bugzilla version from %s" % info_url)
+            contents = f.read()
         except Exception:
-            printerr("Error parsing URL: %s" % (bug_url))
+            printerr("Error retrieving URL %s" % info_url)
+            raise
+        f.close()
+
+        handler = BugzillaHandler()
+        parser = xml.sax.make_parser()
+        parser.setContentHandler(handler)
+        try:
+            cleaned_contents = ''. \
+                join(c for c in contents if valid_XML_char_ordinal(ord(c)))
+            parser.feed(cleaned_contents)
+        except Exception:
+            printerr("Error parsing URL %s" % info_url)
+            raise
+        parser.close()
+
+        self.version = handler.get_version()
+        printdbg("Bugzilla version: %s" % self.version)
+
+    def _set_tracker(self):
+        # FIXME: supported trackers have to be inserted during
+        # the initialization
+        self.bugsdb.insert_supported_traker(BUGZILLA, self.version)
+        trk_url = self._get_domain(self.url)
+        trk = Tracker(trk_url, BUGZILLA, self.version)
+        self.tracker = self.bugsdb.insert_tracker(trk)
+
+    def _process_issues(self):
+        if self._is_issue_url(self.url):
+            # FIXME: this only works for one issue, if more id parameters
+            # are set, those issues will not be processed
+            ids = [self.url.split("show_bug.cgi?id=")[1]]
+            printdbg("Issue #%s URL found" % ids[0])
+            url = self._get_domain(self.url)
+            self._retrieve_issues(ids, url, self.tracker.id)
+        else:
+            i = 0
+            url = self._get_domain(self.url)
+            last_date, next_date = self._get_last_and_next_dates()
+
+            # Some bugzillas limit the number of results that a query can return.
+            # Due to this, bicho will search for new issues/changes until find
+            # no one new.
+            ids = self._retrieve_issues_ids(self.url, self.version, next_date)
+
+            while(ids):
+                printout("Round #%d - Total issues to retrieve: %d" % (i, len(ids)))
+                self._retrieve_issues(ids, url, self.tracker.id)
+                i += 1
+                # Search new ids, but first, we have to check whether they are
+                # already stored or not
+                last_date, next_date = self._get_last_and_next_dates()
+                ids = self._retrieve_issues_ids(self.url, self.version, last_date)
+                # If there aren't new issues from the same date, ask for a new one
+                if not ids:
+                    printdbg("No issues found for date %s. Trying with %s" % (last_date, next_date))
+                    ids = self._retrieve_issues_ids(self.url, self.version, next_date)
+
+            if i > 0:
+                printout("No more issues to retrieve")
+
+    def _retrieve_issues_ids(self, base_url, version, from_date, not_retrieved=True):
+        url = self._get_issues_list_url(base_url, version, from_date)
+        printdbg("Getting bugzilla issues from %s" % url)
+
+        f = self._urlopen_auth(url)
+
+        # Problems using csv library, not all the fields are delimited by
+        # '"' character. Easier using split.
+        # Moreover, we drop the first line of the CSV because it contains
+        # the headers
+        ids = []
+        csv = f.read().split('\n')[1:]
+        for line in csv:
+            # 0: bug_id, 7: changeddate
+            values = line.split(',')
+            id = values[0]
+            change_ts = values[7].strip('"')
+
+            # Filter issues already retrieved
+            if not_retrieved:
+                if (not self.retrieved.has_key(id)) or (self.retrieved[id] != change_ts):
+                    ids.append(id)
+            else:
+                ids.append(id)
+        return ids
+
+    def _retrieve_issues(self, ids, base_url, trk_id):
+        # We want to use pop() to get the oldest first so we must reverse the
+        # order
+        ids.reverse()
+        while(ids):
+            query_issues = []
+            while (len(query_issues) < MAX_ISSUES_PER_XML_QUERY and ids):
+                query_issues.append(ids.pop())
+
+            # Retrieving main bug information
+            url = self._get_issues_info_url(base_url, query_issues)
+            printdbg("Issues to retrieve from: %s" % url)
+
+            handler = BugsHandler()
+            self._safe_xml_parse(url, handler);
+            issues = handler.get_issues()
+
+            # Retrieving changes
+            for issue in issues:
+                changes = self._retrieve_issue_activity(base_url, issue.issue)
+                for c in changes:
+                    issue.add_change(c)
+
+                # We store here the issue once the complete retrieval
+                # for each bug is done
+                self._store_issue(issue, trk_id)
+                self.retrieved[issue.issue] = self._timestamp_to_str(issue.delta_ts)
+
+                time.sleep(self.delay)
+
+    def _retrieve_issue_activity(self, base_url, id):
+        activity_url = self._get_issue_activity_url(base_url, id)
+        printdbg("Retrieving activity of issue #%s from %s"
+                 % (id, activity_url))
+        data = self._urlopen_auth(activity_url).read()
+        parser = SoupHtmlParser(data, id)
+        changes = parser.parse_changes()
+        return changes
+
+    def _store_issue(self, issue, trk_id):
+        try:
+            self.bugsdb.insert_issue(issue, trk_id)
+            printdbg("Issue #%s stored " % issue.issue)
+        except UnicodeEncodeError:
+            printerr("UnicodeEncodeError: the issue %s couldn't be stored"
+                     % issue.issue)
+
+    def _get_last_and_next_dates(self):
+        last_ts = self.bugsdb.get_last_modification_date(self.tracker.id)
+
+        if not last_ts:
+            return None, None
+        printdbg("Last issues cached were modified on: %s" % last_ts)
+
+        last_ts_str = self._timestamp_to_str(last_ts)
+
+        # We add one second to the last date to avoid retrieve the same
+        # changes modified at that date.
+        next_ts = last_ts + timedelta(seconds=1)
+        next_ts_str = self._timestamp_to_str(next_ts)
+        return last_ts_str, next_ts_str
+
+    def _urlopen_auth(self, url):
+        """
+        Opens an URL using an authenticated session
+        """
+        keep_trying = True
+        while keep_trying:
+            if self._is_auth_session():
+                opener = urllib2.build_opener()
+                for c in self.cookies:
+                    q = str(c) + '=' + self.cookies[c]
+                    opener.addheaders.append(('Cookie', q))
+            keep_trying = False
+            try:
+                aux = urllib2.urlopen(url)
+            except urllib2.HTTPError as e:
+                printerr("The server couldn\'t fulfill the request.")
+                printerr("Error code: %s" % e.code)
+            except urllib2.URLError as e:
+                printdbg("Bicho failed to reach the Bugzilla server")
+                printdbg("Reason: %s" % e.reason)
+                printdbg("Bicho goes into hibernation for %s seconds"
+                         % HIBERNATION_LENGTH)
+                time.sleep(HIBERNATION_LENGTH)
+                keep_trying = True
+        return aux
+
+    def _is_auth_session(self):
+        """
+        Returns whether the session is authenticated
+        """
+        return len(self.cookies) > 0
+
+    def _is_issue_url(self, url):
+        """
+        Returns whether is an URL of an issue
+        """
+        return url.find("show_bug.cgi") > 0
+
+    def _get_domain(self, url):
+        result = urlparse.urlparse(url)
+
+        if url.find("show_bug.cgi") > 0:
+            pos = result.path.find('show_bug.cgi')
+        elif url.find("buglist.cgi") > 0:
+            pos = result.path.find('buglist.cgi')
+
+        newpath = result.path[0:pos]
+        domain = urlparse.urljoin(result.scheme + '://' + result.netloc + '/',
+                                  newpath)
+        return domain
+
+    def _get_login_url(self, base_url):
+        pos = base_url.rfind('buglist')
+        url = base_url[:pos] + 'index.cgi'
+        return url
+
+    def _get_info_url(self, base_url):
+        if base_url.find("show_bug.cgi") > 0:
+            url = base_url + "&ctype=xml"
+        else:
+            url = self._get_domain(base_url) + "show_bug.cgi?id=0&ctype=xml"
+        return url
+
+    def _get_issues_list_url(self, base_url, version, from_date=None):
+        if ((version == "3.2.3") or (version == "3.2.2")):
+            url = base_url + "&order=Last+Changed&ctype=csv"
+        else:
+            url = base_url + "&order=changeddate&ctype=csv"
+
+        if from_date:
+            url = url + "&chfieldfrom=" + from_date.replace(' ', '%20')
+        return url
+
+    def _get_issues_info_url(self, base_url, ids):
+        url = base_url + "show_bug.cgi?"
+
+        for id in ids:
+            url += "id=" + id + "&"
+
+        url += "ctype=xml"
+        url += "&excludefield=attachmentdata"
+        return url
+
+    def _get_issue_activity_url(self, base_url, issue_id):
+        return base_url + "show_activity.cgi?id=" + issue_id
+
+    def _safe_xml_parse(self, bugs_url, handler):
+        f = self._urlopen_auth(bugs_url)
+        parser = xml.sax.make_parser()
+        parser.setContentHandler(handler)
+
+        try:
+            contents = f.read()
+        except Exception:
+            printerr("Error retrieving URL: %s" % (bugs_url))
             raise
 
-        f.close()
-        parser.close()
-        #handler.print_debug_data()
-        issue = handler.get_issue()
-
-        #Retrieving changes
-        bug_activity_url = url + "show_activity.cgi?id=" + bug_id
-        printdbg( bug_activity_url )
-        data_activity = urllib.urlopen(bug_activity_url).read()
-        parser = SoupHtmlParser(data_activity, bug_id)
-        changes = parser.parse_changes()
-        for c in changes:
-            issue.add_change(c)
-        return issue
-
-
-    def run (self, url):
-        print("Running Bicho with delay of %s seconds" % (str(self.delay)))
-        #retrieving data in csv format
-
-        if not self.url:
-            self.url = url
-
-        bugsdb = get_database (DBBugzillaBackend())
-
-        url = self.url + "&ctype=csv"
-
-        printdbg(url)
-
-        #The url is a bug            
-        if url.find("show_bug.cgi")>0:
-            bugs = []
-            bugs.append(self.url.split("show_bug.cgi?id=")[1])
-
-        else:
-            f = urllib.urlopen(url)
-
-            #Problems using csv library, not all the fields are delimited by
-            # '"' character. Easier using split.
-            bugList_csv = f.read().split('\n')
-            bugs = []
-            #Ignoring first row
-            for bug_csv in bugList_csv[1:]:
-                #First field is the id field, necessary to later create the url
-                #to retrieve bug information
-                bugs.append(bug_csv.split(',')[0])
-
-        nbugs = len(bugs)
-
-        nbugs = len(bugs)
-
-        url = self.url
-        url = self.get_domain(url)
-        if url.find("apache")>0:
-            url =  url + "bugzilla/"
-
-        # still useless
-        bugsdb.insert_supported_traker("bugzilla", "3.2.3")
-        trk = Tracker ( url, "bugzilla", "3.2.3")
-
-        dbtrk = bugsdb.insert_tracker(trk)
-
-        if nbugs == 0:
-            printout("No bugs found. Did you provide the correct url?")
-            sys.exit(0)
-
-        for bug in bugs:
-
-            #The URL from bugzilla (so far KDE and GNOME) are like:
-            #http://<domain>/show_bug.cgi?id=<bugid>&ctype=xml
-
+        try:
+            parser.feed(contents)
+            parser.close()
+        except Exception:
+            # Clean only the invalid XML
             try:
-                issue_data = self.analyze_bug(bug, url)
+                parser2 = xml.sax.make_parser()
+                parser2.setContentHandler(handler)
+                parser2.setContentHandler(handler)
+                printdbg("Cleaning dirty XML")
+                cleaned_contents = ''. \
+                    join(c for c in contents if valid_XML_char_ordinal(ord(c)))
+                parser2.feed(cleaned_contents)
+                parser2.close()
             except Exception:
-                #FIXME it does not handle the e
-                printerr("Error in function analyzeBug with URL: %s and Bug: %s"
-                         % (url,bug))
-                #print e
-                #continue
+                printerr("Error parsing URL: %s" % (bugs_url))
                 raise
+        f.close()
 
-            try:
-                bugsdb.insert_issue(issue_data, dbtrk.id)
-            except UnicodeEncodeError:
-                printerr("UnicodeEncodeError: the issue %s couldn't be stored"
-                      % (issue_data.issue))
+    def _timestamp_to_str(self, ts):
+        if not ts:
+            return None
+        return ts.strftime('%Y-%m-%d %H:%M:%S')
 
-            time.sleep(self.delay)
-
-        printout("Done. %s bugs analyzed" % (nbugs))
-
-register_backend ("bg", BGBackend)
+Backend.register_backend("bg", BGBackend)

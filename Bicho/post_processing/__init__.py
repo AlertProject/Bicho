@@ -16,22 +16,5 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# Authors:
-#      Daniel Izquierdo Cortazar <dizquierdo@libresoft.es>
-#      Luis Cañas Díaz <lcanas@libresoft.es>
-#      Santiago Dueñas <sduenas@libresoft.es>
+# Authors:  Santiago Dueñas <sduenas@libresoft.es>
 #
-
-from backends import create_backend
-from Config import Config
-from utils import printdbg
-
-
-class Bicho:
-    def __init__ (self):
-        options = Config()
-        self.backend = create_backend (options.type)
-        printdbg ("Bicho object created, options and backend initialized")
-
-    def run(self, url):
-        self.backend.run(url)

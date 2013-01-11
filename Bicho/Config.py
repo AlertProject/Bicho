@@ -16,9 +16,20 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 # Authors:
-#       Carlos Garcia Campos <carlosgc@libresoft.es>
-#       Luis Cañas Díaz <lcanas@libresoft.es>
+#        Carlos Garcia Campos <carlosgc@libresoft.es>
+#        Luis Cañas Díaz <lcanas@libresoft.es>
+#        Alvaro del Castillo <acs@bitergia.com>
 #
+# We should migrate to argparse. optparse is deprecated since Python 2.7
+
+from backends import Backend
+import info
+from optparse import OptionGroup, OptionParser
+import os
+import pprint
+import sys
+from urllib2 import Request, urlopen, urlparse, URLError, HTTPError
+
 
 class ErrorLoadingConfig(Exception):
     """
@@ -35,152 +46,32 @@ class InvalidConfig(Exception):
 
 
 class Config:
-    #Pattern singleton applied
 
-    __shared_state = {'type': None,
-                      'url' : None,
-                      'path' : None,
-                      'debug': False,
-                      'quiet': False,
-                      'delay': 0,
-                      'config_file': None,
-                      'input': 'url',
-                      'output': 'db',
-                      # output database
-                      'db_driver_out': 'mysql',
-                      'db_user_out': None,
-                      'db_password_out': None,
-                      'db_database_out' : None,
-                      'db_hostname_out': 'localhost',
-                      'db_port_out' : '3306',
-                      # input database
-                      'db_driver_in': None,
-                      'db_user_in': None,
-                      'db_password_in': None,
-                      'db_database_in': None,
-                      'db_hostname_in': None,
-                      'db_port_in': None}
-
-    def __init__ (self):
-        self.__dict__ = self.__shared_state
-
-    def __getattr__(self, attr):
-        return self.__dict__[attr]
-
-    def __setattr__(self, attr, value):
-        self.__dict__[attr] = value
-
-    def __load_from_file (self, config_file):
+    @staticmethod
+    def load_from_file (config_file):
         try:
-            from types import ModuleType
-            config = ModuleType ('bicho-config')
             f = open (config_file, 'r')
-            exec f in config.__dict__
+            exec f in Config.__dict__
             f.close ()
         except Exception, e:
             raise ErrorLoadingConfig ("Error reading config file %s (%s)" % (\
                     config_file, str (e)))
 
-        # general options
-        try:
-            self.debug = config.debug
-        except:
-            pass
-        try:
-            self.quiet = config.quiet
-        except:
-            pass
-        try:
-            self.type = config.type
-        except:
-            pass
-        try:
-            self.path = config.path
-        except:
-            pass
-        try:
-            self.delay = config.delay
-        except:
-            pass
-        try:
-            self.url = config.url
-        except:
-            pass
-        try:
-            self.input = config.input
-        except:
-            pass
-        try:
-            self.output = config.output
-        except:
-            pass
-
-        # output database
-        try:
-            self.db_driver_out = config.db_driver_out
-        except:
-            pass
-        try:
-            self.db_user_out = config.db_user_out
-        except:
-            pass
-        try:
-            self.db_password_out = config.db_password_out
-        except:
-            pass
-        try:
-            self.db_database_out = config.db_database_out
-        except:
-            pass
-        try:
-            self.db_hostname_out = config.db_hostname_out
-        except:
-            pass
-        try:
-            self.db_port_out = config.db_port_out
-        except:
-            pass
-
-        # input database
-        try:
-            self.db_driver_in = config.db_driver_in
-        except:
-            pass
-        try:
-            self.db_user_in = config.db_user_in
-        except:
-            pass
-        try:
-            self.db_password_in = config.db_password_in
-        except:
-            pass
-        try:
-            self.db_database_in = config.db_database_in
-        except:
-            pass
-        try:
-            self.db_hostname_in = config.db_hostname_in
-        except:
-            pass
-        try:
-            self.db_port_in = config.db_port_in
-        except:
-            pass
-
-    def load (self):
-        import os
+    @staticmethod        
+    def load ():
+        # FIXME: a hack to avoid circular dependencies. 
         from utils import bicho_dot_dir, printout
 
         # First look in /etc
         # FIXME /etc is not portable
         config_file = os.path.join ('/etc', 'bicho')
         if os.path.isfile (config_file):
-            self.__load_from_file (config_file)
+            Config.load_from_file (config_file)
 
         # Then look at $HOME
         config_file = os.path.join (bicho_dot_dir (), 'config')
         if os.path.isfile (config_file):
-            self.__load_from_file (config_file)
+            Config.load_from_file (config_file) 
         else:
             # If there's an old file, migrate it
             old_config = os.path.join (os.environ.get ('HOME'), '.bicho')
@@ -188,63 +79,139 @@ class Config:
                 printout ("Old config file found in %s, moving to %s", \
                               (old_config, config_file))
                 os.rename (old_config, config_file)
-                self.__load_from_file (config_file)
+                Config.load_from_file (config_file)
 
-    def load_from_file (self, path):
-        self.__load_from_file (path)
+    @staticmethod
+    def check_params(check_params):            
+        for param in check_params:
+            if not vars(Config).has_key(param) or vars(Config)[param] is None:
+                raise InvalidConfig('Configuration parameter ''%s'' is required' % param)
+
+    @staticmethod
+    def check_config():
+        """
+        """
+        Config.check_params(['url','backend'])
+        
+        if Config.backend+".py" not in Backend.get_all_backends():
+            raise InvalidConfig('Backend "'+ Config.backend + '" does not exist')
 
 
-def check_config(config):
-    """
-    """
-    if config.type is None:
-        raise InvalidConfig('Configuration parameter ''type'' is required')
-    if config.url is None:
-        raise InvalidConfig('Configuration parameter ''url'' is required')
+        url = urlparse.urlparse(Config.url)
+        check_url = urlparse.urljoin(url.scheme + '://' + url.netloc,'')
+        print("Checking URL: " + check_url)
+        req = Request(check_url)
+        try:
+            response = urlopen(req)
+        except HTTPError, e:
+            raise InvalidConfig('The server could not fulfill the request '
+                               + str(e.msg) + '('+ str(e.code)+')')
+        except URLError, e:
+            raise InvalidConfig('We failed to reach a server. ' + str(e.reason))
+                
+        if vars(Config).has_key('input') and Config.input == 'db':
+            Config.check_params(['db_driver_in', 'db_user_in', 'db_password_in',
+                                 'db_hostname_in', 'db_port_in', 'db_database_in'])        
+        if vars(Config).has_key('output') and Config.output == 'db':
+            Config.check_params(['db_driver_out','db_user_out','db_password_out',
+                                 'db_hostname_out','db_port_out','db_database_out'])
+        
+    @staticmethod
+    def clean_empty_options(options):
+        clean_opt = {};        
+        for option in vars(options):
+            if vars(options)[option] is not None:
+                clean_opt[option]=vars(options)[option]
+        return clean_opt
+        
+    @staticmethod
+    def set_config_options(usage):
+        """
+        """
+        
+        parser = OptionParser(usage=usage, description=info.DESCRIPTION,
+                              version=info.VERSION)
 
-    if config.input == 'db':
-        check_db_in_config(config)
-    if config.output == 'db':
-        check_db_out_config(config)
+        # General options
+        parser.add_option('-b', '--backend', dest='backend',
+                          help='Backend used to fetch issues', default=None)
+        parser.add_option('--backend-user', dest='backend_user',
+                          help='Backend user', default=None)
+        parser.add_option('--backend-password', dest='backend_password',
+                          help='Backend password', default=None)
+        parser.add_option('-c', '--cfg', dest='cfgfile', 
+                          help='Use a custom configuration file', default=None)
+        parser.add_option('-d', '--delay', type='int', dest='delay',
+                          help='Delay in seconds betweeen petitions to avoid been banned',
+                          default='5')
+        parser.add_option('-g', '--debug', action='store_true', dest='debug',
+                          help='Enable debug mode', default=False)
+        parser.add_option('-i', '--input', choices=['url', 'db'],
+                          dest='input', help='Input format', default='url')
+        parser.add_option('-o', '--output', choices=['db'],
+                          dest='output', help='Output format', default='db')
+        parser.add_option('-p', '--path', dest='path',
+                          help='Path where downloaded URLs will be stored',
+                          default=None)
+        parser.add_option('-u', '--url', dest='url',
+                          help='URL to get issues from using the backend',
+                          default=None)
+    
+        # Options for output database
+        group = OptionGroup(parser, 'Output database specific options')
+        group.add_option('--db-driver-out',
+                         choices=['sqlite','mysql','postgresql'],
+                         dest='db_driver_out', help='Output database driver',
+                         default='mysql')
+        group.add_option('--db-user-out', dest='db_user_out',
+                         help='Database user name', default=None)
+        group.add_option('--db-password-out', dest='db_password_out',
+                         help='Database user password', default=None)
+        group.add_option('--db-hostname-out', dest='db_hostname_out',
+                         help='Name of the host where database server is running',
+                         default='localhost')
+        group.add_option('--db-port-out', dest='db_port_out',
+                         help='Port of the host where database server is running',
+                         default='3306')
+        group.add_option('--db-database-out', dest='db_database_out',
+                         help='Output database name', default=None)
+        parser.add_option_group(group)
+    
+        # Options for input database
+        group = OptionGroup(parser, 'Input database specific options')
+        group.add_option('--db-driver-in',
+                         choices=['sqlite', 'mysql', 'postgresql'],
+                         dest='db_driver_in', help='Input database driver',
+                         default=None)
+        group.add_option('--db-user-in', dest='db_user_in',
+                         help='Database user name', default=None)
+        group.add_option('--db-password-in', dest='db_password_in',
+                         help='Database user password', default=None)
+        group.add_option('--db-hostname-in', dest='db_hostname_in',
+                         help='Name of the host where database server is running',
+                         default=None)
+        group.add_option('--db-port-in', dest='db_port_in',
+                         help='Port of the host where database server is running',
+                         default=None)
+        group.add_option('--db-database-in', dest='db_database_in',
+                         help='Input database name', default=None)
+        parser.add_option_group(group)
+                
+        (options, args) = parser.parse_args()
+                            
+        if options.cfgfile is not None:
+            Config.load_from_file(options.cfgfile)
+        else:
+            Config.load()
+                        
+        # Command line options have preference
+        # Backwards compatibility
+        if (len(args) > 0):
+            Config.backend=args[0]
+        if (len(args) == 2):
+            Config.url=args[1]
+            
+        # Not remove config file options with empty default values                               
+        Config.__dict__.update(Config.clean_empty_options(options))        
 
-def check_db_in_config(config):
-    """
-    """
-    param = None
-
-    if config.db_driver_in is None:
-        param = 'db-driver-in'
-    elif config.db_user_in is None:
-        param = 'db-user-in'
-    elif config.db_password_in is None:
-        param = 'db-password-in'
-    elif config.db_hostname_in is None:
-        param = 'db-hostname-in'
-    elif config.db_port_in is None:
-        param = 'db-port-in'
-    elif config.db_database_in is None:
-        param = 'db-database-in'
-
-    if param is not None:
-        raise InvalidConfig('Configuration parameter ''%s'' is required' % param)
-
-def check_db_out_config(config):
-    """
-    """
-    param = None
-
-    if config.db_driver_out is None:
-        param = 'db-driver-out'
-    elif config.db_user_out is None:
-        param = 'db-user-out'
-    elif config.db_password_out is None:
-        param = 'db-password-out'
-    elif config.db_hostname_out is None:
-        param = 'db-hostname-out'
-    elif config.db_port_out is None:
-        param = 'db-port-out'
-    elif config.db_database_out is None:
-        param = 'db-database-out'
-
-    if param is not None:
-        raise InvalidConfig('Configuration parameter ''%s'' is required' % param)
+        Config.check_config ()
