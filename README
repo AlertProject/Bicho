@@ -1,5 +1,5 @@
  Description
------------
+-------------
 
 Bicho is a command line based tool used to parse bug/issue tracking 
 systems. It gets all the information associated to issues and store 
@@ -15,6 +15,9 @@ Currently it supports:
 - Google Code (unstable)
 - Redmine (unstable, no changes)
 
+This version is a fork of the original code for ALERT project.
+The original project can be found in http://metricsgrimoire.github.com/Bicho
+
 
  License
 ---------
@@ -25,14 +28,8 @@ Bicho is licensed under GNU General Public License (GPL), version 2 or later.
  Download
 ----------
 
-Home page:
-* http://metricsgrimoire.github.com/Bicho/
-
-Releases:
-* https://github.com/MetricsGrimoire/Bicho/downloads
-
-Latest version:
-* git://github.com/MetricsGrimoire/Bicho.git
+ * git://github.com/AlertProject/Bicho.git
+ * https://github.com/AlertProject/Bicho.git
 
 
  Requirements
