@@ -1216,7 +1216,7 @@ class BGBackend(Backend):
             url = base_url + "&order=changeddate&ctype=csv"
 
         if from_date:
-            url = url + "&chfieldfrom=" + from_date.replace(' ', '%20')
+            url = url + "&chfieldfrom=" + from_date.replace(' ', 'T')
         return url
 
     def _get_issues_info_url(self, base_url, ids):
