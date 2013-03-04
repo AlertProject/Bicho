@@ -287,7 +287,7 @@ class DBBugzillaIssuesLog(object):
     issue_log = Reference(log_id, DBIssuesLog)
 
 
-class DBJiraIssuesLog(DBIssuesLog):
+class DBJiraIssuesLog(object):
     """
     """
     __storm_table__ = 'issues_log_jira'
@@ -329,7 +329,6 @@ class IssuesLog():
         self.store = Store(self.database)
 
     def create_db(self):
-        print("self.backend_name = %s" % (self.backend_name))
         self.store.execute(__sql_table__)
         if self.backend_is_bugzilla():
             self.store.execute(__sql_table_bugzilla__)
@@ -552,7 +551,8 @@ class IssuesLog():
                         elif table_field == 'description':
                             db_ilog.description = v[0]
                         elif table_field == 'assigned_to':
-                            db_ilog.assigned_to = self.get_people_id(v[0])
+                            db_ilog.assigned_to = self.get_people_id(v[0],
+                                                                     self.get_tracker_id(db_ilog.issue_id))
                         elif table_field == 'status':
                             db_ilog.status = v[0]
                         elif table_field == 'resolution':
