@@ -1,3 +1,15 @@
+bicho (0.14.1-1alert) unstable; urgency=low
+
+  * Fix error generating data for JIRA trackers
+
+ -- Roberto Andradas <randradas@libresoft.es>  Tue, 05 Mar 2013 10:51:17 +0100
+
+bicho (0.13-1alert) unstable; urgency=low
+
+  * Debian package for Alert project
+
+ -- Roberto Andradas <randradas@libresoft.es>  Mon, 11 Feb 2013 17:47:34 +0100
+
 bicho (0.9-1) unstable; urgency=low
 
   * Initial release (Closes: #123456)
