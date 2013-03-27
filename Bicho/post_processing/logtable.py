@@ -42,6 +42,7 @@ from Bicho.db.database import DBIssue, DBBackend, get_database, DBTracker, \
 from storm.locals import DateTime, Int, Reference, Unicode, Desc, Asc, Store, \
      create_database
 from storm.expr import Or, And
+from storm.exceptions import NotOneError
 import xml.sax.handler
 
 from dateutil.parser import parse
@@ -339,13 +340,14 @@ class IssuesLog():
         """
         Gets the id of an user
         """
-        p = self.store.find(DBPeople, DBPeople.email == email).one()
-        ##
-        ## the code below was created ad-hoc for KDE solid
-        ##
         try:
+            p = self.store.find(DBPeople, DBPeople.email == email).one()
             return p.id
+        except NotOneError:
+            printdbg("Several persons with the same email %s. Checking user id" % (email))
         except AttributeError:
+            printdbg("Person with email %s not found. Checking user id." % (email))
+        finally:
             p = self.store.find(DBPeople, DBPeople.user_id == email).one()
             try:
                 return p.id
