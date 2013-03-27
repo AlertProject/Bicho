@@ -1,3 +1,17 @@
+bicho (0.14.2-1alert) unstable; urgency=low
+  * features: [logtable]
+    - Incremental support for multiple trackers  
+
+  * bugfix: [JIRA]
+    - Incremental support for multiple trackers
+    - User's account name stored instead of the real name
+
+  * debian:
+    - Maintainer changed
+    - pyversions file added
+
+ -- Santiago Dueñas <sduenas@libresoft.es>  Wed, 27 Mar 2013 18:00:51 +0100
+
 bicho (0.14.1-1alert) unstable; urgency=low
 
   * Fix error generating data for JIRA trackers

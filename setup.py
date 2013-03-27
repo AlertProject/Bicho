@@ -24,7 +24,7 @@
 from distutils.core import setup
 
 setup(name = "Bicho",
-      version = "0.13-alert",
+      version = "0.14.2-alert",
       author =  "GSyC/LibreSoft, Universidad Rey Juan Carlos",
       author_email = "https://lists.libresoft.es/listinfo/metrics-grimoire",
       description = "Analysis tool for Issue/Bug Tracking Systems",
