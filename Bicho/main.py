@@ -55,7 +55,7 @@ def main():
     printdbg ("Bicho object created, options and backend initialized")
     backend.run()
 
-    il = IssuesLog(Config.backend)
+    il = IssuesLog()
     il.run()
 
 if __name__ == "__main__":
